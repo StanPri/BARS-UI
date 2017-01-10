@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect, IndexRoute } from 'react-router';
 import App from './components/App';
-import MainPage from './components/application/_MainPage';
+import MainPage from './components/BARS/_MainPage';
 import AboutPage from './components/about/_AboutPage';
 
 export default (
