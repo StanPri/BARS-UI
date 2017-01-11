@@ -5,23 +5,28 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as itemActions from '../../actions/itemActions';
 import AccessTable from '../common/AccessTable';
+import { Link } from 'react-router';
 
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
     };
+
   }
+
+
 
   render() {
     return (
       <div>
+        <Link to="/form">FormPage</Link>
         <Button>New Request</Button>
         <AccessTable title="Approvals"/>
         <AccessTable title="Requests"/>
       </div>
       );
-    }
+  }
 }
 
   function mapStateToProps(state, ownProps) {

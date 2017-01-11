@@ -6,7 +6,10 @@ RecipientForm.propTypes = {
 function RecipientForm() {
 
   return(
-    <div/>
+    <div>
+      <h2>Recipient form: Please agree to these terms.</h2>
+      <button>Agree</button><button>Disagree</button>
+    </div>
   );
 
 }

@@ -6,7 +6,10 @@ SecurityAdminForm.propTypes = {
 function SecurityAdminForm() {
 
   return(
-    <div/>
+    <div>
+      <h2>Security Admin form: Please agree to these terms.</h2>
+      <button>Agree</button><button>Disagree</button>
+    </div>
   );
 
 }

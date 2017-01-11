@@ -6,7 +6,10 @@ ManagerForm.propTypes = {
 function ManagerForm() {
 
   return(
-    <div/>
+    <div>
+      <h2>Manager Form: Please agree to these terms.</h2>
+      <button>Agree</button><button>Disagree</button>
+    </div>
   );
 
 }

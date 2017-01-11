@@ -9,9 +9,7 @@ import ManagerForm from './ManagerForm';
 import RecipientForm from './RecipientForm';
 
 
-FormPage.propTypes = {
 
-};
 
 class FormPage extends React.Component {
   constructor(props, context) {
@@ -26,16 +24,17 @@ class FormPage extends React.Component {
       <div>
         <MainForm/>
         <SecurityForm/>
-        if(status==="SecurityAdmin")
-          <SecurityAdminForm/>
-        else if(status ==="Manager")
-          <ManagerForm/>
-        else if(status ==="Recipient")
-          <RecipientForm/>
+        { status ? "Not a Security Admin" : <SecurityAdminForm/> }
+        { status ? "Not a Manager": <ManagerForm/> }
+        { status ? "Not a Recipient" : <RecipientForm/> }
       </div>
     );
   }
 }
+
+FormPage.propTypes = {
+
+};
 
 function mapStateToProps(state, ownProps) {
   return {
