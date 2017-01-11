@@ -1,61 +1,24 @@
 import React, {PropTypes} from 'react';
-import {Col, Grid, Row} from 'react-bootstrap';
+import {Col, Grid, Row, Table, Button, ButtonGroup, Glyphicon, FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap';
+import { Field, reduxForm } from 'redux-form';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as itemActions from '../../actions/itemActions';
+import AccessTable from '../common/AccessTable';
 
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      item : {
-        id: "",
-        title: ""
-      }
-    },
-    this.saveItem = this.saveItem.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
-
-  itemRow(item, index) {
-    return <div key={index}>{item.title}</div>;
-  }
-
-  saveItem(event) {
-    event.preventDefault();
-    const item = this.state.item;
-    item.id = Math.random();
-    this.setState({item: item});
-    this.props.actions.saveItem(this.state.item);
-  }
-
-  onChange(event) {
-      const item = this.state.item;
-      item.title = event.target.value;
-      this.setState({item: item});
+    };
   }
 
   render() {
     return (
       <div>
-        <h1>New item</h1>
-        <input type = "text"
-            label = "Title"
-            onChange = {this.onChange}/>
-
-        <input type = "submit"
-            value = "Add Item"
-            id = "btnSave"
-            className = "btn btn-primary"
-            onClick = {this.saveItem}
-            onKeyPress = {this.saveItem} />
-
-        <br/>
-
-        <h3>Items</h3>
-        {this.props.items.map(this.itemRow)}
-        <br/>
-
+        <Button>New Request</Button>
+        <AccessTable title="Approvals"/>
+        <AccessTable title="Requests"/>
       </div>
       );
     }
@@ -74,8 +37,10 @@ class MainPage extends React.Component {
   }
 
 MainPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  items: PropTypes.array.isRequired
+  actions: PropTypes.object.isRequired
 };
+
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
