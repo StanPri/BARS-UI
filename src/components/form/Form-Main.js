@@ -4,6 +4,10 @@ import {Row, Col, Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
 import FormInput from '../common/FormInput';
 import FormSelect from '../common/FormSelect';
 
+// TODO: add props to PropTypes
+// TODO: naming -> section titles, field names, labels, props
+// TODO: help section -> how handled, on section title for sections? modal? tooltip? -> change title Buttons accordingly
+
 const FormMain = props => (
   <div>
     <Row>
@@ -45,17 +49,19 @@ const FormMain = props => (
         <Field component={FormSelect} name="section_2_hours" label="Hours" options={['Hours1', 'Hours2', 'Hours3']}/>
       </Col>
       <Col sm={6} md={4}>
-        <Field component={FormSelect} name="section_2_areas" label="Areas" options={['Area1', 'Area2', 'Area3']}/> {false && <Field component={FormInput} name="section_2_area_other" label="Other Area"/>}
+        <Field component={FormSelect} name="section_2_areas" label="Areas" options={['Area1', 'Area2', 'Area3']} multiple/> {false && <Field component={FormInput} name="section_2_area_other" label="Other Area"/>}
       </Col>
       {false && <Col sm={6} md={4}>
         <Field component={FormInput} name="section_2_project_start" label="Project Start Date (Vendors Only)" type="date"/>
         <Field component={FormInput} name="section_2_project_end" label="Project End Date (Vendors Only)" type="date"/>
       </Col>}
       <Col xs={12}>
-        <span className="pull-right">Fields marked with an asterik (*) require an explanation in Section III</span>
+        <span className="pull-right">Fields marked with an asterik (*) require an explanation in Justifications section</span>
       </Col>
     </Row>
   </div>
 );
+
+FormMain.PropTypes = {};
 
 export default FormMain;

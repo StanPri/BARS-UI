@@ -10,12 +10,14 @@ import FormJustifications from './Form-Justifications';
 import FormSecurity from './Form-Security';
 import FormApproval from './Form-Approval';
 
+// TODO: field validation
+
 class FormPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      justifications: false,
-      isSecurity: false
+      justifications: true,
+      isSecurity: true
     };
   }
 
@@ -23,7 +25,8 @@ class FormPage extends React.Component {
     const {handleSubmit} = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <FormMain/> {this.state.justifications && <FormJustifications/>}
+        <FormMain/>
+        {this.state.justifications && <FormJustifications/>}
         {this.state.isSecurity && <FormSecurity/>}
         <FormApproval/>
       </form>

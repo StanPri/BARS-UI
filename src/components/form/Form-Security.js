@@ -13,19 +13,19 @@ const FormSecurity = props => (
       </h2>
     </Col>
     <Col sm={6} md={3}>
-      <Field component={FieldSelect} name="section_3_access_levels" multiple="multiple" label="Access Levels" options={['Access1', 'Access2', 'Access3']}/>
+      <Field component={FormSelect} name="section_3_access_levels" multiple="multiple" label="Access Levels" options={['Access1', 'Access2', 'Access3']}/>
     </Col>
     <Col sm={6} md={3}>
-      <Field component={FieldInput} name="section_3_issue_date" label="Issue Date" type="date"/>
+      <Field component={FormInput} name="section_3_issue_date" label="Issue Date" type="date"/>
     </Col>
     <Col sm={6} md={3}>
-      <Field component={FieldInput} name="section_3_expiration_date" label="Expiration Date" type="date"/>
+      <Field component={FormInput} name="section_3_expiration_date" label="Expiration Date" type="date"/>
     </Col>
     <Col sm={6} md={3}>
-      <Field component={FieldInput} name="section_3_keycard" label="Keycard No." type="number"/>
+      <Field component={FormInput} name="section_3_keycard" label="Keycard No." type="number"/>
     </Col>
     <Col xs={12}>
-      <Field component={FieldInput} name="section_3_admin_name" label="Admin Name"/>
+      <Field component={FormInput} name="section_3_admin_name" label="Admin Name"/>
     </Col>
   </Row>
 );

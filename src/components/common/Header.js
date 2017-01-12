@@ -8,9 +8,7 @@ const cio_logo = require('../../images/cio_logo.png');
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      employeeData: []
-    };
+    this.state = {};
   }
 
   render() {
@@ -32,12 +30,22 @@ class Header extends React.Component {
           <ul className="nav navbar-nav navbar-right">
             <li onClick={toggleMenuOnClick}>
               <IndexLink to="/" activeClassName="active">
-                <Button className="btn-outline">Main Page</Button>
+                <Button className="btn-outline">Requests List</Button>
               </IndexLink>
+            </li>
+            <li onClick={toggleMenuOnClick}>
+              <Link to="/form" activeClassName="active">
+                <Button className="btn-outline">New Request</Button>
+              </Link>
             </li>
             <li onClick={toggleMenuOnClick}>
               <Link to="/about" activeClassName="active">
                 <Button className="btn-outline">About</Button>
+              </Link>
+            </li>
+            <li onClick={toggleMenuOnClick}>
+              <Link to="/search" activeClassName="active">
+                <Button className="btn-outline">Search</Button>
               </Link>
             </li>
           </ul>

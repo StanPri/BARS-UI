@@ -14,7 +14,7 @@ const FormJustifications = props => (
         </h2>
       </Col>
       <Col xs={12}>
-        "justifications go here. You got some explainin to do...."
+        justifications go here. You got some explainin to do....
       </Col>
     </Row>
   </div>
