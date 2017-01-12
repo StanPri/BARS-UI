@@ -1,15 +1,15 @@
 import React from 'react';
-import { Route, Redirect, IndexRoute } from 'react-router';
+import {Route, Redirect, IndexRoute} from 'react-router';
 import App from './components/App';
-import MainPage from './components/BARS/_MainPage';
+import ListsPage from './components/lists/_ListsPage';
 import AboutPage from './components/about/_AboutPage';
-import FormPage from './components/BARS/FormPage';
+import FormPage from './components/form/_FormPage';
 
-export default (
+export default(
   <Route path="/" component={App}>
-    <IndexRoute component={MainPage} />
-    <Route path="about" component={AboutPage} />
-    <Route path="form" component={FormPage} />
-    <Redirect from="*" to="/" />
+    <IndexRoute component={ListsPage}/>
+    <Route path="about" component={AboutPage}/>
+    <Route path="form" component={FormPage}/>
+    <Redirect from="*" to="/"/>
   </Route>
 );

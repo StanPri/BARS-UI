@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import {Grid} from 'react-bootstrap';
 import Header from './common/Header';
 import Footer from './common/Footer';
 
@@ -7,7 +8,9 @@ class App extends React.Component {
     return (
       <div>
         <Header/>
-        {this.props.children}
+        <Grid>
+          {this.props.children}
+        </Grid>
         <Footer/>
       </div>
     );
@@ -17,6 +20,5 @@ class App extends React.Component {
 App.propTypes = {
   children: PropTypes.object.isRequired
 };
-
 
 export default App;
