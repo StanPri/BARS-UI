@@ -11,7 +11,7 @@ function RequestTable(props) {
     <Row>
       <Col xs={12}>
         <h3>{props.title}</h3>
-        <Table>
+        <Table condensed bordered>
           <thead>
             <tr>
               <th className="col-xs-1"/>

@@ -32,12 +32,14 @@
     "react-bootstrap": "*",
     "react-dom": "*",
     "react-redux": "4.4.5",
-    "react-router-redux": "4.0.4",
-    "redux": "3.5.2",
-    "redux-thunk": "2.0.1",
     "react-router": "*",
-    "whatwg-fetch": "*",
-    "redux-form": "*"
+    "react-router-redux": "4.0.4",
+    "react-table": "^4.1.0",
+    "reactable": "^0.14.1",
+    "redux": "3.5.2",
+    "redux-form": "*",
+    "redux-thunk": "2.0.1",
+    "whatwg-fetch": "*"
   },
   "devDependencies": {
     "babel-cli": "*",
