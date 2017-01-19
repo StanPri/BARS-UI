@@ -13,3 +13,5 @@ export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 export const QUOTE_REQUEST = 'QUOTE_REQUEST';
 export const QUOTE_SUCCESS = 'QUOTE_SUCCESS';
 export const QUOTE_FAILURE = 'QUOTE_FAILURE';
+
+export const FORM_VIEW = 'FORM_VIEW';

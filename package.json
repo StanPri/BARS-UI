@@ -26,18 +26,20 @@
   "author": "California Department of Technology",
   "license": "MIT",
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-polyfill": "*",
     "json2csv": "*",
     "react": "*",
     "react-bootstrap": "*",
     "react-dom": "*",
     "react-redux": "4.4.5",
-    "react-router-redux": "4.0.4",
-    "redux": "3.5.2",
-    "redux-thunk": "2.0.1",
     "react-router": "*",
-    "whatwg-fetch": "*",
-    "redux-form": "*"
+    "react-router-redux": "4.0.4",
+    "reactable": "^0.14.1",
+    "redux": "3.5.2",
+    "redux-form": "*",
+    "redux-thunk": "2.0.1",
+    "whatwg-fetch": "*"
   },
   "devDependencies": {
     "babel-cli": "*",
@@ -77,7 +79,7 @@
     "rimraf": "*",
     "style-loader": "*",
     "url-loader": "*",
-    "webpack": "*",
+    "webpack": "^1.14.0",
     "webpack-dev-middleware": "*",
     "webpack-hot-middleware": "*"
   }
