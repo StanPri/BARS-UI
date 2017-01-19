@@ -1,5 +1,5 @@
 export default {
   form: {},
-  items: [],
+  records: [],
   fetchCallsInProgress: 0
 };

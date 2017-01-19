@@ -15,7 +15,7 @@ import {
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import * as itemActions from '../../actions/itemActions';
+import * as recordActions from '../../actions/recordActions';
 import RequestTable from '../common/RequestTable';
 
 class ListsPage extends React.Component {
@@ -34,12 +34,12 @@ class ListsPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  return {items: state.items};
+  return {records: state.records};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(itemActions, dispatch)
+    actions: bindActionCreators(recordActions, dispatch)
   };
 }
 

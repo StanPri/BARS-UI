@@ -4,7 +4,7 @@ import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import * as itemActions from '../../actions/itemActions';
+import * as recordActions from '../../actions/recordActions';
 import FormMain from './Form-Main';
 import FormJustifications from './Form-Justifications';
 import FormSecurity from './Form-Security';
@@ -42,7 +42,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(itemActions, dispatch)
+    actions: bindActionCreators(recordActions, dispatch)
   };
 }
 

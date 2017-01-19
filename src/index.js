@@ -7,10 +7,10 @@ import routes from './routes';
 import './css/style.less';
 import configureStore from './store/configureStore';
 import {Provider} from 'react-redux';
-import {loadItems} from './actions/itemActions';
+import {loadRecords} from './actions/recordActions';
 
 const store = configureStore();
-store.dispatch(loadItems());
+store.dispatch(loadRecords());
 
 
 render(
