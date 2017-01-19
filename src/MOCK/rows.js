@@ -1,0 +1,47 @@
+import * as KEYS from '../store/keyMap';
+
+// export const MOCK_rows_apr = []; // empty data
+export const MOCK_rows_apr = [
+  {
+    [KEYS.FORM_ID]: "123123",
+    [KEYS.FORM_STATUS]: "STATUS APR 1",
+    [KEYS.FORM_NAME]: "NAME APR 1",
+    [KEYS.FORM_PHONE]: "PHONE APR 1",
+    [KEYS.FORM_EMAIL]: "EMAIL APR 1",
+    [KEYS.FORM_SUP_NAME]: "SUP NAME APR 1",
+    [KEYS.FORM_SUP_PHONE]: "SUP PHONE APR 1",
+    [KEYS.FORM_SUP_EMAIL]: "SUP EMAIL APR 1"
+  }, {
+    [KEYS.FORM_ID]: "9999999",
+    [KEYS.FORM_STATUS]: "STATUS APR 2",
+    [KEYS.FORM_NAME]: "NAME APR 2",
+    [KEYS.FORM_PHONE]: "PHONE APR 2",
+    [KEYS.FORM_EMAIL]: "EMAIL APR 2",
+    [KEYS.FORM_SUP_NAME]: "SUP NAME APR 2",
+    [KEYS.FORM_SUP_PHONE]: "SUP PHONE APR 2",
+    [KEYS.FORM_SUP_EMAIL]: "SUP EMAIL APR 2"
+  }
+];
+
+// export const MOCK_rows_req = []; // empty data
+export const MOCK_rows_req = [
+  {
+    [KEYS.FORM_ID]: "3333333",
+    [KEYS.FORM_STATUS]: "STATUS REQ 1",
+    [KEYS.FORM_NAME]: "NAME REQ 1",
+    [KEYS.FORM_PHONE]: "PHONE REQ 1",
+    [KEYS.FORM_EMAIL]: "EMAIL REQ 1",
+    [KEYS.FORM_SUP_NAME]: "SUP NAME REQ 1",
+    [KEYS.FORM_SUP_PHONE]: "SUP PHONE REQ 1",
+    [KEYS.FORM_SUP_EMAIL]: "SUP EMAIL REQ 1"
+  }, {
+    [KEYS.FORM_ID]: "555555",
+    [KEYS.FORM_STATUS]: "STATUS REQ 2",
+    [KEYS.FORM_NAME]: "NAME REQ 2",
+    [KEYS.FORM_PHONE]: "PHONE REQ 2",
+    [KEYS.FORM_EMAIL]: "EMAIL REQ 2",
+    [KEYS.FORM_SUP_NAME]: "SUP NAME REQ 2",
+    [KEYS.FORM_SUP_PHONE]: "SUP PHONE REQ 2",
+    [KEYS.FORM_SUP_EMAIL]: "SUP EMAIL REQ 2"
+  }
+];

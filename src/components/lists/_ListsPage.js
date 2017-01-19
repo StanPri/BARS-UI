@@ -1,22 +1,11 @@
 import React, {PropTypes} from 'react';
-import {
-  Col,
-  Grid,
-  Row,
-  Table,
-  Button,
-  ButtonGroup,
-  Glyphicon,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  HelpBlock
-} from 'react-bootstrap';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import * as itemActions from '../../actions/itemActions';
 import RequestTable from '../common/RequestTable';
+import * as formActions from '../../actions/formActions';
+
+import {MOCK_rows_apr, MOCK_rows_req} from '../../MOCK/rows';
 
 class ListsPage extends React.Component {
   constructor(props) {
@@ -27,27 +16,27 @@ class ListsPage extends React.Component {
   render() {
     return (
       <div>
-        <Link to="/form">FormPage</Link>
-        <Button>New Request</Button>
-        <RequestTable title="Approvals"/>
-        <RequestTable title="Requests"/>
+        <Link to="/form">New Request</Link>
+        <RequestTable title="Approvals" rows={MOCK_rows_apr}/>
+        <RequestTable title="Requests" rows={MOCK_rows_req}/>
       </div>
     );
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  return {items: state.items};
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(itemActions, dispatch)
-  };
-}
+// function mapStateToProps(state, ownProps) {
+//   return {state};
+// }
+//
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     actions: bindActionCreators(formActions, dispatch)
+//   };
+// }
 
 ListsPage.propTypes = {
-  actions: PropTypes.object.isRequired
+  // actions: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListsPage);
+export default ListsPage;
+// export default connect(mapStateToProps, mapDispatchToProps)(ListsPage);

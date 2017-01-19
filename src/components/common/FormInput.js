@@ -8,7 +8,10 @@ import React, {PropTypes} from 'react';
 const FieldInput = field => (
   <FormGroup controlId={field.input.name}>
     <ControlLabel>{field.label}</ControlLabel>
-    <FormControl {...field.input} placeholder={`Enter ${field.label}`} type={field.type}/> {field.error && <HelpBlock>{field.error}</HelpBlock>}
+    <FormControl
+      {...field.input}
+      placeholder={`Enter ${field.label}`}
+      type={field.type}/> {field.error && <HelpBlock>{field.error}</HelpBlock>}
   </FormGroup>
 );
 

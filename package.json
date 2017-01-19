@@ -26,6 +26,7 @@
   "author": "California Department of Technology",
   "license": "MIT",
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-polyfill": "*",
     "json2csv": "*",
     "react": "*",
@@ -34,7 +35,6 @@
     "react-redux": "4.4.5",
     "react-router": "*",
     "react-router-redux": "4.0.4",
-    "react-table": "^4.1.0",
     "reactable": "^0.14.1",
     "redux": "3.5.2",
     "redux-form": "*",
