@@ -5,7 +5,6 @@ import FormInput from '../common/FormInput';
 import FormSelect from '../common/FormSelect';
 import * as KEYS from '../../store/keyMap';
 
-// TODO: naming -> section titles, field names, labels, props
 // TODO: help section -> how handled, on section title for sections? modal?
 // tooltip? -> change title Buttons accordingly
 // TODO: add options for select's
@@ -20,48 +19,42 @@ const FormMain = ({user, justifications}) => (
         </h2>
       </Col>
       <Col sm={6} md={3}>
-        <Field component={FormInput} name="section_1_name" label="Name"/>
+        <Field component={FormInput} name={KEYS.FORM_NAME} label="Name"/>
+        <Field component={FormInput} name={KEYS.FORM_COMPANY} label="Company Name"/>
         <Field
           component={FormInput}
-          name="section_1_company_name"
-          label="Company Name"/>
-        <Field
-          component={FormInput}
-          name="section_1_request_date"
+          name={KEYS.FORM_REQUEST_DATE}
           label="Request Date"
           type="date"/>
       </Col>
       <Col sm={6} md={3}>
         <Field
           component={FormInput}
-          name="section_1_work_phone"
+          name={KEYS.FORM_PHONE}
           label="Work Phone"
           type="tel"/>
         <Field
           component={FormInput}
-          name="section_1_company_address"
+          name={KEYS.FORM_COMPANY_ADDRESS}
           label="Company Address"/>
-        <Field
-          component={FormInput}
-          name="section_1_supervisor_name"
-          label="Supervisor Name"/>
+        <Field component={FormInput} name={KEYS.FORM_SUP_NAME} label="Supervisor Name"/>
       </Col>
       <Col sm={6} md={3}>
         <Field
           component={FormInput}
-          name="section_1_cell_phone"
+          name={KEYS.FORM_CELL}
           label="Cell Phone"
           type="tel"/>
-        <Field component={FormInput} name="section_1_division" label="Division"/>
+        <Field component={FormInput} name={KEYS.FORM_DIVISION} label="Division"/>
         <Field
           component={FormInput}
-          name="section_1_supervisor_phone"
+          name={KEYS.FORM_SUP_NAME}
           label="Supervisor Phone"
           type="tel"/>
       </Col>
       <Col sm={6} md={3}>
-        <Field component={FormInput} name="section_1_license" label="License Plate"/>
-        <Field component={FormInput} name="section_1_unit" label="Unit/Project"/>
+        <Field component={FormInput} name={KEYS.FORM_LICENSE} label="License Plate"/>
+        <Field component={FormInput} name={KEYS.FORM_UNIT} label="Unit/Project"/>
       </Col>
     </Row>
     <Row>
@@ -74,19 +67,19 @@ const FormMain = ({user, justifications}) => (
       <Col sm={6} md={4}>
         <Field
           component={FormSelect}
-          name="section_2_reason"
+          name={KEYS.FORM_REASON}
           label="Reason"
           options={['Reason1', 'Reason2', 'Reason3']}/>
         <Field
           component={FormSelect}
-          name="section_2_hours"
+          name={KEYS.FORM_HOURS}
           label="Hours"
           options={['Hours1', 'Hours2', 'Hours3']}/>
       </Col>
       <Col sm={6} md={4}>
         <Field
           component={FormSelect}
-          name="section_2_areas"
+          name={KEYS.FORM_AREAS}
           label="Areas"
           options={['Area1', 'Area2', 'Area3']}
           multiple/> {justifications.fields[KEYS.JUSTIFICATIONS_OTHER] && <Field component={FormInput} name="section_2_area_other" label="Other Area"/>}
@@ -94,12 +87,12 @@ const FormMain = ({user, justifications}) => (
       {user[KEYS.USER_IS_VENDOR] && <Col sm={6} md={4}>
         <Field
           component={FormInput}
-          name="section_2_project_start"
+          name={KEYS.FORM_VENDOR_START}
           label="Project Start Date (Vendors Only)"
           type="date"/>
         <Field
           component={FormInput}
-          name="section_2_project_end"
+          name={KEYS.FORM_VENDOR_END}
           label="Project End Date (Vendors Only)"
           type="date"/>
       </Col>}
@@ -111,7 +104,7 @@ const FormMain = ({user, justifications}) => (
   </div>
 );
 
-FormMain.PropTypes = {
+FormMain.propTypes = {
   user: PropTypes.object.isRequired,
   justifications: PropTypes.object.isRequired
 };

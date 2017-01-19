@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {Button} from 'react-bootstrap';
-import * as itemActions from '../../actions/itemActions';
 
 const RequestTableButton = ({status, onClick}) => {
   return (

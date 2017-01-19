@@ -1,49 +1,24 @@
+import {MOCK_rows_apr, MOCK_rows_req} from './rows';
 import * as KEYS from '../store/keyMap';
 
-const apr_ids = ['apr1', 'apr2', 'apr3', 'apr4'];
-const req_ids = ['req1', 'req2', 'req4', 'req4'];
-
+// http://redux.js.org/docs/recipes/reducers/NormalizingStateShape.html
 export const MOCK_lists = {
   [KEYS.LIST_APPROVALS]: {
     byId: {
-      [apr_ids[0]]: {
-        id: apr_ids[0],
-        replace_with_data: 'replace_with_data'
-      },
-      [apr_ids[1]]: {
-        id: apr_ids[1],
-        replace_with_data: 'replace_with_data'
-      },
-      [apr_ids[2]]: {
-        id: apr_ids[2],
-        replace_with_data: 'replace_with_data'
-      },
-      [apr_ids[3]]: {
-        id: apr_ids[3],
-        replace_with_data: 'replace_with_data'
-      }
+      [MOCK_rows_apr[0].id]: MOCK_rows_apr[0],
+      [MOCK_rows_apr[1].id]: MOCK_rows_apr[1],
+      [MOCK_rows_apr[2].id]: MOCK_rows_apr[2],
+      [MOCK_rows_apr[3].id]: MOCK_rows_apr[3],
     },
-    allIds: [...apr_ids]
+    allIds: [MOCK_rows_apr[0].id, MOCK_rows_apr[1].id, MOCK_rows_apr[2].id, MOCK_rows_apr[3].id]
   },
   [KEYS.LIST_REQUESTS]: {
     byId: {
-      [req_ids[0]]: {
-        id: req_ids[0],
-        replace_with_data: 'replace_with_data'
-      },
-      [req_ids[1]]: {
-        id: req_ids[1],
-        replace_with_data: 'replace_with_data'
-      },
-      [req_ids[2]]: {
-        id: req_ids[2],
-        replace_with_data: 'replace_with_data'
-      },
-      [req_ids[3]]: {
-        id: req_ids[3],
-        replace_with_data: 'replace_with_data'
-      }
+      [MOCK_rows_req[0].id]: MOCK_rows_req[0],
+      [MOCK_rows_req[1].id]: MOCK_rows_req[1],
+      [MOCK_rows_req[2].id]: MOCK_rows_req[2],
+      [MOCK_rows_req[3].id]: MOCK_rows_req[3],
     },
-    allIds: [...req_ids]
-  }
+    allIds: [MOCK_rows_req[0].id, MOCK_rows_req[1].id, MOCK_rows_req[2].id, MOCK_rows_req[3].id]
+  },
 };

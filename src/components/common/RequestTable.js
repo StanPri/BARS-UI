@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {Col, Grid, Row, Button} from 'react-bootstrap';
-import {Table, Thead, Th, Tr, Td} from 'reactable';
+import {Col, Row} from 'react-bootstrap';
+import {Table} from 'reactable';
 import RequestTableButton from './RequestTableButton';
 import * as formActions from '../../actions/formActions';
 import * as KEYS from '../../store/keyMap';
@@ -36,20 +36,23 @@ function RequestTable({rows, title, actions}) {
       label: "Supervisor Email"
     }
   ];
-  // add button to rows
-  const _data = rows;
-  _data.forEach(row => row['button'] = <RequestTableButton
-    status={row[KEYS.STATUS]}
-    onClick={() => alert(`
-      VIEW REQUEST BY ID\n
-      - assumes entire request is redux store already
-      - ID: ${row.id}
-      - TODO:
-        + how to populate redux-form from store?
-        + get request by id, update form state
-        + push form to history/change view to it
-        + add test...
-        +++ http://redux-form.com/6.0.0-alpha.6/examples/initializeFromState/`)}/>);
+
+  // temporary funciton for button to view filled out form
+  // TODO: replace with api call/ action creator, handle async
+  const MOCK_view_request = () => alert(`
+    VIEW REQUEST BY ID\n
+    - assumes entire request is redux store already
+    - TODO:
+      + how to populate redux-form from store?
+      + async get request by id
+      + update form state
+      + push form to history/change view to it
+      + add test...
+      ++ http://redux-form.com/6.0.0-alpha.6/examples/initializeFromState/`);
+
+  // add button to copy of rows
+  const _data = JSON.parse(JSON.stringify(rows));
+  _data.forEach(row => row['button'] = (<RequestTableButton status={row[KEYS.FORM_STATUS]} onClick={MOCK_view_request}/>));
 
   return (
     <Row>
@@ -84,7 +87,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 RequestTable.propTypes = {
   title: PropTypes.string.isRequired,
-  rows: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired
+  rows: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  actions: PropTypes.object.isRequired
 };
 
+export {RequestTable as RequestTableTest}; // for testing without redux
 export default connect(mapStateToProps, mapDispatchToProps)(RequestTable);
