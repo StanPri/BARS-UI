@@ -25,7 +25,7 @@ export function loadRecords() {
   };
 }
 
-export function saveRecord(record) {
+export function createRecord(record) {
   return function (dispatch, getState) {
     //Updates fetch async status in thunk
     dispatch(beginFetchCall());
