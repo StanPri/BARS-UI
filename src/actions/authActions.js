@@ -1,5 +1,5 @@
 // The middleware to call the API for quotes
-import { CALL_API } from '../api/authApi';
+import { CALL_API } from '../middleware/authApi';
 import * as types from './actionTypes';
 
 // There are three possible states for our login
