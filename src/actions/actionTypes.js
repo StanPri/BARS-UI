@@ -15,3 +15,4 @@ export const QUOTE_SUCCESS = 'QUOTE_SUCCESS';
 export const QUOTE_FAILURE = 'QUOTE_FAILURE';
 
 export const FORM_VIEW = 'FORM_VIEW';
+export const FORM_NEW = 'FORM_NEW';

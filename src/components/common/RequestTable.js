@@ -3,9 +3,13 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Col, Row} from 'react-bootstrap';
 import {Table} from 'reactable';
+import {browserHistory} from 'react-router';
 import RequestTableButton from './RequestTableButton';
 import * as formActions from '../../actions/formActions';
 import * as KEYS from '../../store/keyMap';
+
+// TODO: replace with api call
+import {MOCK_form} from '../../MOCK/form';
 
 function RequestTable({rows, title, actions}) {
   // map column keys (from api) to labels (displayed text)
@@ -37,22 +41,14 @@ function RequestTable({rows, title, actions}) {
     }
   ];
 
-  // temporary funciton for button to view filled out form
-  // TODO: replace with api call/ action creator, handle async
-  const MOCK_view_request = () => alert(`
-    VIEW REQUEST BY ID\n
-    - assumes entire request is redux store already
-    - TODO:
-      + how to populate redux-form from store?
-      + async get request by id
-      + update form state
-      + push form to history/change view to it
-      + add test...
-      ++ http://redux-form.com/6.0.0-alpha.6/examples/initializeFromState/`);
-
   // add button to copy of rows
   const _data = JSON.parse(JSON.stringify(rows));
-  _data.forEach(row => row['button'] = (<RequestTableButton status={row[KEYS.FORM_STATUS]} onClick={MOCK_view_request}/>));
+  _data.forEach(row => row['button'] = (<RequestTableButton
+    status={row[KEYS.FORM_STATUS]}
+    onClick={() => {
+    actions.formView(MOCK_form);
+    browserHistory.push('/form');
+  }}/>));
 
   return (
     <Row>

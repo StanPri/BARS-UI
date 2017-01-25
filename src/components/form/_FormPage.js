@@ -14,9 +14,9 @@ import * as KEYS from '../../store/keyMap';
 
 // TODO: remove mock data, replace with api call
 import {MOCK_results} from '../../MOCK/showResults';
+import {MOCK_form} from '../../MOCK/form';
 
 // TODO: field validation
-// TODO: fill out when exisiting request
 class FormPage extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -49,17 +49,18 @@ FormPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return {state, user: state.user};
+  return {initialValues: state.formPage.data, user: state.user};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({recordActions, formActions}, dispatch)
+    actions: bindActionCreators({
+      ...recordActions,
+      ...formActions
+    }, dispatch)
   };
 }
 
-// TODO: is destory needed true for prod?? (makes it so hot reload does not
-// clear data)
-FormPage = reduxForm({form: 'formPage', destroyOnUnmount: false})(FormPage);
-
+// TODO: not destroy, allow user to change pages and data persist
+FormPage = reduxForm({form: 'formPage', destroyOnUnmount: true, forceUnregisterOnUnmount: true})(FormPage);
 export default connect(mapStateToProps, mapDispatchToProps)(FormPage);

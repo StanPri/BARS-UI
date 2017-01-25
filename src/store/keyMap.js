@@ -21,6 +21,7 @@ export const FORM_UNIT = 'unit';
 export const FORM_REASON = 'reason';
 export const FORM_HOURS = 'hours';
 export const FORM_AREAS = 'areas';
+export const FORM_AREA_OTHER = 'area_other';
 // Vendor Section
 export const FORM_VENDOR_START = 'vendor_start';
 export const FORM_VENDOR_END = 'vendor_end';

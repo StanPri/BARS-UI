@@ -48,7 +48,7 @@ const FormMain = ({user, justifications}) => (
         <Field component={FormInput} name={KEYS.FORM_DIVISION} label="Division"/>
         <Field
           component={FormInput}
-          name={KEYS.FORM_SUP_NAME}
+          name={KEYS.FORM_SUP_PHONE}
           label="Supervisor Phone"
           type="tel"/>
       </Col>
@@ -82,7 +82,7 @@ const FormMain = ({user, justifications}) => (
           name={KEYS.FORM_AREAS}
           label="Areas"
           options={['Area1', 'Area2', 'Area3']}
-          multiple/> {justifications.fields[KEYS.JUSTIFICATIONS_OTHER] && <Field component={FormInput} name="section_2_area_other" label="Other Area"/>}
+          multiple/> {justifications.fields[KEYS.JUSTIFICATIONS_OTHER] && <Field component={FormInput} name={KEYS.FORM_AREA_OTHER} label="Other Area"/>}
       </Col>
       {user[KEYS.USER_IS_VENDOR] && <Col sm={6} md={4}>
         <Field
