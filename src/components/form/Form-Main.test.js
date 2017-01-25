@@ -2,7 +2,7 @@
 // import React from 'react';
 // import {mount, shallow} from 'enzyme';
 // import {RequestTable} from './RequestTable';
-// import * as formActions from '../../actions/formActions';
+// import * as requestFormActions from '../../actions/requestFormActions';
 // import {MOCK_form} from '../../MOCK/form';
 // import * as KEYS from '../../store/keyMap';
 //

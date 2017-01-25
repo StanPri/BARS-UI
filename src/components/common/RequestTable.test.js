@@ -2,7 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import {mount, shallow} from 'enzyme';
 import {RequestTableTest} from './RequestTable';
-import * as formActions from '../../actions/formActions';
+import * as requestFormActions from '../../actions/requestFormActions';
 import {MOCK_rows_apr} from '../../MOCK/rows';
 import * as KEYS from '../../store/keyMap';
 
@@ -14,7 +14,7 @@ const setup = (rows = MOCK_rows_apr) => {
     title: TITLE,
     rows: rows,
     actions: {
-      formActions
+      requestFormActions
     }
   };
   return mount(<RequestTableTest {...props}/>);

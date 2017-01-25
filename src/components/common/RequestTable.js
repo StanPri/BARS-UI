@@ -5,7 +5,7 @@ import {Col, Row} from 'react-bootstrap';
 import {Table} from 'reactable';
 import {browserHistory} from 'react-router';
 import RequestTableButton from './RequestTableButton';
-import * as formActions from '../../actions/formActions';
+import * as requestFormActions from '../../actions/requestFormActions';
 import * as KEYS from '../../store/keyMap';
 
 // TODO: replace with api call
@@ -46,7 +46,7 @@ function RequestTable({rows, title, actions}) {
   _data.forEach(row => row['button'] = (<RequestTableButton
     status={row[KEYS.FORM_STATUS]}
     onClick={() => {
-    actions.formView(MOCK_form);
+    actions.requestFormView(MOCK_form);
     browserHistory.push('/form');
   }}/>));
 
@@ -77,7 +77,7 @@ function RequestTable({rows, title, actions}) {
 const mapStateToProps = (state) => ({state: state});
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(formActions, dispatch)
+  actions: bindActionCreators(requestFormActions, dispatch)
 });
 
 RequestTable.propTypes = {

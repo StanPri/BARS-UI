@@ -8,8 +8,7 @@ import FormMain from './Form-Main';
 import FormJustifications from './Form-Justifications';
 import FormSecurity from './Form-Security';
 import FormApproval from './Form-Approval';
-import * as recordActions from '../../actions/recordActions';
-import * as formActions from '../../actions/formActions';
+import * as requestFormActions from '../../actions/requestFormActions';
 import * as KEYS from '../../store/keyMap';
 
 // TODO: remove mock data, replace with api call
@@ -49,18 +48,17 @@ FormPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return {initialValues: state.formPage.data, user: state.user};
+  return {initialValues: state.requestForm.data, user: state.user};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      ...recordActions,
-      ...formActions
+      ...requestFormActions
     }, dispatch)
   };
 }
 
 // TODO: not destroy, allow user to change pages and data persist
-FormPage = reduxForm({form: 'formPage', destroyOnUnmount: true, forceUnregisterOnUnmount: true})(FormPage);
+FormPage = reduxForm({form: 'form', destroyOnUnmount: true, forceUnregisterOnUnmount: true})(FormPage);
 export default connect(mapStateToProps, mapDispatchToProps)(FormPage);

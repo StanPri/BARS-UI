@@ -4,63 +4,55 @@ import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 import {Button} from 'react-bootstrap';
-import {browserHistory} from 'react-router';
 import RequestTable from '../common/RequestTable';
-import * as recordActions from '../../actions/recordActions';
-import * as formActions from '../../actions/formActions';
-import {MOCK_rows_apr, MOCK_rows_req} from '../../MOCK/rows';
+import * as requestFormActions from '../../actions/requestFormActions';
 
 class ListsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.handleRequestFormNew = this.handleRequestFormNew.bind(this);
   }
 
-  // stans mapping of api recordRow(record, index) {  return <div
-  // key={index}>{record.section_1_name}</div>; }
+  handleRequestFormNew() {
+    const {actions, destroy} = this.props;
+    destroy();
+    actions.requestFormNew();
+    browserHistory.push('/form');
+  }
 
   render() {
-    const {actions, destroy} = this.props;
+    const {requestsUser} = this.props;
     return (
       <div>
-        {/* // stans mapping of api
-          <h3>Existing Requests</h3>
-          {this.props.records.map(this.recordRow)}
-        <br/> */}
-
-        <Button
-          onClick={() => {
-          destroy();
-          actions.formNew();
-          browserHistory.push('/form');
-        }}>New Request</Button>
-        <RequestTable title="Approvals" rows={MOCK_rows_apr}/>
-        <RequestTable title="Requests" rows={MOCK_rows_req}/>
+        <Button onClick={this.handleRequestFormNew}>New Request</Button>
+        <RequestTable title="Approvals" rows={requestsUser.approvals.allIds}/>
+        <RequestTable title="Requests" rows={requestsUser.requests.allIds}/>
       </div>
     );
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  return {records: state.records};
+  return {requestsUser: state.requestsUser};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      ...recordActions,
-      ...formActions
+      ...requestFormActions
     }, dispatch)
   };
 }
 
+// TODO: more specific proptypes...
 ListsPage.propTypes = {
+  requestsUser: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  records: PropTypes.array.isRequired,
   destroy: PropTypes.func.isRequired
 };
 
-ListsPage = reduxForm({form: 'formPage', destroyOnUnmount: false, forceUnregisterOnUnmount: true})(ListsPage);
+ListsPage = reduxForm({form: 'form', destroyOnUnmount: false, forceUnregisterOnUnmount: true})(ListsPage);
 export default connect(mapStateToProps, mapDispatchToProps)(ListsPage);
