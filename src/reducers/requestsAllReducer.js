@@ -6,6 +6,7 @@ import initialState from './initialState';
 export const requestsAllReducer = (state = initialState.requestsAll, action) => {
   switch (action.type) {
     case REQUESTS_ALL_REQUEST:
+    console.log('in requestsAllReducer ' + action.response)
       return Object.assign({}, state, {});  // TODO: pass isFetching here like chuck norris has?
     case REQUESTS_ALL_SUCCESS:
       return Object.assign({}, state, {});  // TODO: ya.

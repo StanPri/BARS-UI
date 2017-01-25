@@ -8,27 +8,19 @@ import {Button} from 'react-bootstrap';
 import RequestTable from '../common/RequestTable';
 import * as requestsActions from '../../actions/requestsActions';
 
+console.log(requestsActions);
+
 class SearchPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.handleLoadRequestsAll = this.handleLoadRequestsAll.bind(this);
-  }
-
-  handleLoadRequestsAll() {
-    const {actions} = this.props;
-    // actions.requestsGetAll();
-    let URL = 'http://testEDAPI/employees'; // http://barsapi.technology.ca.gov/api/BadgeRequest
-    fetch(URL).then(response => response.json()).then(json => {
-      alert(json);
-    });
   }
 
   render() {
-    const {requestsAll} = this.props;
+    const {requestsAll, actions} = this.props;
     return (
       <div>
-        <Button onClick={this.handleLoadRequestsAll}>Load All</Button>
+        <Button onClick={actions.requestsGetAll}>Load All</Button>
         <RequestTable title="All Requests" rows={requestsAll.allIds}/>
       </div>
     );

@@ -1,11 +1,9 @@
-const BASE_URL = 'http://barsapi.technology.ca.gov/api/BadgeRequest';
+const BASE_URL = 'http://barsapi.technology.ca.gov/api/BadgeRequests';
 
 function callApi(endpoint, authenticated) {
 
   let token = localStorage.getItem('id_token') || null;
-  let config = {
-    "mode": "no-cors"
-  };
+  let config = {};
 
   // if(authenticated) {
   //   if(token) {
@@ -16,12 +14,12 @@ function callApi(endpoint, authenticated) {
   //     throw "No token saved!";
   //   }
   // }
-
   return fetch(BASE_URL + endpoint, config)
     .then(response =>
       response.text()
       .then(text => ({ text, response }))
     ).then(({ text, response }) => {
+      console.log("IN FETCHING", text, response);
       if (!response.ok) {
         return Promise.reject(text);
       }
@@ -33,7 +31,7 @@ function callApi(endpoint, authenticated) {
 export const CALL_API = Symbol('Call API');
 
 export default store => next => action => {
-
+console.log("CALLING API")
   const callAPI = action[CALL_API];
 
   // So the middleware doesn't get applied to every single action
