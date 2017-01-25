@@ -65,7 +65,6 @@ function RequestTable({rows, title, actions}) {
           KEYS.FORM_SUP_EMAIL
         ]}
           noDataText={`No ${title}`}
-          itemsPerPage={10}
           columns={_columns}
           sortable
           className="table table-bordered table-condensed"

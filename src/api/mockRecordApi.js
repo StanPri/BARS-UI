@@ -4,9 +4,6 @@ import delay from './delay';
 // It uses setTimeout to simulate the delay of an AJAX call.
 // All calls return promises.
 
-export const CALL_API = Symbol('Call API');
-
-
 const records = [
   {
         section_1_name: 'Chuck Norris',
