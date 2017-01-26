@@ -8,8 +8,6 @@ import {Button} from 'react-bootstrap';
 import RequestTable from '../common/RequestTable';
 import * as requestsActions from '../../actions/requestsActions';
 
-console.log(requestsActions);
-
 class SearchPage extends React.Component {
   constructor(props) {
     super(props);

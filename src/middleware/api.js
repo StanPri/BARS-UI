@@ -19,11 +19,9 @@ function callApi(endpoint, authenticated) {
       response.text()
       .then(text => ({ text, response }))
     ).then(({ text, response }) => {
-      console.log("IN FETCHING", text, response);
       if (!response.ok) {
         return Promise.reject(text);
       }
-
       return text;
     }).catch(err => console.log(err));
 }
@@ -31,7 +29,6 @@ function callApi(endpoint, authenticated) {
 export const CALL_API = Symbol('Call API');
 
 export default store => next => action => {
-console.log("CALLING API")
   const callAPI = action[CALL_API];
 
   // So the middleware doesn't get applied to every single action
