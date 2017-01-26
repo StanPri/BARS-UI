@@ -18,7 +18,21 @@ class SearchPage extends React.Component {
     const {requestsAll, actions} = this.props;
     return (
       <div>
-        <Button onClick={actions.requestsGetAll}>Load All</Button>
+        <Button onClick={() =>{
+
+
+          let config = {
+            method: 'get'
+          }
+          fetch('https://chrispc:3001/createToken', config)
+            .then(response =>
+              response.json()
+            ).catch(err => console.log("Error: ", err))
+
+
+
+
+          }}>Load All</Button>
         <RequestTable title="All Requests" rows={requestsAll.allIds}/>
       </div>
     );
