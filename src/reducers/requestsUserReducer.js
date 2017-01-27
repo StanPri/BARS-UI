@@ -5,9 +5,9 @@ import initialState from './initialState';
 export const requestsUserReducer = (state = initialState.requestsUser, action) => {
   switch (action.type) {
     case REQUESTS_USER_REQUEST:
-      return Object.assign({}, state, {});  // TODO: pass isFetching here like chuck norris has?
+      return state;  // TODO: pass isFetching here like chuck norris has?
     case REQUESTS_USER_SUCCESS:
-      return Object.assign({}, state, {});  // TODO: ya.
+      return state;  // TODO: ya.
     case REQUESTS_USER_FAILURE:
       return state; // TODO
     default:

@@ -19,7 +19,7 @@ class SearchPage extends React.Component {
     return (
       <div>
         <Button onClick={actions.requestsGetAll}>Load All</Button>
-        <RequestTable title="All Requests" rows={requestsAll.allIds}/>
+        <RequestTable table="requestsAll" title="All Requests" rows={requestsAll}/>
       </div>
     );
   }

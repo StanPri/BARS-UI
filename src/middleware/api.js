@@ -16,7 +16,7 @@ function callApi(endpoint, authenticated) {
   // }
   return fetch(BASE_URL + endpoint, config)
     .then(response =>
-      response.text()
+      response.json()
       .then(text => ({ text, response }))
     ).then(({ text, response }) => {
       if (!response.ok) {

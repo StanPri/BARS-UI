@@ -13,7 +13,7 @@ const RequestTableButton = ({status, onClick}) => {
 };
 
 RequestTableButton.propTypes = {
-  status: PropTypes.string.isRequired,
+  status: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired
 };
 

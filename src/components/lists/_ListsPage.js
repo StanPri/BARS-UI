@@ -28,8 +28,8 @@ class ListsPage extends React.Component {
     return (
       <div>
         <Button onClick={this.handleRequestFormNew}>New Request</Button>
-        <RequestTable title="Approvals" rows={requestsUser.approvals.allIds}/>
-        <RequestTable title="Requests" rows={requestsUser.requests.allIds}/>
+        <RequestTable table="requestsUser.approvals" title="Approvals" rows={requestsUser.approvals}/>
+        <RequestTable table="requestsUser.requests" title="Requests" rows={requestsUser.requests}/>
       </div>
     );
   }
