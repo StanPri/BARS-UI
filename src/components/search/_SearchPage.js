@@ -24,7 +24,8 @@ class SearchPage extends React.Component {
           let config = {
             method: 'get'
           }
-          fetch('https://chrispc:3001/createToken', config)
+
+          fetch('https://sec.api.technology.ca.gov:3001/createToken/', config)
             .then(response =>
               response.json()
             ).catch(err => console.log("Error: ", err))
