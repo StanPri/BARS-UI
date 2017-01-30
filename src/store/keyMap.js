@@ -2,29 +2,41 @@
  * Form data
  */
 export const FORM_ID = 'id';
-export const FORM_STATUS = 'status';
+export const FORM_STATUS = 'requestState';
 // Applicatnt Information
-export const FORM_NAME = 'name';
-export const FORM_PHONE = 'phone';
-export const FORM_CELL = 'cell';
-export const FORM_LICENSE = 'license';
-export const FORM_EMAIL = 'email';
-export const FORM_COMPANY = 'company';
-export const FORM_COMPANY_ADDRESS = 'company_address';
-export const FORM_SUP_NAME = 'sup_name';
-export const FORM_SUP_PHONE = 'sup_phone';
-export const FORM_SUP_EMAIL = 'sup_email';
-export const FORM_REQUEST_DATE = 'request_date';
+export const FORM_NAME = 'lastName'; // firstName -> TODO: combine first and last anme or jus ahve one?
+export const FORM_PHONE = 'workPhoneNumber';
+export const FORM_CELL = 'cellPhoneNumber';
+export const FORM_EMAIL = 'receiverEmail';
+export const FORM_LICENSE = 'licensePlate';
+export const FORM_COMPANY = 'companyName';
+export const FORM_COMPANY_ADDRESS = 'companyAddress';
+export const FORM_SUP_NAME = 'supervisorLastName'; // supervisorFirstName -> TODO: combine first and last anme or jus ahve one?
+export const FORM_SUP_EMAIL = 'supervisorEmail';
+export const FORM_SUP_PHONE = 'supervisorPhone';
 export const FORM_DIVISION = 'division';
-export const FORM_UNIT = 'unit';
+export const FORM_UNIT = 'unitOrProject';
+export const FORM_REQUEST_DATE = 'CreatedDateUtc';
 // Access Requirements
-export const FORM_REASON = 'reason';
-export const FORM_HOURS = 'hours';
-export const FORM_AREAS = 'areas';
-export const FORM_AREA_OTHER = 'area_other';
+export const FORM_AREAS = 'accessAreas';
+export const FORM_HOURS = 'accessHours';
+export const FORM_LEVELS = 'accessLevels';
+export const FORM_AREA_OTHER = 'accessOtherArea';
+export const FORM_REASON = 'accessReason';
 // Vendor Section
-export const FORM_VENDOR_START = 'vendor_start';
-export const FORM_VENDOR_END = 'vendor_end';
+export const FORM_VENDOR_START = 'VendorStartDateUtc';
+export const FORM_VENDOR_END = 'VendorEndDateUtc';
+// Approvals
+export const FORM_KEYCARD = 'keycard';
+export const FORM_ISSUE = 'issueDateUtc';
+export const FORM_EXPIRE_DATE = 'expirationDateUtc';
+export const FORM_APPROVAL_DATE_SUP = 'supervisorApprovalTimestampUtc';
+export const FORM_APPROVAL_DATE_REC = 'receiverAgreementTimestampUtc';
+export const FORM_APPROVAL_DATE_SEC = 'securityApprovalTimestampUtc';
+// Sam accounts
+export const FORM_SAM_SUBMIT = 'submitterSamAccount';
+export const FORM_SAM_RECEIVE = 'receiverSamAccount';
+export const FORM_SAM_SUPER = 'supervisorSamAccount';
 
 /**
  * Lists
