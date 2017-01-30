@@ -21,5 +21,11 @@ export default {
       allIds: []
     }
   }, // requests for user -> approvals, requests
+  authUser : {
+    errorMessage: "",
+    isAuthenticated: localStorage.getItem('id_token')
+      ? true
+      : false
+  },
   fetchCallsInProgress : 0 // status of if fetch in progress
 };

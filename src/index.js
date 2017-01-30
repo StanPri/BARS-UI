@@ -7,8 +7,10 @@ import {Router, browserHistory} from 'react-router';
 import routes from './routes';
 import './css/style.less';
 import configureStore from './store/configureStore';
+import {authUser} from './actions/authActions';
 
 const store = configureStore();
+store.dispatch(authUser());
 
 render(
   <Provider store={store}>
