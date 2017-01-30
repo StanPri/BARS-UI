@@ -5,13 +5,13 @@ import {Col, Row} from 'react-bootstrap';
 import {Table} from 'reactable';
 import {browserHistory} from 'react-router';
 import RequestTableButton from './RequestTableButton';
-import * as formActions from '../../actions/formActions';
+import * as requestFormActions from '../../actions/requestFormActions';
 import * as KEYS from '../../store/keyMap';
 
 // TODO: replace with api call
 import {MOCK_form} from '../../MOCK/form';
 
-function RequestTable({rows, title, actions}) {
+function RequestTable({table, rows, title, actions}) {
   // map column keys (from api) to labels (displayed text)
   const _columns = [
     {
@@ -41,14 +41,13 @@ function RequestTable({rows, title, actions}) {
     }
   ];
 
-  // add button to copy of rows
-  const _data = JSON.parse(JSON.stringify(rows));
-  _data.forEach(row => row['button'] = (<RequestTableButton
-    status={row[KEYS.FORM_STATUS]}
-    onClick={() => {
-    actions.formView(MOCK_form);
-    browserHistory.push('/form');
-  }}/>));
+  // add button to copy of rows TODO: move to external function...
+   const _data = rows.allIds.map(id => ({...rows.byId[id], button: <RequestTableButton
+     status={rows.byId[id][KEYS.FORM_STATUS]}
+     onClick={() => {
+     actions.requestFormView(rows.byId[id]);
+     browserHistory.push('/form');
+   }}/>}));
 
   return (
     <Row>
@@ -77,12 +76,13 @@ function RequestTable({rows, title, actions}) {
 const mapStateToProps = (state) => ({state: state});
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(formActions, dispatch)
+  actions: bindActionCreators(requestFormActions, dispatch)
 });
 
 RequestTable.propTypes = {
+  table: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  rows: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  rows: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
