@@ -2,18 +2,14 @@ const BASE_URL = 'http://barsapi.technology.ca.gov/api/BadgeRequests';
 
 function callApi(endpoint, authenticated) {
 
-  let token = localStorage.getItem('id_token') || null;
-  let config = {};
+  let token = localStorage.getItem('id_token') || null
+  || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXFJ5YW4uVm9sbG1lciIsIkJBUlMiOiJVc2VyIiwiQ04iOiJVc2VyIiwiQ1RTIjoiVXNlci1jd2siLCJWTCI6IkFkbWluLWN3ayIsImlhdCI6MTQ4NTgwMzk0NCwiZXhwIjoxNDg1ODA3NTQ0fQ.3QGGg060jqp3_QOM7GSD4G1DxeUdIUpSpoze1zDd5tY';
+  let config = {
+    method: 'get',
+    credentials: 'include',
+    headers: { 'Authorization': `Bearer ${token}` }
+  };
 
-  // if(authenticated) {
-  //   if(token) {
-  //     config = {
-  //       headers: { 'Authorization': `Bearer ${token}` }
-  //     };
-  //   } else {
-  //     throw "No token saved!";
-  //   }
-  // }
   return fetch(BASE_URL + endpoint, config)
     .then(response =>
       response.text()
