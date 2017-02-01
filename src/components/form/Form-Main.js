@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {Row, Col, Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
 import FormInput from '../common/FormInput';
+import FormInputAuto from '../common/FormInputAuto';
 import FormSelect from '../common/FormSelect';
 import * as KEYS from '../../store/keyMap';
 
@@ -9,7 +10,7 @@ import * as KEYS from '../../store/keyMap';
 // tooltip? -> change title Buttons accordingly
 // TODO: add options for select's
 
-const FormMain = ({user, justifications}) => (
+const FormMain = ({formMainHandleInput, formMainNames, user, justifications}) => (
   <div>
     <Row>
       <Col xs={12}>
@@ -19,7 +20,13 @@ const FormMain = ({user, justifications}) => (
         </h2>
       </Col>
       <Col sm={6} md={3}>
-        <Field component={FormInput} name={KEYS.FORM_NAME} label="Name"/>
+        <Field
+          component={FormInputAuto}
+          dataField="fullName"
+          data={formMainNames}
+          onInput={formMainHandleInput}
+          name={KEYS.FORM_NAME}
+          label="Name"/>
         <Field component={FormInput} name={KEYS.FORM_COMPANY} label="Company Name"/>
         <Field
           component={FormInput}
@@ -105,6 +112,8 @@ const FormMain = ({user, justifications}) => (
 );
 
 FormMain.propTypes = {
+  formMainHandleInput: PropTypes.func.isRequired,
+  formMainNames: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   justifications: PropTypes.object.isRequired
 };

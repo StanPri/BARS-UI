@@ -25,15 +25,39 @@ class FormPage extends React.Component {
         fields: {
           [KEYS.JUSTIFICATIONS_OTHER]: true
         }
-      }
+      },
+      formMainNames: []
     };
+    this.formMainHandleInput = this.formMainHandleInput.bind(this);
+  }
+
+  formMainHandleInput(e) {
+    e.preventDefault();
+    if (e.target.value.length) {
+      let {empDir} = this.props;
+      let _search = '(?=.*' + e.target.value.split(/, +|,| +/).join(')(?=.*') + ')';
+      let re = new RegExp(_search, 'i');
+      let _employees = empDir.filter((emp) => {
+        if (`${emp.fullName}`.match(re)) {
+          return true;
+        }
+        return false;
+      });
+      this.setState({formMainNames: _employees});
+    } else {
+      this.setState({formMainNames: []});
+    }
   }
 
   render() {
-    const {handleSubmit, actions, user} = this.props;
+    const {handleSubmit, actions, user, empDir} = this.props;
     return (
       <form onSubmit={handleSubmit(MOCK_results)}>
-        <FormMain user={user} justifications={this.state.justifications}/> {this.state.justifications.display && <FormJustifications/>}
+        <FormMain
+          formMainHandleInput={this.formMainHandleInput}
+          formMainNames={this.state.formMainNames}
+          user={user}
+          justifications={this.state.justifications}/> {this.state.justifications.display && <FormJustifications/>}
         {user[KEYS.USER_ROLE] === "security" && <FormSecurity/>}
         <FormApproval/>
       </form>
@@ -42,13 +66,14 @@ class FormPage extends React.Component {
 }
 
 FormPage.propTypes = {
+  empDir: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  return {initialValues: state.requestForm.data, user: state.user};
+  return {initialValues: state.requestForm.data, user: state.user, empDir: state.empDir};
 }
 
 function mapDispatchToProps(dispatch) {

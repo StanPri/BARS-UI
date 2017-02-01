@@ -1,13 +1,17 @@
 export const BEGIN_FETCH_CALL = 'BEGIN_FETCH_CALL';
-
+// security api => JWT for user authentication
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILURE = 'AUTH_FAILURE';
-
+// empoyee directory api => employee information
+export const EMP_DIR_REQUEST = 'EMP_DIR_REQUEST';
+export const EMP_DIR_SUCCESS = 'EMP_DIR_SUCCESS';
+export const EMP_DIR_FAILURE = 'EMP_DIR_FAILURE';
+// badge request api => list of all requests
 export const REQUESTS_ALL_REQUEST = 'REQUESTS_ALL_REQUEST';
 export const REQUESTS_ALL_SUCCESS = 'REQUESTS_ALL_SUCCESS';
 export const REQUESTS_ALL_FAILURE = 'REQUESTS_ALL_FAILURE';
-
+// badge request api => list of all requests user is invloved in
 export const REQUESTS_USER_REQUEST = 'REQUESTS_USER_REQUEST';
 export const REQUESTS_USER_SUCCESS = 'REQUESTS_USER_SUCCESS';
 export const REQUESTS_USER_FAILURE = 'REQUESTS_USER_FAILURE';

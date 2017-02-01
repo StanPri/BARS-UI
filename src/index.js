@@ -8,9 +8,13 @@ import routes from './routes';
 import './css/style.less';
 import configureStore from './store/configureStore';
 import {authUser} from './actions/authActions';
+import {empDir} from './actions/empDirActions';
 
 const store = configureStore();
-store.dispatch(authUser());
+if (!store.getState().authUser.isAuthenticated) {
+  store.dispatch(authUser());
+}
+store.dispatch(empDir());
 
 render(
   <Provider store={store}>

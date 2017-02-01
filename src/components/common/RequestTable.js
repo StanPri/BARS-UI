@@ -8,9 +8,6 @@ import RequestTableButton from './RequestTableButton';
 import * as requestFormActions from '../../actions/requestFormActions';
 import * as KEYS from '../../store/keyMap';
 
-// TODO: replace with api call
-import {MOCK_form} from '../../MOCK/form';
-
 function RequestTable({table, rows, title, actions}) {
   // map column keys (from api) to labels (displayed text)
   const _columns = [
@@ -42,12 +39,15 @@ function RequestTable({table, rows, title, actions}) {
   ];
 
   // add button to copy of rows TODO: move to external function...
-   const _data = rows.allIds.map(id => ({...rows.byId[id], button: <RequestTableButton
-     status={rows.byId[id][KEYS.FORM_STATUS]}
-     onClick={() => {
-     actions.requestFormView(rows.byId[id]);
-     browserHistory.push('/form');
-   }}/>}));
+  const _data = rows.allIds.map(id => ({
+    ...rows.byId[id],
+    button: <RequestTableButton
+        status={rows.byId[id][KEYS.FORM_STATUS]}
+        onClick={() => {
+        actions.requestFormView(rows.byId[id]);
+        browserHistory.push('/form');
+      }}/>
+  }));
 
   return (
     <Row>

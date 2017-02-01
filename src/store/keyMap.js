@@ -43,6 +43,7 @@ export const FORM_SAM_SUPER = 'supervisorSamAccount';
  */
 export const LIST_APPROVALS = 'list_approvals';
 export const LIST_REQUESTS = 'list_requests';
+export const LIST_SEARCH = 'list_search';
 
 /**
  * User Info

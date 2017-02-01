@@ -36,8 +36,8 @@
     "react-router": "*",
     "react-router-redux": "4.0.4",
     "reactable": "^0.14.1",
-    "redux": "3.5.2",
-    "redux-form": "*",
+    "redux": "^3.6.0",
+    "redux-form": "^6.5.0",
     "redux-thunk": "2.0.1",
     "whatwg-fetch": "*"
   },

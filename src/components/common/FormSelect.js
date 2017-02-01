@@ -8,10 +8,7 @@ import React, {PropTypes} from 'react';
 const FieldSelect = field => (
   <FormGroup controlId={field.input.name}>
     <ControlLabel>{field.label}</ControlLabel>
-    <FormControl
-      componentClass="select"
-      multiple={field.multiple}
-      {...field.input}>
+    <FormControl componentClass="select" multiple={field.multiple} {...field.input}>
       {field.multiple || <option value="">Select {field.label}</option>}
       {field.options.map(v => <option key={v} value={v}>{v}</option>)}
     </FormControl>

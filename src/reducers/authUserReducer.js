@@ -7,7 +7,7 @@ import initialState from './initialState';
 // the token is expired.
 // TODO: check if expired
 // TODO: add fetchCallInprogress
-export const authUser = (state = initialState.authUser, action) => {
+export const authUserReducer = (state = initialState.authUser, action) => {
   switch (action.type) {
     case AUTH_REQUEST:
       return Object.assign({}, state, {
