@@ -8,6 +8,7 @@ import {requestFormReducer as requestForm} from './requestFormReducer';
 import {requestsAllReducer as requestsAll} from './requestsAllReducer';
 import {requestsUserReducer as requestsUser} from './requestsUserReducer';
 
+// ALL reducers must got through this reducer
 const rootReducer = combineReducers({
   form: formReducer,
   requestForm,
@@ -20,3 +21,24 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
+
+////////////// COMMON REDUCER FUNCTIONS ////////////////////
+/**
+ * Converts repsonse from api into byId object
+ * @param  {object} data - repsonse from api
+ * @return {object}      - object with signature {id1: data1, id2: data2, ...etc}
+ */
+export const getById = (data, key) => {
+  let _data = {};
+  Object.keys(data).forEach(k => {
+    _data[data[k][key]] = data[k];
+  });
+  return _data;
+};
+
+/**
+ * Converts repsonse from api into allIds array
+ * @param  {object} data - repsonse from api
+ * @return {array}      - array of all ids with signature [id1, id2, ...etc]
+ */
+export const getAllIds = (data, key) => Object.keys(data).map(k => data[k][key]);

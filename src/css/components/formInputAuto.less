@@ -1,0 +1,28 @@
+.form_field_auto_list {
+  position: absolute;
+  display: block;
+  background: lighten(@gray-lighter, 50%);
+  border: 1px solid @input-border;
+  list-style-type: none;
+  padding: 0;
+  width: 90%;
+  z-index: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 300px;
+
+  > li {
+    padding: 0;
+
+    > a {
+      display: block;
+      padding: 5px;
+
+      &:hover {
+        background: @table-bg-active;
+        cursor: pointer;
+        text-decoration: none;
+      }
+    }
+  }
+}

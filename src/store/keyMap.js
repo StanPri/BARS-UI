@@ -1,5 +1,5 @@
 /**
- * Form data
+ * REQUEST FORM DATA
  */
 export const FORM_ID = 'id';
 export const FORM_STATUS = 'requestState';
@@ -37,6 +37,16 @@ export const FORM_APPROVAL_DATE_SEC = 'securityApprovalTimestampUtc';
 export const FORM_SAM_SUBMIT = 'submitterSamAccount';
 export const FORM_SAM_RECEIVE = 'receiverSamAccount';
 export const FORM_SAM_SUPER = 'supervisorSamAccount';
+/**
+ * Justifications
+ */
+export const JUSTIFICATIONS_OTHER = 'justification_other_area';
+
+
+/**
+ * EMPLOYEE DIRECTORY INFO
+ */
+export const EMP_DIR_ID = 'email';
 
 /**
  * Lists
@@ -50,8 +60,3 @@ export const LIST_SEARCH = 'list_search';
  */
 export const USER_ROLE = 'role';
 export const USER_IS_VENDOR = 'is_vendor';
-
-/**
- * Justifications
- */
-export const JUSTIFICATIONS_OTHER = 'justification_other_area';

@@ -2,27 +2,30 @@ import {FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap';
 import React, {PropTypes} from 'react';
 
 /**
- * Bootstrapped input field for non-selects to pass to Redux Form's <Field/>
- * generates list of items to select from, which will populate input field.
+ * Input field for non-selects to pass to Redux Form's <Field/>
+ * Generates list of items to select from, which will populate input field.
  * @param {object} field
+ * @return {JSX}
  */
-const FieldInputAuto = field => (
-  <FormGroup controlId={field.input.name}>
-    <ControlLabel>{field.label}</ControlLabel>
-    <FormControl
-      {...field.input}
-      autoComplete="off"
-      onInput={field.onInput}
-      placeholder={`Enter ${field.label}`}
-      type={field.type}/> {field.error && <HelpBlock>{field.error}</HelpBlock>}
-    {/* TODO:
-        -> styling --> overflow scroll, fixed box that dosnt push others
-        -> handle clicking on entry to populate field
-    */}
-    <ul>
-      {field.data.map(x => <li key={x[field.dataField]}>{x[field.dataField]}</li>)}
-    </ul>
-  </FormGroup>
-);
+const FieldInputAuto = field => {
+  let hidden = field.isHidden ? 'hidden' : '';
+  return (
+    <FormGroup controlId={field.input.name}>
+      <ControlLabel>{field.label}</ControlLabel>
+      <FormControl
+        {...field.input}
+        autoComplete="off"
+        onInput={field.onInput}
+        placeholder={`Enter ${field.label}`}
+        type={field.type}/> {field.error && <HelpBlock>{field.error}</HelpBlock>}
+      <ul className={`form_field_auto_list ${hidden}`}>
+        {/* display full name and email for each employee */}
+        {field.data.allIds.map(x => <li key={`${x}_${field.data.byId[x].fullName}`}>
+          <a onClick={field.onNameClick} data-id={x}>{`${field.data.byId[x].fullName} <${x}>`}</a>
+        </li>)}
+      </ul>
+    </FormGroup>
+  );
+};
 
 export default FieldInputAuto;

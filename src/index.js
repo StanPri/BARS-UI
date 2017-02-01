@@ -11,9 +11,9 @@ import {authUser} from './actions/authActions';
 import {empDir} from './actions/empDirActions';
 
 const store = configureStore();
-if (!store.getState().authUser.isAuthenticated) {
+// if (!store.getState().authUser.isAuthenticated) { // TODO: for now always gets token, need to check timestamp overdue or somthing...
   store.dispatch(authUser());
-}
+// }
 store.dispatch(empDir());
 
 render(
