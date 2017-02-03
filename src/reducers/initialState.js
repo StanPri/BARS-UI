@@ -8,7 +8,6 @@ import * as KEYS from '../store/keyMap';
  */
 export default {
   form : {}, // redux-form, single form entry (our form has key of 'form' inside this)
-  user : MOCK_user, // user information -> authenticated?, account id, etc
   empDir : {
     byId: {},
     allIds: []
@@ -28,11 +27,10 @@ export default {
       allIds: []
     }
   }, // requests for user -> approvals, requests
-  authUser : {
-    errorMessage: "",
-    isAuthenticated: localStorage.getItem('id_token')
-      ? true
-      : false
-  },
+  auth: {
+    role: '',
+    name: '',
+    isAuthenticated: false
+  }, // user information -> if authenicatied, role, etc
   fetchCallsInProgress : 0 // status of if fetch in progress
 };

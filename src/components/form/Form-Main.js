@@ -22,7 +22,7 @@ const FormMain = ({
   formMainNamehidden,
   formMainNames,
   formMainNamesOnClick,
-  user,
+  auth,
   justifications
 }) => (
   <div>
@@ -106,7 +106,8 @@ const FormMain = ({
           options={['Area1', 'Area2', 'Area3']}
           multiple/> {justifications.fields[KEYS.JUSTIFICATIONS_OTHER] && <Field component={FormInput} name={KEYS.FORM_AREA_OTHER} label="Other Area"/>}
       </Col>
-      {user[KEYS.USER_IS_VENDOR] && <Col sm={6} md={4}>
+      {/* {user[KEYS.USER_IS_VENDOR] &&  */}
+        <Col sm={6} md={4}>
         <Field
           component={FormInput}
           name={KEYS.FORM_VENDOR_START}
@@ -117,7 +118,8 @@ const FormMain = ({
           name={KEYS.FORM_VENDOR_END}
           label="Project End Date (Vendors Only)"
           type="date"/>
-      </Col>}
+      </Col>
+      {/* } */}
       <Col xs={12}>
         <span className="pull-right">Fields marked with an asterik (*) require an
           explanation in the Justifications section</span>
@@ -131,7 +133,7 @@ FormMain.propTypes = {
   formMainNamehidden: PropTypes.bool.isRequired,
   formMainNames: PropTypes.object.isRequired,
   formMainNamesOnClick: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   justifications: PropTypes.object.isRequired
 };
 

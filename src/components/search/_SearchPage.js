@@ -14,11 +14,15 @@ class SearchPage extends React.Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    // load all requests from api
+    this.props.actions.requestsGetAll();
+  }
+
   render() {
     const {requestsAll, actions} = this.props;
     return (
       <div>
-        <Button onClick={actions.requestsGetAll}>Load All</Button>
         <RequestTable table="requestsAll" title="All Requests" rows={requestsAll}/>
       </div>
     );
@@ -40,7 +44,7 @@ function mapDispatchToProps(dispatch) {
 // TODO: more specific proptypes...
 SearchPage.propTypes = {
   requestsAll: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

@@ -42,6 +42,12 @@ export const FORM_SAM_SUPER = 'supervisorSamAccount';
  */
 export const JUSTIFICATIONS_OTHER = 'justification_other_area';
 
+/**
+ * USER ROLES
+ */
+export const ROLE_USERS = 'Users';
+export const ROLE_MANAGER = 'Managers';
+export const ROLE_SECURITY = 'Security';
 
 /**
  * EMPLOYEE DIRECTORY INFO

@@ -5,9 +5,9 @@ import initialState from './initialState';
 export const requestFormReducer = (state = initialState.requestForm, action) => {
   switch (action.type) {
     case REQUEST_FORM_NEW:
-      return {data: {}};
+      return initialState.requestForm;
     case REQUEST_FORM_VIEW:
-      return {data: action.data};
+      return {...action.data};
     default:
       return state;
   }

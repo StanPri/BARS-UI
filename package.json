@@ -29,6 +29,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-polyfill": "*",
     "json2csv": "*",
+    "jwt-decode": "*",
     "react": "*",
     "react-bootstrap": "*",
     "react-dom": "*",

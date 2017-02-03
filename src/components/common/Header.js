@@ -1,7 +1,13 @@
+/*eslint no-class-assign: 0*/
+/*eslint-env es6*/
 import React, {PropTypes} from 'react';
-import {Link, IndexLink} from 'react-router';
+import {Link, IndexLink, browserHistory} from 'react-router';
 import {Navbar, Button} from 'react-bootstrap';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {reduxForm} from 'redux-form';
 import json2csv from 'json2csv';
+import * as requestFormActions from '../../actions/requestFormActions';
 const ca_gov_logo = require('../../images/ca_gov_logo.png');
 const cio_logo = require('../../images/cio_logo.png');
 
@@ -9,6 +15,14 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.handleRequestFormNew = this.handleRequestFormNew.bind(this);
+  }
+
+  handleRequestFormNew() {
+    const {actions, destroy} = this.props;
+    destroy();
+    actions.requestFormNew();
+    browserHistory.push('/form');
   }
 
   render() {
@@ -16,7 +30,14 @@ class Header extends React.Component {
       <Navbar fixedTop fluid>
         <input type="checkbox" id="navbar-toggle-cbox" className="hidden"/>
         <div className="navbar-header">
-          <label htmlFor="navbar-toggle-cbox" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" onClick={toggleMenuOnClick}>
+          <label
+            htmlFor="navbar-toggle-cbox"
+            className="navbar-toggle collapsed"
+            data-toggle="collapse"
+            data-target="#navbar"
+            aria-expanded="false"
+            aria-controls="navbar"
+            onClick={toggleMenuOnClick}>
             <span className="sr-only">Toggle navigation</span>
             <span className="icon-bar"/>
             <span className="icon-bar"/>
@@ -34,9 +55,7 @@ class Header extends React.Component {
               </IndexLink>
             </li>
             <li onClick={toggleMenuOnClick}>
-              <Link to="/form" activeClassName="active">
-                <Button className="btn-outline">New Request</Button>
-              </Link>
+              <Button className="btn-outline" onClick={this.handleRequestFormNew}>New Request</Button>
             </li>
             <li onClick={toggleMenuOnClick}>
               <Link to="/about" activeClassName="active">
@@ -75,4 +94,18 @@ function sortByKey(array, key) {
   });
 }
 
-export default Header;
+Header.propTypes = {
+  destroy: PropTypes.func.isRequired,
+  actions: PropTypes.object.isRequired
+};
+
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    ...requestFormActions
+  }, dispatch)
+});
+
+Header = reduxForm({form: 'form', destroyOnUnmount: false, forceUnregisterOnUnmount: true})(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

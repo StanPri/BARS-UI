@@ -3,6 +3,7 @@ import {Field, reduxForm} from 'redux-form';
 import {Row, Col, Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
 import FormInput from '../common/FormInput';
 import FormSelect from '../common/FormSelect';
+import * as KEYS from '../../store/keyMap';
 
 const FormSecurity = props => (
   <Row>
@@ -15,7 +16,7 @@ const FormSecurity = props => (
     <Col sm={6} md={3}>
       <Field
         component={FormSelect}
-        name="section_3_access_levels"
+        name={KEYS.FORM_LEVELS}
         multiple="multiple"
         label="Access Levels"
         options={['Access1', 'Access2', 'Access3']}/>
@@ -23,21 +24,21 @@ const FormSecurity = props => (
     <Col sm={6} md={3}>
       <Field
         component={FormInput}
-        name="section_3_issue_date"
+        name={KEYS.FORM_ISSUE}
         label="Issue Date"
         type="date"/>
     </Col>
     <Col sm={6} md={3}>
       <Field
         component={FormInput}
-        name="section_3_expiration_date"
+        name={KEYS.FORM_EXPIRE_DATE}
         label="Expiration Date"
         type="date"/>
     </Col>
     <Col sm={6} md={3}>
       <Field
         component={FormInput}
-        name="section_3_keycard"
+        name={KEYS.FORM_KEYCARD}
         label="Keycard No."
         type="number"/>
     </Col>

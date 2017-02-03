@@ -1,9 +1,12 @@
-const BASE_URL = 'http://barsapi.technology.ca.gov/api/BadgeRequests';
+// const BASE_URL = 'http://barsapi.technology.ca.gov/api/BadgeRequests';
+const BASE_URL = 'http://localhost:3001/BARS';
+
+const debug = false;
 
 function callApi(endpoint, method) {
-
   let token = localStorage.getItem('id_token') || null;
-  console.log(`IN callApi token : ${token}`);
+  if (debug)
+    console.log(`api.js: CallApi with token : ${token}`);
   let config = {
     method: method || 'get',
     headers: {
@@ -23,14 +26,12 @@ export const CALL_API = Symbol('Call API');
 
 export default store => next => action => {
   const callAPI = action[CALL_API];
-
   // So the middleware doesn't get applied to every single action
   if (typeof callAPI === 'undefined') {
     return next(action);
   }
 
   let {endpoint, types, method} = callAPI;
-
   const [requestType,
     successType,
     errorType] = types;
