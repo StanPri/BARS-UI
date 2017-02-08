@@ -8,7 +8,7 @@ import RequestTableButton from './RequestTableButton';
 import * as requestFormActions from '../../actions/requestFormActions';
 import * as KEYS from '../../store/keyMap';
 
-function RequestTable({table, rows, title, actions}) {
+function RequestTable({rows, title, actions}) {
   // map column keys (from api) to labels (displayed text)
   const _columns = [
     {
@@ -42,12 +42,13 @@ function RequestTable({table, rows, title, actions}) {
   const _data = rows.allIds.map(id => ({
     ...rows.byId[id],
     button: <RequestTableButton
-        status={rows.byId[id][KEYS.FORM_STATUS]}
         onClick={() => {
         actions.requestFormView(rows.byId[id]);
         browserHistory.push('/form');
       }}/>
   }));
+
+  const _itemsPerPage = rows.allIds.length > 15 ? 15 : 0;
 
   return (
     <Row>
@@ -66,6 +67,7 @@ function RequestTable({table, rows, title, actions}) {
           noDataText={`No ${title}`}
           columns={_columns}
           sortable
+          itemsPerPage={_itemsPerPage}
           className="table table-bordered table-condensed"
           data={_data}/>
       </Col>
@@ -80,7 +82,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 RequestTable.propTypes = {
-  table: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   rows: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired

@@ -5,7 +5,8 @@
 import * as types from './actionTypes';
 
 const debug = false;
-const EMP_DIR_URL = 'http://EDAPI/employees';
+// const EMP_DIR_URL = 'http://EDAPI/employees';
+const EMP_DIR_URL = 'http://localhost:3001/ED';
 
 export const empDirRequest = () => ({type: types.EMP_DIR_REQUEST});
 export const empDirSuccess = employees => ({type: types.EMP_DIR_SUCCESS, employees});

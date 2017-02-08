@@ -3,7 +3,7 @@
 import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {reduxForm, change, formValueSelector} from 'redux-form';
+import {reduxForm, change, getFormValues} from 'redux-form';
 import FormMain from './Form-Main';
 import FormJustifications from './Form-Justifications';
 import FormSecurity from './Form-Security';
@@ -18,7 +18,7 @@ import * as KEYS from '../../store/keyMap';
 // TODO: remove mock after submit figured out
 import {MOCK_results} from '../../MOCK/showResults';
 
-const debug = false;
+const debug = 0;
 
 /**
  * TODO: field validation
@@ -36,7 +36,8 @@ class FormPage extends React.Component {
         }
       },
       formMainNames: initialState.empDir,
-      formMainNamehidden: true
+      formMainNamehidden: true,
+      formMainSelected: {}
     };
     this.formMainNameHandleInput = this.formMainNameHandleInput.bind(this);
     this.formMainNamesHandleClick = this.formMainNamesHandleClick.bind(this);
@@ -72,8 +73,7 @@ class FormPage extends React.Component {
           allIds: _employees,
           byId: empDir.byId
         },
-        formMainNamehidden: false,
-        formMainNameSam: ''
+        formMainNamehidden: false
       });
     } else {
       this.setState({formMainNames: initialState.empDir, formMainNamehidden: true});
@@ -97,11 +97,13 @@ class FormPage extends React.Component {
     const {formMainNames} = this.state;
     let id = e.target.dataset.id;
     let employee = formMainNames.byId[id];
+    // TODO: consolidate this...
     dispatch(change('form', KEYS.FORM_NAME, employee.fullName));
+    dispatch(change('form', KEYS.FORM_SAM_RECEIVE, employee.manager));
     dispatch(change('form', KEYS.FORM_PHONE, employee.deskPhone));
     dispatch(change('form', KEYS.FORM_SUP_NAME, employee.manager));
+    dispatch(change('form', KEYS.FORM_SAM_SUPER, employee.manager));
     this.setState({formMainNamehidden: true});
-    this.setState({formMainNameSam: employee.samAccount}); // TODO: handle manager
   }
 
   /**
@@ -123,24 +125,84 @@ class FormPage extends React.Component {
       actions,
       auth,
       empDir,
-      initialValues
+      initialValues,
+      mainForm
     } = this.props;
+    let employee = this.state.formMainNameSelected; // entry object of employee selected from list
+    // check if new request
+    let statusNew = mainForm
+      ? !mainForm[KEYS.FORM_STATUS]
+      : true;
+    if (debug)
+      console.log(`_FormPage.js\tstatusNew: ${statusNew}`);
+
+    // user is security role
     let isSecurity = auth[KEYS.USER_ROLE] === KEYS.ROLE_SECURITY;
+    // check that form state is waiting security approval or higher
+    let statusSecurity = mainForm
+      ? + mainForm[KEYS.FORM_STATUS] >= + KEYS.STATUS_PEND_SEC
+      : false;
+    if (debug)
+      console.log(`_FormPage.js\statusSecurity ${statusSecurity}, status: ${mainForm
+        ? mainForm[KEYS.FORM_STATUS]
+        : ''}, sec_pend_key: ${KEYS.STATUS_PEND_SEC} `);
+
+    // check that user is recipient (in name field of form)
+    let isRecipient = mainForm
+      ? auth[KEYS.USER_SAM] === mainForm[KEYS.FORM_SAM_RECEIVE]
+      : false;
+    if (debug)
+      console.log(`_FormPage.js\tisRecipient: ${isRecipient}, sam: ${auth[KEYS.USER_SAM]}, sam_recieve: ${mainForm
+        ? mainForm[KEYS.FORM_SAM_RECEIVE]
+        : false}`);
+
+    // check that form state is waiting manager approval or higher
+    let statusRecipient = mainForm
+      ? + mainForm[KEYS.FORM_STATUS] >= + KEYS.STATUS_PEND_REC
+      : false;
+    if (debug)
+      console.log(`_FormPage.js\statusRecipient ${statusRecipient}, status: ${mainForm
+        ? mainForm[KEYS.FORM_STATUS]
+        : ''}, rec_pend_key: ${KEYS.STATUS_PEND_REC} `);
+
+    // check that user is in approving manager (supervisor field on form)
+    let isManager = mainForm
+      ? auth[KEYS.USER_SAM] === mainForm[KEYS.FORM_SAM_SUPER]
+      : false;
+    if (debug)
+      console.log(`_FormPage.js\tisManager: ${isManager}, sam: ${auth[KEYS.USER_SAM]}, super: ${mainForm
+        ? mainForm[KEYS.FORM_SAM_SUPER]
+        : false}`);
+
+    // check that form state is waiting manager approval or higher
+    let statusManager = mainForm
+      ? + mainForm[KEYS.FORM_STATUS] >= + KEYS.STATUS_PEND_MGR
+      : false;
+    if (debug)
+      console.log(`_FormPage.js\tstatusManager ${statusManager}, status: ${mainForm
+        ? mainForm[KEYS.FORM_STATUS]
+        : ''}, mgr_pend_key: ${KEYS.STATUS_PEND_MGR} `);
+
     return (
       <form onSubmit={handleSubmit(MOCK_results)}>
+        {/* main form, all users */}
         <FormMain
           formMainNameHandleInput={this.formMainNameHandleInput}
           formMainNamehidden={this.state.formMainNamehidden}
           formMainNames={this.state.formMainNames}
           formMainNamesOnClick={this.formMainNamesHandleClick}
           auth={auth}
-          justifications={this.state.justifications}/> {this.state.justifications.display && <FormJustifications/>}
-        {/* IF user has security role, show security section */}
-        {isSecurity && <FormSecurity/>}
-        {/* IF user is NOT security and NOT in name or manager fields, show terms and conditions, required field if present. */}
-        {!isSecurity && (this.state.formMainNameSam === 'TODO:auth.samAccount' || this.state.formMainManagerSam === 'TODO:auth.samAccount') && <FormTerms auth={auth}/>}
-        {/* IF no initalvalues, is new request, user is submitter ELSE existing request, user is not submitter */}
-        {(!Object.keys(initialValues).length && <FormSubmit onReset={reset}/>) || <FormApproval onReject={this.formApprovalHandleReject}/>}
+          justifications={this.state.justifications}/>
+        {/* If justifications requried show justifications section (all users) */}
+        {this.state.justifications.display && <FormJustifications/>}
+        {/* If security role and waiting security approval or higher, and not recipient, show security section */}
+        {isSecurity && statusSecurity && !isRecipient && <FormSecurity/>}
+        {/* If in manager field, waiting manager approval or higher or a new request, and not the recipient show manager terms */}
+        {isManager && (statusManager || statusNew) && !isRecipient && <FormTerms role={KEYS.ROLE_MANAGER} name={mainForm[KEYS.FORM_SUP_NAME]}/>}
+        {/* If in recipient field, waiting recipient approval or higher, and not in manager field show user terms */}
+        {isRecipient && statusRecipient && !isManager && <FormTerms role={KEYS.ROLE_RECIPIENT} name={mainForm[KEYS.FORM_NAME]}/>}
+        {/* If new request show submit buttons, else show approval buttons */}
+        {(statusNew && <FormSubmit onReset={reset}/>) || <FormApproval onReject={this.formApprovalHandleReject}/>}
       </form>
     );
   }
@@ -154,7 +216,11 @@ FormPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return {initialValues: state.requestForm, auth: state.auth, empDir: state.empDir};
+  return {
+    initialValues: state.requestForm, mainForm: getFormValues('form')(state),
+    auth: state.auth,
+    empDir: state.empDir
+  };
 }
 
 function mapDispatchToProps(dispatch) {

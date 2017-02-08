@@ -33,10 +33,27 @@ export const FORM_EXPIRE_DATE = 'expirationDateUtc';
 export const FORM_APPROVAL_DATE_SUP = 'supervisorApprovalTimestampUtc';
 export const FORM_APPROVAL_DATE_REC = 'receiverAgreementTimestampUtc';
 export const FORM_APPROVAL_DATE_SEC = 'securityApprovalTimestampUtc';
+// Accept Terms and conditions
+export const FORM_TERMS = 'acceptTerms';
+export const FORM_TERMS_SUP = 'acceptTermsManager';
 // Sam accounts
 export const FORM_SAM_SUBMIT = 'submitterSamAccount';
 export const FORM_SAM_RECEIVE = 'receiverSamAccount';
 export const FORM_SAM_SUPER = 'supervisorSamAccount';
+// export const FORM_SAM_SUPER = 'supervisorSamAccount'; //TODO: add security
+// sam if not already there
+/**
+ * Form status codes
+ */
+export const STATUS_ERROR = 0;
+export const STATUS_PEND_MGR = 1;
+export const STATUS_PEND_REC = 2;
+export const STATUS_PEND_SEC = 3;
+export const STATUS_APPROVED = 4;
+export const STATUS_CANCEL_MGR = 5;
+export const STATUS_CANCEL_REC = 6;
+export const STATUS_CANCEL_SEC = 7;
+
 /**
  * Justifications
  */
@@ -48,11 +65,7 @@ export const JUSTIFICATIONS_OTHER = 'justification_other_area';
 export const ROLE_USERS = 'Users';
 export const ROLE_MANAGER = 'Managers';
 export const ROLE_SECURITY = 'Security';
-
-/**
- * EMPLOYEE DIRECTORY INFO
- */
-export const EMP_DIR_ID = 'email';
+export const ROLE_RECIPIENT = 'Recipient';
 
 /**
  * Lists
@@ -66,3 +79,6 @@ export const LIST_SEARCH = 'list_search';
  */
 export const USER_ROLE = 'role';
 export const USER_IS_VENDOR = 'is_vendor';
+export const USER_SAM = 'samAccountName';
+export const USER_SAM_MANAGER = 'samAccountNameManager';
+export const USER_NAME = 'fullName';

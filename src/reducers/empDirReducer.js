@@ -16,8 +16,8 @@ export const empDirReducer = (state = initialState.empDir, action) => {
       return state;// TODO: handle req case -> break up state?
     case EMP_DIR_SUCCESS:
     return {
-      byId: getById(action.employees, KEYS.EMP_DIR_ID),
-      allIds: getAllIds(action.employees, KEYS.EMP_DIR_ID)
+      byId: getById(action.employees, KEYS.USER_SAM),
+      allIds: getAllIds(action.employees, KEYS.USER_SAM)
     };
     case EMP_DIR_FAILURE:
       return state; // TODO: handle error case -> break up state?

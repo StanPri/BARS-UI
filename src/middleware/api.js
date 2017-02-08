@@ -1,3 +1,4 @@
+// https://github.com/auth0-blog/redux-auth
 // const BASE_URL = 'http://barsapi.technology.ca.gov/api/BadgeRequests';
 const BASE_URL = 'http://localhost:3001/BARS';
 
@@ -6,7 +7,7 @@ const debug = false;
 function callApi(endpoint, method) {
   let token = localStorage.getItem('id_token') || null;
   if (debug)
-    console.log(`api.js: CallApi with token : ${token}`);
+    console.log(`api.js:\tCallApi with token : ${token}`);
   let config = {
     method: method || 'get',
     headers: {
@@ -16,8 +17,12 @@ function callApi(endpoint, method) {
 
   return fetch(BASE_URL + endpoint, config).then(response => response.json().then(text => ({text, response}))).then(({text, response}) => {
     if (!response.ok) {
+      if (debug)
+        console.error("error: api.js : failed BARS api call");
       return Promise.reject(text);
     }
+    if (debug)
+      console.log(`api.js:\tBARS api call success`, text, response);
     return text;
   }).catch(err => console.log(err));
 }

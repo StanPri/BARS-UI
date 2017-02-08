@@ -18,6 +18,10 @@ export default {
     allIds: []
   }, // all requests
   requestsUser : {
+    security: {
+      byId: {},
+      allIds: []
+    },
     approvals: {
       byId: {},
       allIds: []
@@ -28,9 +32,8 @@ export default {
     }
   }, // requests for user -> approvals, requests
   auth: {
-    role: '',
-    name: '',
-    isAuthenticated: false
+    [KEYS.USER_ROLE]: '',
+    [KEYS.USER_SAM]: ''
   }, // user information -> if authenicatied, role, etc
   fetchCallsInProgress : 0 // status of if fetch in progress
 };

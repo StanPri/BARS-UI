@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Button} from 'react-bootstrap';
 
-const RequestTableButton = ({status, onClick}) => {
+const RequestTableButton = ({onClick}) => {
   return (
     <Button
       block
@@ -13,7 +13,6 @@ const RequestTableButton = ({status, onClick}) => {
 };
 
 RequestTableButton.propTypes = {
-  status: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired
 };
 

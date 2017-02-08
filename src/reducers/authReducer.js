@@ -1,6 +1,14 @@
 import {combineReducers} from 'redux';
 import {AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE} from '../actions/actionTypes';
 import initialState from './initialState';
+import * as KEYS from '../store/keyMap';
+
+// TODO: remove this mock data
+const roles = [KEYS.ROLE_USERS, KEYS.ROLE_MANAGER, KEYS.ROLE_SECURITY];
+const user = {
+  [KEYS.USER_ROLE]: roles[2],
+  [KEYS.USER_SAM]: 'SAM : MANAGER : APPROVER : SUBMITTER'
+}
 
 /**
  * Information about user's authrentication, including their role, name and if authenicated
@@ -14,9 +22,8 @@ export const authReducer = (state = initialState.auth, action) => {
       return state;
     case AUTH_SUCCESS:
       return Object.assign({}, state, {
-        isAuthenticated: true,
-        role: action.role,
-        name: action.name
+        [KEYS.USER_ROLE]: user[KEYS.USER_ROLE],
+        [KEYS.USER_SAM]: user[KEYS.USER_SAM]
       });
     case AUTH_FAILURE:
       return initialState.auth; // TODO: add error handling
