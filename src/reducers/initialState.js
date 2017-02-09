@@ -1,9 +1,6 @@
-import {MOCK_user} from '../MOCK/user';
 import * as KEYS from '../store/keyMap';
 
 /**
-//TODO: remove mock data / hook up to api. current sets mock data on load here
-//TODO: consolidate reducers/state and rethink/rework overall layout
  * Initial state of application
  */
 export default {

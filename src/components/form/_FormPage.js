@@ -14,9 +14,6 @@ import * as requestFormActions from '../../actions/requestFormActions';
 import * as empDirActions from '../../actions/empDirActions';
 import * as KEYS from '../../store/keyMap';
 
-// TODO: remove mock after submit figured out
-import {MOCK_results} from '../../MOCK/showResults';
-
 const debug = 0;
 
 /**
@@ -40,11 +37,16 @@ class FormPage extends React.Component {
     this.formMainNameHandleInput = this.formMainNameHandleInput.bind(this);
     this.formMainNamesHandleClick = this.formMainNamesHandleClick.bind(this);
     this.formApprovalHandleReject = this.formApprovalHandleReject.bind(this);
+    this.formHandleSubmit = this.formHandleSubmit.bind(this);
   }
 
   componentDidMount() {
     // load employee directory from api for selecting name from list
     this.props.actions.empDir();
+  }
+
+  formHandleSubmit(vals) {
+    window.alert(JSON.stringify(vals, null, 2));
   }
 
   /**
@@ -191,7 +193,7 @@ class FormPage extends React.Component {
         : ''}, mgr_pend_key: ${KEYS.STATUS_PEND_MGR} `);
 
     return (
-      <form onSubmit={handleSubmit(MOCK_results)}>
+      <form onSubmit={handleSubmit(this.formHandleSubmit)}>
         {/* Main form
           - show for all users
           - disable if not manager in manager approval state or new request */}
