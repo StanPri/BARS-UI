@@ -1,10 +1,7 @@
 import {
-  REQUESTS_SEC_REQUEST,
-  REQUESTS_SEC_SUCCESS,
-  REQUESTS_SEC_FAILURE,
-  REQUESTS_MGR_REQUEST,
-  REQUESTS_MGR_SUCCESS,
-  REQUESTS_MGR_FAILURE,
+  REQUESTS_APPROVE_REQUEST,
+  REQUESTS_APPROVE_SUCCESS,
+  REQUESTS_APPROVE_FAILURE,
   REQUESTS_USER_REQUEST,
   REQUESTS_USER_SUCCESS,
   REQUESTS_USER_FAILURE
@@ -14,34 +11,17 @@ import initialState from './initialState';
 import {getById, getAllIds} from './index';
 import * as KEYS from '../store/keyMap';
 
-// list of requests for SECURITY
-export const security = (state = initialState.requestsUser.security, action) => {
-  switch (action.type) {
-    case REQUESTS_SEC_REQUEST:
-      return state;
-    case REQUESTS_SEC_SUCCESS:
-      return {
-        byId: getById(action.response, KEYS.FORM_ID),
-        allIds: getAllIds(action.response, KEYS.FORM_ID)
-      };
-    case REQUESTS_SEC_FAILURE:
-      return state;
-    default:
-      return state;
-  }
-};
-
-// list of requests for MANAGERS
+// list of requests for APPROVERS
 export const approvals = (state = initialState.requestsUser.approvals, action) => {
   switch (action.type) {
-    case REQUESTS_MGR_REQUEST:
+    case REQUESTS_APPROVE_REQUEST:
       return state;
-    case REQUESTS_MGR_SUCCESS:
+    case REQUESTS_APPROVE_SUCCESS:
       return {
         byId: getById(action.response, KEYS.FORM_ID),
         allIds: getAllIds(action.response, KEYS.FORM_ID)
       };
-    case REQUESTS_MGR_FAILURE:
+    case REQUESTS_APPROVE_FAILURE:
       return state;
     default:
       return state;
@@ -65,4 +45,4 @@ export const requests = (state = initialState.requestsUser.requests, action) => 
   }
 };
 
-export const requestsUserReducer = combineReducers({security, approvals, requests});
+export const requestsUserReducer = combineReducers({approvals, requests});

@@ -5,7 +5,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {reduxForm, change, getFormValues} from 'redux-form';
 import FormMain from './Form-Main';
-import FormJustifications from './Form-Justifications';
 import FormSecurity from './Form-Security';
 import FormTerms from './Form-Terms';
 import FormApproval from './Form-Approval';
@@ -22,7 +21,6 @@ const debug = 0;
 
 /**
  * TODO: field validation
- * TODO: handle fields being uneditable
  * Form page for new or exisiting badge requests
  */
 class FormPage extends React.Component {
@@ -131,7 +129,7 @@ class FormPage extends React.Component {
     let employee = this.state.formMainNameSelected; // entry object of employee selected from list
     // check if new request
     let statusNew = mainForm
-      ? !mainForm[KEYS.FORM_STATUS]
+      ? !+ mainForm[KEYS.FORM_STATUS]
       : true;
     if (debug)
       console.log(`_FormPage.js\tstatusNew: ${statusNew}`);
@@ -146,6 +144,15 @@ class FormPage extends React.Component {
       console.log(`_FormPage.js\statusSecurity ${statusSecurity}, status: ${mainForm
         ? mainForm[KEYS.FORM_STATUS]
         : ''}, sec_pend_key: ${KEYS.STATUS_PEND_SEC} `);
+
+    // check that form state is approved or higher
+    let statusApproved = mainForm
+      ? + mainForm[KEYS.FORM_STATUS] >= + KEYS.STATUS_APPROVED
+      : false;
+    if (debug)
+      console.log(`_FormPage.js\statusApproved ${statusApproved}, status: ${mainForm
+        ? mainForm[KEYS.FORM_STATUS]
+        : ''}, approved_key: ${KEYS.STATUS_APPROVED} `);
 
     // check that user is recipient (in name field of form)
     let isRecipient = mainForm
@@ -185,24 +192,41 @@ class FormPage extends React.Component {
 
     return (
       <form onSubmit={handleSubmit(MOCK_results)}>
-        {/* main form, all users */}
+        {/* Main form
+          - show for all users
+          - disable if not manager in manager approval state or new request */}
         <FormMain
           formMainNameHandleInput={this.formMainNameHandleInput}
           formMainNamehidden={this.state.formMainNamehidden}
           formMainNames={this.state.formMainNames}
           formMainNamesOnClick={this.formMainNamesHandleClick}
           auth={auth}
-          justifications={this.state.justifications}/>
-        {/* If justifications requried show justifications section (all users) */}
-        {this.state.justifications.display && <FormJustifications/>}
-        {/* If security role and waiting security approval or higher, and not recipient, show security section */}
-        {isSecurity && statusSecurity && !isRecipient && <FormSecurity/>}
-        {/* If in manager field, waiting manager approval or higher or a new request, and not the recipient show manager terms */}
-        {isManager && (statusManager || statusNew) && !isRecipient && <FormTerms role={KEYS.ROLE_MANAGER} name={mainForm[KEYS.FORM_SUP_NAME]}/>}
-        {/* If in recipient field, waiting recipient approval or higher, and not in manager field show user terms */}
-        {isRecipient && statusRecipient && !isManager && <FormTerms role={KEYS.ROLE_RECIPIENT} name={mainForm[KEYS.FORM_NAME]}/>}
-        {/* If new request show submit buttons, else show approval buttons */}
-        {(statusNew && <FormSubmit onReset={reset}/>) || <FormApproval onReject={this.formApprovalHandleReject}/>}
+          justifications={this.state.justifications}
+          disabled={!((isManager && statusManager && !statusRecipient) || statusNew)}/>
+        {/* Security form
+          - show if waiting security approval or higher
+          - disable if not security, or security and in recipient field, or past security approval state */}
+        {statusSecurity && <FormSecurity
+          disabled={!isSecurity || (isSecurity && isRecipient) || (statusSecurity && statusApproved)}/>}
+        {/* Manager terms form
+          - show if in manager field, waiting manager approval or higher or a new request, and not the recipient
+          - disable if waiting recipient approval or higher */}
+        {isManager && (statusManager || statusNew) && !isRecipient && <FormTerms
+          role={KEYS.ROLE_MANAGER}
+          name={mainForm[KEYS.FORM_SUP_NAME]}
+          disabled={statusRecipient}/>}
+        {/* Recipient terms form
+          - show if in recipient field, waiting recipient approval or higher, and not in manager field
+          - disable if waiting security approval or higher */}
+        {isRecipient && statusRecipient && !isManager && <FormTerms
+          role={KEYS.ROLE_RECIPIENT}
+          name={mainForm[KEYS.FORM_NAME]}
+          disabled={statusSecurity}/>}
+        {/* Submit/Approve buttons
+          - show submit buttons if new request
+          - show approval buttons if not new request and not approved or higher
+          - disable if approved or higher status */}
+        {(statusNew && <FormSubmit onReset={reset}/>) || (!statusApproved && <FormApproval onReject={this.formApprovalHandleReject}/>)}
       </form>
     );
   }

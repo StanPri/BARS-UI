@@ -18,10 +18,6 @@ export default {
     allIds: []
   }, // all requests
   requestsUser : {
-    security: {
-      byId: {},
-      allIds: []
-    },
     approvals: {
       byId: {},
       allIds: []

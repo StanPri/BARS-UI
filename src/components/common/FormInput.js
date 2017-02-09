@@ -11,6 +11,7 @@ const FieldInput = field => (
     <FormControl
       {...field.input}
       placeholder={`Enter ${field.label}`}
+      disabled={field.disabled}
       type={field.type}/> {field.error && <HelpBlock>{field.error}</HelpBlock>}
   </FormGroup>
 );

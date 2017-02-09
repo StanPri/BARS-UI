@@ -18,10 +18,9 @@ class ListsPage extends React.Component {
 
   componentDidMount() {
     const {actions, auth} = this.props;
-    // load all requests from api
-    if (auth[KEYS.USER_ROLE] === KEYS.ROLE_SECURITY) {
-      actions.requestsGetSecurity();
-    }
+    // load all users requests that require users approval
+    actions.requestsGetApprovals();
+    // load all users requests that do not require users approval
     actions.requestsGetUser();
   }
 
@@ -29,12 +28,10 @@ class ListsPage extends React.Component {
     const {requestsUser, auth} = this.props;
     return (
       <div>
-        {/* show security approvals if security */}
-        {auth[KEYS.USER_ROLE] === KEYS.ROLE_SECURITY && <RequestTable title="Pending Approvals" rows={requestsUser.security}/>}
-        {/* show manager approvals if manager */}
-        {auth[KEYS.USER_ROLE] === KEYS.ROLE_MANAGER && <RequestTable title="Pending Approvals" rows={requestsUser.approvals}/>}
-        {/* show users requests for all roles */}
-        <RequestTable title="Previous Requests" rows={requestsUser.requests}/>
+        {/* show all users requests that require users approval */}
+        <RequestTable title="Approvals" rows={requestsUser.approvals}/>
+        {/* show all users requests that do not require users approval */}
+        <RequestTable title="Requests" rows={requestsUser.requests}/>
       </div>
     );
   }

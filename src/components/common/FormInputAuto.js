@@ -9,7 +9,9 @@ import React, {PropTypes} from 'react';
  * @return {JSX}
  */
 const FieldInputAuto = field => {
-  let hidden = field.isHidden ? 'hidden' : '';
+  let hidden = field.isHidden
+    ? 'hidden'
+    : '';
   return (
     <FormGroup controlId={field.input.name}>
       <ControlLabel>{field.label}</ControlLabel>
@@ -18,7 +20,8 @@ const FieldInputAuto = field => {
         autoComplete="off"
         onInput={field.onInput}
         placeholder={`Enter ${field.label}`}
-        type={field.type}/> {field.error && <HelpBlock>{field.error}</HelpBlock>}
+        type={field.type}
+        disabled={field.disabled}/> {field.error && <HelpBlock>{field.error}</HelpBlock>}
       <ul className={`form_field_auto_list ${hidden}`}>
         {/* display full name and email for each employee */}
         {field.data.allIds.map(x => <li key={x}>

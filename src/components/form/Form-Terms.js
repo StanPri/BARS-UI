@@ -21,16 +21,20 @@ const names = {
  * Terms based off users role
  * Required/shown if user is the recipient or manager
  */
-const FormTerms = ({role, name}) => (
+const FormTerms = ({role, name, disabled}) => (
   <div>
     <h2>
       Terms and Conditions
     </h2>
     <p>{text[role]}</p>
-    <Field component={FormInput} name={names[role]} label={name}/>
+    <Field component={FormInput} name={names[role]} label={name} disabled={disabled}/>
   </div>
 );
 
-FormTerms.propTypes = {};
+FormTerms.propTypes = {
+  role: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired
+};
 
 export default FormTerms;

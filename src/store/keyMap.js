@@ -53,6 +53,16 @@ export const STATUS_APPROVED = 4;
 export const STATUS_CANCEL_MGR = 5;
 export const STATUS_CANCEL_REC = 6;
 export const STATUS_CANCEL_SEC = 7;
+export const STATUS_NAMES = [
+  'Error',
+  'Waiting Supervisor Approval',
+  'Waiting Recipient Approval',
+  'Waiting Security Approval',
+  'Approved',
+  'Declined by Supervisor',
+  'Declined by Recipient',
+  'Declined by Security'
+];
 
 /**
  * Justifications
@@ -62,8 +72,8 @@ export const JUSTIFICATIONS_OTHER = 'justification_other_area';
 /**
  * USER ROLES
  */
-export const ROLE_USERS = 'Users';
-export const ROLE_MANAGER = 'Managers';
+export const ROLE_USERS = 'User';
+export const ROLE_MANAGER = 'Manager';
 export const ROLE_SECURITY = 'Security';
 export const ROLE_RECIPIENT = 'Recipient';
 

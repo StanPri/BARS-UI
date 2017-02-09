@@ -4,6 +4,7 @@ import {Row, Col, Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
 import FormInput from '../common/FormInput';
 import FormInputAuto from '../common/FormInputAuto';
 import FormSelect from '../common/FormSelect';
+import FormJustifications from './Form-Justifications';
 import * as KEYS from '../../store/keyMap';
 
 /**
@@ -23,7 +24,8 @@ const FormMain = ({
   formMainNames,
   formMainNamesOnClick,
   auth,
-  justifications
+  justifications,
+  disabled
 }) => (
   <div>
     <Row>
@@ -41,42 +43,68 @@ const FormMain = ({
           onNameClick={formMainNamesOnClick}
           name={KEYS.FORM_NAME}
           isHidden={formMainNamehidden}
-          label="Name"/>
-        <Field component={FormInput} name={KEYS.FORM_COMPANY} label="Company Name"/>
+          label="Name"
+          disabled={disabled}/>
+        <Field
+          component={FormInput}
+          name={KEYS.FORM_COMPANY}
+          label="Company Name"
+          disabled={disabled}/>
         <Field
           component={FormInput}
           name={KEYS.FORM_REQUEST_DATE}
           label="Request Date"
-          type="date"/>
+          type="date"
+          disabled={disabled}/>
       </Col>
       <Col sm={6} md={3}>
         <Field
           component={FormInput}
           name={KEYS.FORM_PHONE}
           label="Work Phone"
-          type="tel"/>
+          type="tel"
+          disabled={disabled}/>
         <Field
           component={FormInput}
           name={KEYS.FORM_COMPANY_ADDRESS}
-          label="Company Address"/>
-        <Field component={FormInput} name={KEYS.FORM_SUP_NAME} label="Supervisor Name"/>
+          label="Company Address"
+          disabled={disabled}/>
+        <Field
+          component={FormInput}
+          name={KEYS.FORM_SUP_NAME}
+          label="Supervisor Name"
+          disabled={disabled}/>
       </Col>
       <Col sm={6} md={3}>
         <Field
           component={FormInput}
           name={KEYS.FORM_CELL}
           label="Cell Phone"
-          type="tel"/>
-        <Field component={FormInput} name={KEYS.FORM_DIVISION} label="Division"/>
+          type="tel"
+          disabled={disabled}/>
+        <Field
+          component={FormInput}
+          name={KEYS.FORM_DIVISION}
+          label="Division"
+          disabled={disabled}/>
         <Field
           component={FormInput}
           name={KEYS.FORM_SUP_PHONE}
           label="Supervisor Phone"
-          type="tel"/>
+          type="tel"
+          disabled={disabled}/>
       </Col>
       <Col sm={6} md={3}>
-        <Field component={FormInput} name={KEYS.FORM_LICENSE} label="License Plate"/>
-        <Field component={FormInput} name={KEYS.FORM_UNIT} label="Unit/Project"/>
+        <Field
+          component={FormInput}
+          name={KEYS.FORM_LICENSE}
+          label="License Plate"
+          disabled={disabled}/>
+        <Field
+          component={FormInput}
+          name={KEYS.FORM_UNIT}
+          label="Unit/Project"
+          disabled={disabled}/>
       </Col>
     </Row>
     <Row>
@@ -91,12 +119,14 @@ const FormMain = ({
           component={FormSelect}
           name={KEYS.FORM_REASON}
           label="Reason"
-          options={['Reason1', 'Reason2', 'Reason3']}/>
+          options={['Reason1', 'Reason2', 'Reason3']}
+          disabled={disabled}/>
         <Field
           component={FormSelect}
           name={KEYS.FORM_HOURS}
           label="Hours"
-          options={['Hours1', 'Hours2', 'Hours3']}/>
+          options={['Hours1', 'Hours2', 'Hours3']}
+          disabled={disabled}/>
       </Col>
       <Col sm={6} md={4}>
         <Field
@@ -104,27 +134,37 @@ const FormMain = ({
           name={KEYS.FORM_AREAS}
           label="Areas"
           options={['Area1', 'Area2', 'Area3']}
-          multiple/> {justifications.fields[KEYS.JUSTIFICATIONS_OTHER] && <Field component={FormInput} name={KEYS.FORM_AREA_OTHER} label="Other Area"/>}
+          multiple
+          disabled={disabled}/>
+        {justifications.fields[KEYS.JUSTIFICATIONS_OTHER] &&
+        <Field
+          component={FormInput}
+          name={KEYS.FORM_AREA_OTHER}
+          label="Other Area"
+          disabled={disabled}/>}
       </Col>
-      {/* {user[KEYS.USER_IS_VENDOR] &&  */}
-        <Col sm={6} md={4}>
+
+      <Col sm={6} md={4}>
         <Field
           component={FormInput}
           name={KEYS.FORM_VENDOR_START}
           label="Project Start Date (Vendors Only)"
-          type="date"/>
+          type="date"
+          disabled={disabled}/>
         <Field
           component={FormInput}
           name={KEYS.FORM_VENDOR_END}
           label="Project End Date (Vendors Only)"
-          type="date"/>
+          type="date"
+          disabled={disabled}/>
       </Col>
-      {/* } */}
+
       <Col xs={12}>
         <span className="pull-right">Fields marked with an asterik (*) require an
           explanation in the Justifications section</span>
       </Col>
     </Row>
+    {justifications.display && <FormJustifications/>}
   </div>
 );
 
@@ -134,7 +174,8 @@ FormMain.propTypes = {
   formMainNames: PropTypes.object.isRequired,
   formMainNamesOnClick: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  justifications: PropTypes.object.isRequired
+  justifications: PropTypes.object.isRequired,
+  disabled: PropTypes.bool.isRequired
 };
 
 export default FormMain;

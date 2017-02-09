@@ -41,6 +41,7 @@ function RequestTable({rows, title, actions}) {
   // add button to copy of rows TODO: move to external function...
   const _data = rows.allIds.map(id => ({
     ...rows.byId[id],
+    [KEYS.FORM_STATUS] : KEYS.STATUS_NAMES[rows.byId[id][KEYS.FORM_STATUS]],
     button: <RequestTableButton
         onClick={() => {
         actions.requestFormView(rows.byId[id]);
