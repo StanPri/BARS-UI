@@ -21,7 +21,7 @@ class Header extends React.Component {
   handleRequestFormNew() {
     const {actions, destroy} = this.props;
     destroy();
-    actions.requestFormNew();
+    actions.requestFormReset();
     browserHistory.push('/form');
   }
 

@@ -1,20 +1,27 @@
-// https://github.com/auth0-blog/redux-auth
-// const BASE_URL = 'http://barsapi.technology.ca.gov/api/BadgeRequests';
-const BASE_URL = 'http://localhost:3001/BARS';
+// https://github.com/auth0-blog/redux-auth mock data for testing
+import * as mock from '../mock/user';
 
-const debug = false;
+const BASE_URL = mock.useMock.BARS
+  ? 'http://localhost:3001/BARS'
+  : 'http://barsapi.technology.ca.gov/api/BadgeRequests';
 
-function callApi(endpoint, method) {
+const debug = 0;
+
+function callApi(endpoint, method, body) {
   let token = localStorage.getItem('id_token') || null;
+  token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXGNocmlzLmt1bW1lciIsIkJBUlMiOlsiVXNlciIsIk1hbmFnZXIiLCJTZWN1cml0eSJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.oGNEAw3yHTW8LOggEBE8YCKBM7rVzms18H57gj58MrI';
   if (debug)
     console.log(`api.js:\tCallApi with token : ${token}`);
   let config = {
     method: method || 'get',
+    body: JSON.stringify(body),
     headers: {
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     }
   };
-
+  if (debug)
+    console.log(`api.js:\t\t with config : `, config);
   return fetch(BASE_URL + endpoint, config).then(response => response.json().then(text => ({text, response}))).then(({text, response}) => {
     if (!response.ok) {
       if (debug)
@@ -36,14 +43,14 @@ export default store => next => action => {
     return next(action);
   }
 
-  let {endpoint, types, method} = callAPI;
+  let {endpoint, types, method, body} = callAPI;
   const [requestType,
     successType,
     errorType] = types;
 
   // Passing the authenticated boolean back in our data will let us distinguish
   // between normal and secret quotes
-  return callApi(endpoint, method).then(response => next({response, type: successType}), error => next({
+  return callApi(endpoint, method, body).then(response => next({response, type: successType}), error => next({
     error: error.message || 'There was an error.',
     type: errorType
   }));

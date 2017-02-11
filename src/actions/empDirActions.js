@@ -3,10 +3,11 @@
  * Used to populate information of users
  */
 import * as types from './actionTypes';
+// mock data for testing
+import * as mock from '../mock/user';
 
 const debug = false;
-// const EMP_DIR_URL = 'http://EDAPI/employees';
-const EMP_DIR_URL = 'http://localhost:3001/ED';
+const EMP_DIR_URL =  mock.useMock.ED ? 'http://localhost:3001/ED' : 'http://EDAPI/employees';
 
 export const empDirRequest = () => ({type: types.EMP_DIR_REQUEST});
 export const empDirSuccess = employees => ({type: types.EMP_DIR_SUCCESS, employees});

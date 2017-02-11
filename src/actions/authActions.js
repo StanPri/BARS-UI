@@ -14,14 +14,15 @@ export const authFailure = message => ({type: types.AUTH_FAILURE, message});
 
 export const auth = () => dispatch => {
   // check if token alreday exists in local storage
-  let local_token = localStorage.getItem('id_token');
+  // let local_token = localStorage.getItem('id_token');
+  let local_token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXGNocmlzLmt1bW1lciIsIkJBUlMiOlsiVXNlciIsIk1hbmFnZXIiLCJTZWN1cml0eSJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.oGNEAw3yHTW8LOggEBE8YCKBM7rVzms18H57gj58MrI";
+  // if token exists
   if (local_token) {
-    // if token has not expired
     const {sub: sam, BARS: role, exp, iat} = decode(local_token);
     if (debug)
       console.log(`token recieved. exp: ${exp}, iat: ${iat}, sub(sam): ${sam}, BARS(role): ${role}`);
     const now = new Date();
-    // TODO: why is time 3 more than exp?
+    // if not expired
     if (exp > + now.getTime().toString().substring(0, 10)) {
       // directly dispatch instead of calling api
       if (debug)

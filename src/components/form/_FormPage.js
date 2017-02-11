@@ -46,7 +46,8 @@ class FormPage extends React.Component {
   }
 
   formHandleSubmit(vals) {
-    window.alert(JSON.stringify(vals, null, 2));
+    window.alert('SUBMITTING: ' + JSON.stringify(vals, null, 2));
+
   }
 
   /**
@@ -95,15 +96,20 @@ class FormPage extends React.Component {
     e.preventDefault();
     const {dispatch} = this.props;
     const {formMainNames} = this.state;
-    let id = e.target.dataset.id;
-    let employee = formMainNames.byId[id];
+    let id = e.target.dataset.id; // get employees sam account
+    let employee = formMainNames.byId[id]; // look up employee from list of employees
+    let manager = formMainNames.byId[employee[KEYS.USER_SAM_MANAGER]]; // look up manager based off employees samManager property
     // TODO: consolidate this...
-    dispatch(change('form', KEYS.FORM_NAME, employee.fullName));
-    dispatch(change('form', KEYS.FORM_SAM_RECEIVE, employee.manager));
-    dispatch(change('form', KEYS.FORM_PHONE, employee.deskPhone));
-    dispatch(change('form', KEYS.FORM_SUP_NAME, employee.manager));
-    dispatch(change('form', KEYS.FORM_SAM_SUPER, employee.manager));
-    this.setState({formMainNamehidden: true});
+    dispatch(change('form', KEYS.FORM_NAME, employee[KEYS.USER_NAME])); // set recipients name
+    dispatch(change('form', KEYS.FORM_SAM_RECEIVE, employee[KEYS.USER_SAM])); // set recipients sam account
+    dispatch(change('form', KEYS.FORM_EMAIL, employee[KEYS.USER_EMAIL])); // set recipients email
+    dispatch(change('form', KEYS.FORM_PHONE, employee[KEYS.USER_PHONE])); // set recipients phone
+    dispatch(change('form', KEYS.FORM_CELL, employee[KEYS.USER_CELL])); // set recipients phone
+    dispatch(change('form', KEYS.FORM_SAM_SUPER, manager[KEYS.USER_SAM])); // set managers sam account
+    dispatch(change('form', KEYS.FORM_SUP_NAME, manager[KEYS.USER_NAME])); // set managers name
+    dispatch(change('form', KEYS.FORM_SUP_EMAIL, manager[KEYS.USER_EMAIL])); // set managers email
+    dispatch(change('form', KEYS.FORM_SUP_PHONE, manager[KEYS.USER_CELL])); // set managers phone
+    this.setState({formMainNamehidden: true}); // hide the list of names
   }
 
   /**
@@ -129,32 +135,14 @@ class FormPage extends React.Component {
       mainForm
     } = this.props;
     let employee = this.state.formMainNameSelected; // entry object of employee selected from list
-    // check if new request
-    let statusNew = mainForm
-      ? !+ mainForm[KEYS.FORM_STATUS]
-      : true;
-    if (debug)
-      console.log(`_FormPage.js\tstatusNew: ${statusNew}`);
-
-    // user is security role
-    let isSecurity = auth[KEYS.USER_ROLE] === KEYS.ROLE_SECURITY;
+    // user is security role and not recipient
+    let isSecurity = mainForm
+      ? auth[KEYS.USER_SAM] !== mainForm[KEYS.FORM_SAM_RECEIVE] && auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY)
+      : auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY);
     // check that form state is waiting security approval or higher
-    let statusSecurity = mainForm
-      ? + mainForm[KEYS.FORM_STATUS] >= + KEYS.STATUS_PEND_SEC
-      : false;
-    if (debug)
-      console.log(`_FormPage.js\statusSecurity ${statusSecurity}, status: ${mainForm
-        ? mainForm[KEYS.FORM_STATUS]
-        : ''}, sec_pend_key: ${KEYS.STATUS_PEND_SEC} `);
-
-    // check that form state is approved or higher
-    let statusApproved = mainForm
-      ? + mainForm[KEYS.FORM_STATUS] >= + KEYS.STATUS_APPROVED
-      : false;
-    if (debug)
-      console.log(`_FormPage.js\statusApproved ${statusApproved}, status: ${mainForm
-        ? mainForm[KEYS.FORM_STATUS]
-        : ''}, approved_key: ${KEYS.STATUS_APPROVED} `);
+    let formStatus = mainForm
+      ? + mainForm[KEYS.FORM_STATUS]
+      : 0;
 
     // check that user is recipient (in name field of form)
     let isRecipient = mainForm
@@ -165,15 +153,6 @@ class FormPage extends React.Component {
         ? mainForm[KEYS.FORM_SAM_RECEIVE]
         : false}`);
 
-    // check that form state is waiting manager approval or higher
-    let statusRecipient = mainForm
-      ? + mainForm[KEYS.FORM_STATUS] >= + KEYS.STATUS_PEND_REC
-      : false;
-    if (debug)
-      console.log(`_FormPage.js\statusRecipient ${statusRecipient}, status: ${mainForm
-        ? mainForm[KEYS.FORM_STATUS]
-        : ''}, rec_pend_key: ${KEYS.STATUS_PEND_REC} `);
-
     // check that user is in approving manager (supervisor field on form)
     let isManager = mainForm
       ? auth[KEYS.USER_SAM] === mainForm[KEYS.FORM_SAM_SUPER]
@@ -183,20 +162,11 @@ class FormPage extends React.Component {
         ? mainForm[KEYS.FORM_SAM_SUPER]
         : false}`);
 
-    // check that form state is waiting manager approval or higher
-    let statusManager = mainForm
-      ? + mainForm[KEYS.FORM_STATUS] >= + KEYS.STATUS_PEND_MGR
-      : false;
-    if (debug)
-      console.log(`_FormPage.js\tstatusManager ${statusManager}, status: ${mainForm
-        ? mainForm[KEYS.FORM_STATUS]
-        : ''}, mgr_pend_key: ${KEYS.STATUS_PEND_MGR} `);
-
     return (
-      <form onSubmit={handleSubmit(this.formHandleSubmit)}>
+      <form onSubmit={handleSubmit(actions.submitNewRequest)}>
         {/* Main form
           - show for all users
-          - disable if not manager in manager approval state or new request */}
+          - disable if not a new request or manager in manager approval state */}
         <FormMain
           formMainNameHandleInput={this.formMainNameHandleInput}
           formMainNamehidden={this.state.formMainNamehidden}
@@ -204,31 +174,33 @@ class FormPage extends React.Component {
           formMainNamesOnClick={this.formMainNamesHandleClick}
           auth={auth}
           justifications={this.state.justifications}
-          disabled={!((isManager && statusManager && !statusRecipient) || statusNew)}/>
-        {/* Security form
-          - show if waiting security approval or higher
-          - disable if not security, or security and in recipient field, or past security approval state */}
-        {statusSecurity && <FormSecurity
-          disabled={!isSecurity || (isSecurity && isRecipient) || (statusSecurity && statusApproved)}/>}
-        {/* Manager terms form
-          - show if in manager field, waiting manager approval or higher or a new request, and not the recipient
-          - disable if waiting recipient approval or higher */}
-        {isManager && (statusManager || statusNew) && !isRecipient && <FormTerms
+          disabled={!(!formStatus || (isManager && formStatus === KEYS.STATUS_PEND_MGR))}/> {/* Manager terms form
+          - show if manager and new form, manager and manager approval, or higher than manager approval
+          - disable if not manager in new form or waiting manager approval state */}
+        {((isManager && !formStatus) || (isManager && formStatus === KEYS.STATUS_PEND_MGR) || formStatus > KEYS.STATUS_PEND_MGR) && <FormTerms
           role={KEYS.ROLE_MANAGER}
           name={mainForm[KEYS.FORM_SUP_NAME]}
-          disabled={statusRecipient}/>}
+          disabled={!(isManager && !formStatus || formStatus === KEYS.STATUS_PEND_MGR)}/>}
         {/* Recipient terms form
-          - show if in recipient field, waiting recipient approval or higher, and not in manager field
-          - disable if waiting security approval or higher */}
-        {isRecipient && statusRecipient && !isManager && <FormTerms
+          - show if recipient and recipient approval, or higher than recipient approval
+          - disable if not recipient in waiting recipient approval state */}
+        {((isRecipient && formStatus === KEYS.STATUS_PEND_REC) || formStatus > KEYS.STATUS_PEND_REC) && <FormTerms
           role={KEYS.ROLE_RECIPIENT}
           name={mainForm[KEYS.FORM_NAME]}
-          disabled={statusSecurity}/>}
+          disabled={!(isRecipient && formStatus === KEYS.STATUS_PEND_REC)}/>}
+        {/* Security form
+          - show if security and security approval, or higher than security
+          - disable if not security, or security and in recipient field, or past security approval state */}
+        {(isSecurity && formStatus === KEYS.STATUS_PEND_SEC || formStatus > KEYS.STATUS_PEND_SEC) && <FormSecurity
+          disabled={!isSecurity || (isSecurity && isRecipient) || (formStatus > KEYS.STATUS_PEND_SEC)}/>}
         {/* Submit/Approve buttons
           - show submit buttons if new request
-          - show approval buttons if not new request and not approved or higher
+          - show approval buttons if not new request,
+              is manager and in manager approval state, or
+              is recipient in recipient approval state, or
+              is security who is not recipient and in security approval state
           - disable if approved or higher status */}
-        {(statusNew && <FormSubmit onReset={reset}/>) || (!statusApproved && <FormApproval onReject={this.formApprovalHandleReject}/>)}
+        {(!formStatus && <FormSubmit onReset={reset}/>) || ((isManager && formStatus === KEYS.STATUS_PEND_MGR) || (isRecipient && formStatus === KEYS.STATUS_PEND_REC) || (isSecurity && !isRecipient && formStatus === KEYS.STATUS_PEND_SEC)) && <FormApproval onReject={this.formApprovalHandleReject}/>}
       </form>
     );
   }

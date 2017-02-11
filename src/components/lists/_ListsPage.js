@@ -7,6 +7,8 @@ import {Button} from 'react-bootstrap';
 import RequestTable from '../common/RequestTable';
 import * as requestsActions from '../../actions/requestsActions';
 import * as KEYS from '../../store/keyMap';
+// mock data for testing
+import * as mock from '../../mock/user';
 
 let debug = false;
 
@@ -28,6 +30,7 @@ class ListsPage extends React.Component {
     const {requestsUser, auth} = this.props;
     return (
       <div>
+        {mock.useMock.ED && <h1>Current user: {mock.user.sam}</h1>}
         {/* show all users requests that require users approval */}
         <RequestTable title="Approvals" rows={requestsUser.approvals}/>
         {/* show all users requests that do not require users approval */}
