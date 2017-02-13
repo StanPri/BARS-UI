@@ -14,7 +14,7 @@ const FieldSelect = field => (
       {...field.input}
       disabled={field.disabled}>
       {field.multiple || <option value="">Select {field.label}</option>}
-      {field.options.map(v => <option key={v} value={v}>{v}</option>)}
+      {field.options.map((v, i) => <option key={v} value={i}>{v}</option>)}
     </FormControl>
     {field.error && <HelpBlock>{field.error}</HelpBlock>}
   </FormGroup>

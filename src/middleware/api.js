@@ -9,7 +9,6 @@ const debug = 0;
 
 function callApi(endpoint, method, body) {
   let token = localStorage.getItem('id_token') || null;
-  token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXGNocmlzLmt1bW1lciIsIkJBUlMiOlsiVXNlciIsIk1hbmFnZXIiLCJTZWN1cml0eSJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.oGNEAw3yHTW8LOggEBE8YCKBM7rVzms18H57gj58MrI';
   if (debug)
     console.log(`api.js:\tCallApi with token : ${token}`);
   let config = {
@@ -25,13 +24,13 @@ function callApi(endpoint, method, body) {
   return fetch(BASE_URL + endpoint, config).then(response => response.json().then(text => ({text, response}))).then(({text, response}) => {
     if (!response.ok) {
       if (debug)
-        console.error("error: api.js : failed BARS api call");
+        console.error("error: api.js : failed BARS api call (!response.ok)");
       return Promise.reject(text);
     }
     if (debug)
       console.log(`api.js:\tBARS api call success`, text, response);
     return text;
-  }).catch(err => console.log(err));
+  }).catch(err => console.error(`error: api.js : failed BARS api call (catch)`));
 }
 
 export const CALL_API = Symbol('Call API');

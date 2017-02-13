@@ -1,5 +1,6 @@
 /*eslint no-class-assign: 0*/
 /*eslint-env es6*/
+import {browserHistory} from 'react-router';
 import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -45,9 +46,20 @@ class FormPage extends React.Component {
     this.props.actions.empDir();
   }
 
+  /**
+   * Handles submitting requests (submit/approve buttons)
+   * @param {object} vals       - values from redux-form
+   */
   formHandleSubmit(vals) {
-    window.alert('SUBMITTING: ' + JSON.stringify(vals, null, 2));
-
+    const {actions, mainForm, destroy} = this.props;
+    if (!+mainForm[KEYS.FORM_STATUS]) {                         // is new request
+      actions.submitNewRequest(vals);                           // submit/approve new request
+    }
+    else {
+      actions.submitExistingRequest(vals[KEYS.FORM_ID]);        // approve existing request
+    }
+    destroy();                                                  // clear form
+    browserHistory.push('/');                                   // redirect to homepage
   }
 
   /**
@@ -94,10 +106,11 @@ class FormPage extends React.Component {
    */
   formMainNamesHandleClick(e) {
     e.preventDefault();
-    const {dispatch} = this.props;
+    const {dispatch, empDir, auth} = this.props;
     const {formMainNames} = this.state;
     let id = e.target.dataset.id; // get employees sam account
     let employee = formMainNames.byId[id]; // look up employee from list of employees
+    let submitter = empDir.byId[auth[KEYS.USER_SAM]]; // look up submitter from employee dir based off users sam
     let manager = formMainNames.byId[employee[KEYS.USER_SAM_MANAGER]]; // look up manager based off employees samManager property
     // TODO: consolidate this...
     dispatch(change('form', KEYS.FORM_NAME, employee[KEYS.USER_NAME])); // set recipients name
@@ -108,7 +121,8 @@ class FormPage extends React.Component {
     dispatch(change('form', KEYS.FORM_SAM_SUPER, manager[KEYS.USER_SAM])); // set managers sam account
     dispatch(change('form', KEYS.FORM_SUP_NAME, manager[KEYS.USER_NAME])); // set managers name
     dispatch(change('form', KEYS.FORM_SUP_EMAIL, manager[KEYS.USER_EMAIL])); // set managers email
-    dispatch(change('form', KEYS.FORM_SUP_PHONE, manager[KEYS.USER_CELL])); // set managers phone
+    dispatch(change('form', KEYS.FORM_SUP_PHONE, manager[KEYS.USER_PHONE])); // set managers phone
+    dispatch(change('form', KEYS.FORM_SUBMIT_EMAIL, submitter[KEYS.USER_EMAIL])); // set submitter email
     this.setState({formMainNamehidden: true}); // hide the list of names
   }
 
@@ -118,8 +132,12 @@ class FormPage extends React.Component {
    */
   formApprovalHandleReject(e) {
     e.preventDefault();
-    alert(`Handling Reject...
-      TODO: open <FormReject/> in modal, capture reason, styling`);
+    const {actions, mainForm, destroy} = this.props;
+    if (confirm(`Delete record?`)) {
+      actions.deleteExistingRequest(+mainForm[KEYS.FORM_ID]);
+      destroy();                                                  // clear form
+      browserHistory.push('/');                                   // redirect to homepage
+    }
   }
 
   render() {
@@ -139,7 +157,7 @@ class FormPage extends React.Component {
     let isSecurity = mainForm
       ? auth[KEYS.USER_SAM] !== mainForm[KEYS.FORM_SAM_RECEIVE] && auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY)
       : auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY);
-    // check that form state is waiting security approval or higher
+    // get form's status
     let formStatus = mainForm
       ? + mainForm[KEYS.FORM_STATUS]
       : 0;
@@ -163,7 +181,7 @@ class FormPage extends React.Component {
         : false}`);
 
     return (
-      <form onSubmit={handleSubmit(actions.submitNewRequest)}>
+      <form onSubmit={handleSubmit(this.formHandleSubmit)}>
         {/* Main form
           - show for all users
           - disable if not a new request or manager in manager approval state */}
@@ -174,7 +192,8 @@ class FormPage extends React.Component {
           formMainNamesOnClick={this.formMainNamesHandleClick}
           auth={auth}
           justifications={this.state.justifications}
-          disabled={!(!formStatus || (isManager && formStatus === KEYS.STATUS_PEND_MGR))}/> {/* Manager terms form
+          disabled={!(!formStatus || (isManager && formStatus === KEYS.STATUS_PEND_MGR))}/>
+        {/* Manager terms form
           - show if manager and new form, manager and manager approval, or higher than manager approval
           - disable if not manager in new form or waiting manager approval state */}
         {((isManager && !formStatus) || (isManager && formStatus === KEYS.STATUS_PEND_MGR) || formStatus > KEYS.STATUS_PEND_MGR) && <FormTerms
@@ -215,7 +234,8 @@ FormPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    initialValues: state.requestForm, mainForm: getFormValues('form')(state),
+    initialValues: state.requestForm,
+    mainForm: getFormValues('form')(state),
     auth: state.auth,
     empDir: state.empDir
   };

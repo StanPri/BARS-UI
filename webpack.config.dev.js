@@ -4,7 +4,7 @@ import path from 'path';
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('development'),
   'process.env.VERSION' : JSON.stringify(`D.${new Date().toISOString("en-US").substring(0,10).replace(/-/g, '.')}`),
-  'process.env.API_URL' : JSON.stringify('http://testEDAPI/employees')
+  'process.env.API_ED' : JSON.stringify('http://testEDAPI/employees')
 };
 
 export default {

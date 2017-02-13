@@ -11,9 +11,9 @@ export const FORM_EMAIL = 'receiverEmail';
 export const FORM_LICENSE = 'licensePlate';
 export const FORM_COMPANY = 'companyName';
 export const FORM_COMPANY_ADDRESS = 'companyAddress';
-export const FORM_SUP_NAME = 'supervisorName';
+export const FORM_SUP_NAME = 'supervisorFullName';
 export const FORM_SUP_EMAIL = 'supervisorEmail';
-export const FORM_SUP_PHONE = 'supervisorPhone';
+export const FORM_SUP_PHONE = 'supervisorPhoneNumber';
 export const FORM_DIVISION = 'division';
 export const FORM_UNIT = 'unitOrProject';
 export const FORM_REQUEST_DATE = 'CreatedDateUtc';
@@ -34,12 +34,16 @@ export const FORM_APPROVAL_DATE_SUP = 'supervisorApprovalTimestampUtc';
 export const FORM_APPROVAL_DATE_REC = 'receiverAgreementTimestampUtc';
 export const FORM_APPROVAL_DATE_SEC = 'securityApprovalTimestampUtc';
 // Accept Terms and conditions
-export const FORM_TERMS = 'acceptTerms';
-export const FORM_TERMS_SUP = 'acceptTermsManager';
+export const FORM_SECURITY_NAME = 'securityApproverName';
+export const FORM_SECURITY_TIME = 'securityApprovalTimestampUtc';
+export const FORM_TERMS = 'receiverAgreementTimestampUtc';
+export const FORM_TERMS_SUP = 'supervisorApprovalTimestampUtc';
 // Sam accounts
 export const FORM_SAM_SUBMIT = 'submitterSamAccount';
 export const FORM_SAM_RECEIVE = 'receiverSamAccount';
 export const FORM_SAM_SUPER = 'supervisorSamAccount';
+// submission info
+export const FORM_SUBMIT_EMAIL = 'submitterEmail';
 /**
  * Form status codes
  */
@@ -49,17 +53,19 @@ export const STATUS_PEND_REC = 2;
 export const STATUS_PEND_SEC = 3;
 export const STATUS_APPROVED = 4;
 export const STATUS_CANCEL_MGR = 5;
-export const STATUS_CANCEL_REC = 6;
-export const STATUS_CANCEL_SEC = 7;
+export const STATUS_CANCEL_SEC = 6;
+export const STATUS_CANCEL_REC = 7;
+export const STATUS_CANCEL_SUB = 8;
 export const STATUS_NAMES = [
   'Unknown State',
   'Waiting Supervisor Approval',
   'Waiting Recipient Approval',
   'Waiting Security Approval',
   'Approved',
-  'Declined by Supervisor',
-  'Declined by Recipient',
-  'Declined by Security'
+  'Cancelled by Supervisor',
+  'Cancelled by Recipient',
+  'Cancelled by Security',
+  'Cancelled by Submitter'
 ];
 
 /**
@@ -80,10 +86,10 @@ export const ROLE_RECIPIENT = 'Recipient';
  */
 export const USER_ROLE = 'role';
 export const USER_NAME = 'fullName';
-export const USER_SAM = 'samAccountName';
+export const USER_SAM = 'samAccount';
 export const USER_PHONE = 'deskPhone';
 export const USER_CELL = 'cellPhone';
 export const USER_EMAIL = 'email';
 export const USER_NAME_MANAGER = 'manager';
-export const USER_SAM_MANAGER = 'samAccountNameManager';
+export const USER_SAM_MANAGER = 'managerSamAccount';
 export const USER_IS_MANAGER = 'isManager';

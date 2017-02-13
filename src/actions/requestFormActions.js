@@ -23,3 +23,31 @@ export const submitNewRequest = data => {
     }
   });
 }
+
+// Submit existing request for approval
+export const submitExistingRequest = id => {
+  console.log("Submitting existing request: ", id);
+  return ({
+    [CALL_API]: {
+      endpoint: mock.useMock.BARS
+        ? `/Approve/`
+        : `/Approve/${id}`,
+      method: 'put',
+      types: [types.SUBMIT_EXISTING_REQUEST, types.SUBMIT_EXISTING_SUCCESS, types.SUBMIT_EXISTING_FAILURE]
+    }
+  });
+}
+
+// Submit existing request for approval
+export const deleteExistingRequest = id => {
+  console.log("Deleting existing request: ", id);
+  return ({
+    [CALL_API]: {
+      endpoint: mock.useMock.BARS
+        ? `/CancelBadgeRequest/`
+        : `/CancelBadgeRequest/${id}`,
+      method: 'put',
+      types: [types.CANCEL_EXISTING_REQUEST, types.CANCEL_EXISTING_SUCCESS, types.CANCEL_EXISTING_FAILURE]
+    }
+  });
+}
