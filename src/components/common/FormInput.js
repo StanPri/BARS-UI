@@ -12,7 +12,8 @@ const FieldInput = field => (
       {...field.input}
       placeholder={`Enter ${field.label}`}
       disabled={field.disabled}
-      type={field.type}/> {field.error && <HelpBlock>{field.error}</HelpBlock>}
+      type={field.type}
+      componentClass={field.componentClass}/> {field.error && <HelpBlock>{field.error}</HelpBlock>}
   </FormGroup>
 );
 

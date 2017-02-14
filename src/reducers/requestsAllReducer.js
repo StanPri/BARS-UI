@@ -12,14 +12,14 @@ import * as KEYS from '../store/keyMap';
 export const requestsAllReducer = (state = initialState.requestsAll, action) => {
   switch (action.type) {
     case REQUESTS_ALL_REQUEST:
-      return state; // TODO: pass isFetching here like chuck norris has?
+      return state;
     case REQUESTS_ALL_SUCCESS:
       return {
         byId: getById(action.response, KEYS.FORM_ID),
         allIds: getAllIds(action.response, KEYS.FORM_ID)
       };
     case REQUESTS_ALL_FAILURE:
-      return state; // TODO
+      return state;
     default:
       return state;
   }

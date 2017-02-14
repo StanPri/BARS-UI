@@ -3,8 +3,8 @@ import {Button, ButtonGroup} from 'react-bootstrap';
 
 const FormSubmit = ({onReset}) => (
   <ButtonGroup>
-    <Button onClick={onReset} >Clear</Button>
     <Button type="submit" bsStyle="primary">Submit</Button>
+    <Button onClick={onReset} >Clear</Button>
   </ButtonGroup>
 );
 

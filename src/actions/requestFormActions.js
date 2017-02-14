@@ -39,14 +39,16 @@ export const submitExistingRequest = id => {
 }
 
 // Submit existing request for approval
-export const deleteExistingRequest = id => {
+export const deleteExistingRequest = (id, reason) => {
   console.log("Deleting existing request: ", id);
+  console.log("\t\twith reason: ", reason);
   return ({
     [CALL_API]: {
       endpoint: mock.useMock.BARS
         ? `/CancelBadgeRequest/`
         : `/CancelBadgeRequest/${id}`,
       method: 'put',
+      body: {[KEYS.FORM_REJECT_REASON] : reason},
       types: [types.CANCEL_EXISTING_REQUEST, types.CANCEL_EXISTING_SUCCESS, types.CANCEL_EXISTING_FAILURE]
     }
   });

@@ -44,6 +44,7 @@ export const FORM_SAM_RECEIVE = 'receiverSamAccount';
 export const FORM_SAM_SUPER = 'supervisorSamAccount';
 // submission info
 export const FORM_SUBMIT_EMAIL = 'submitterEmail';
+export const FORM_REJECT_REASON = 'cancellationReason';
 /**
  * Form status codes
  */
@@ -63,8 +64,8 @@ export const STATUS_NAMES = [
   'Waiting Security Approval',
   'Approved',
   'Cancelled by Supervisor',
-  'Cancelled by Recipient',
   'Cancelled by Security',
+  'Cancelled by Recipient',
   'Cancelled by Submitter'
 ];
 

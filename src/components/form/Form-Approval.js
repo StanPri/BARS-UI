@@ -3,8 +3,8 @@ import {Button, ButtonGroup} from 'react-bootstrap';
 
 const FormApproval = ({onReject}) => (
   <ButtonGroup>
-    <Button onClick={onReject} bsStyle="danger">Reject</Button>
     <Button type="submit" bsStyle="primary">Accept</Button>
+    <Button onClick={onReject} bsStyle="danger">Reject</Button>
   </ButtonGroup>
 );
 

@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import json2csv from 'json2csv';
 import * as requestFormActions from '../../actions/requestFormActions';
+import * as KEYS from '../../store/keyMap';
 const ca_gov_logo = require('../../images/ca_gov_logo.png');
 const cio_logo = require('../../images/cio_logo.png');
 
@@ -26,6 +27,7 @@ class Header extends React.Component {
   }
 
   render() {
+    const {auth} = this.props;
     return (
       <Navbar fixedTop fluid>
         <input type="checkbox" id="navbar-toggle-cbox" className="hidden"/>
@@ -62,11 +64,12 @@ class Header extends React.Component {
                 <Button className="btn-outline">About</Button>
               </Link>
             </li>
-            <li onClick={toggleMenuOnClick}>
+            {/* display search if security */}
+            {auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY) && <li onClick={toggleMenuOnClick}>
               <Link to="/search" activeClassName="active">
                 <Button className="btn-outline">Search</Button>
               </Link>
-            </li>
+            </li>}
           </ul>
         </div>
         <div id="navbar-overlay" className="hidden" onClick={toggleMenuOnClick}/>
@@ -96,10 +99,11 @@ function sortByKey(array, key) {
 
 Header.propTypes = {
   destroy: PropTypes.func.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({auth: state.auth});
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
