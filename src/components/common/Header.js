@@ -23,7 +23,7 @@ class Header extends React.Component {
     const {actions, destroy} = this.props;
     destroy();
     actions.requestFormReset();
-    browserHistory.push('/form');
+    browserHistory.push('/wizard');
   }
 
   render() {

@@ -20,10 +20,10 @@ export const auth = () => dispatch => {
   // chris -> user
   // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXGNocmlzLmt1bW1lciIsIkJBUlMiOlsiVXNlciJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.htHTv7kqJZNZ6CN781oCdWl9__3qSgKPDxDvLLR43rQ';
   // van -> user (approver)
-  // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXGRjY3Q1MCIsIkJBUlMiOlsiVXNlciJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.SK3jLRUYM6ouwCFDyH3RINGqwDi1tWkWZ_P6U7O9zEw';
+  local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXGRjY3Q1MCIsIkJBUlMiOlsiVXNlciJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.SK3jLRUYM6ouwCFDyH3RINGqwDi1tWkWZ_P6U7O9zEw';
   // ryan -> user, security
   // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXHJ5YW4udm9sbG1lciIsIkJBUlMiOlsiVXNlciIsIlNlY3VyaXR5Il0sIkNUUyI6IlVzZXItY3drIiwiVkwiOiJBZG1pbiIsImlhdCI6MTQ4NjQyNDEyNCwiZXhwIjoxOTg2NDI3NzI0fQ.lvzunf24JDCVJgCha7eytDVkfUdvDpStGDFPUEOmC28';
-  // localStorage.setItem('id_token', local_token);
+  localStorage.setItem('id_token', local_token);
   /** END TEST USERS **/
 
   // if token exists

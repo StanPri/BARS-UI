@@ -17,7 +17,7 @@ import * as requestFormActions from '../../actions/requestFormActions';
 import * as empDirActions from '../../actions/empDirActions';
 import * as KEYS from '../../store/keyMap';
 
-const debug = 1;
+const debug = 0;
 
 /**
  * TODO: field validation
@@ -34,9 +34,10 @@ class FormPage extends React.Component {
         }
       },
       formMainNames: initialState.empDir,
+      formMainManagers: {},
+      formMainEditable: [KEYS.FORM_NAME], // holds which fields are not disabled
       formMainNamehidden: true,
-      formMainSelected: {},
-      formApprovalReject: false                        // true if user confirms they want to delete/reject the request
+      formApprovalReject: false // true if user confirms they want to delete/reject the request
     };
     this.formMainNameHandleInput = this.formMainNameHandleInput.bind(this);
     this.formMainNamesHandleClick = this.formMainNamesHandleClick.bind(this);
@@ -78,6 +79,7 @@ class FormPage extends React.Component {
       let {empDir} = this.props;
       let _search = '(?=.*' + e.target.value.split(/, +|,| +/).join(')(?=.*') + ')';
       let re = new RegExp(_search, 'i');
+      // filter list of employees in name list
       let _employees = empDir.allIds.filter(id => {
         if (`${empDir.byId[id].fullName}`.match(re)) {
           return true;
@@ -109,23 +111,54 @@ class FormPage extends React.Component {
    */
   formMainNamesHandleClick(e) {
     e.preventDefault();
-    const {dispatch, empDir, auth} = this.props;
+    const {dispatch, empDir, auth, destroy} = this.props;
     const {formMainNames} = this.state;
-    let id = e.target.dataset.id; // get employees sam account
-    let employee = formMainNames.byId[id]; // look up employee from list of employees
-    let submitter = empDir.byId[auth[KEYS.USER_SAM]]; // look up submitter from employee dir based off users sam
-    let manager = formMainNames.byId[employee[KEYS.USER_SAM_MANAGER]]; // look up manager based off employees samManager property
-    // TODO: consolidate this...
-    dispatch(change('form', KEYS.FORM_NAME, employee[KEYS.USER_NAME])); // set recipients name
-    dispatch(change('form', KEYS.FORM_SAM_RECEIVE, employee[KEYS.USER_SAM])); // set recipients sam account
-    dispatch(change('form', KEYS.FORM_EMAIL, employee[KEYS.USER_EMAIL])); // set recipients email
-    dispatch(change('form', KEYS.FORM_PHONE, employee[KEYS.USER_PHONE])); // set recipients phone
-    dispatch(change('form', KEYS.FORM_CELL, employee[KEYS.USER_CELL])); // set recipients phone
-    dispatch(change('form', KEYS.FORM_SAM_SUPER, manager[KEYS.USER_SAM])); // set managers sam account
-    dispatch(change('form', KEYS.FORM_SUP_NAME, manager[KEYS.USER_NAME])); // set managers name
-    dispatch(change('form', KEYS.FORM_SUP_EMAIL, manager[KEYS.USER_EMAIL])); // set managers email
-    dispatch(change('form', KEYS.FORM_SUP_PHONE, manager[KEYS.USER_PHONE])); // set managers phone
+    let id = e.target.dataset.id, // get employees sam account
+      recipient = formMainNames.byId[id], // look up employee from list of employees
+      submitter = empDir.byId[auth[KEYS.USER_SAM]], // look up submitter from employee dir based off users sam TODO: handle if no sam?
+      manager = recipient[KEYS.USER_SAM_MANAGER]
+        ? formMainNames.byId[recipient[KEYS.USER_SAM_MANAGER]]
+        : {}, // look up manager based off employees samManager property
+      _formMainEditable = [KEYS.FORM_NAME], // reset list of fields that should be disabled
+      manager_fields = {
+        [KEYS.FORM_SAM_SUPER]: KEYS.USER_SAM,
+        [KEYS.FORM_SUP_NAME]: KEYS.USER_NAME,
+        [KEYS.FORM_SUP_EMAIL]: KEYS.USER_EMAIL,
+        [KEYS.FORM_SUP_PHONE]: KEYS.USER_PHONE
+      },
+      recipient_fields = {
+        [KEYS.FORM_EMAIL]: KEYS.USER_EMAIL,
+        [KEYS.FORM_PHONE]: KEYS.USER_PHONE,
+        [KEYS.FORM_CELL]: KEYS.USER_CELL,
+        [KEYS.FORM_SAM_RECEIVE]: KEYS.USER_SAM
+      },
+      submitter_fields = {
+        // [KEYS.FORM_SUBMIT_EMAIL]: KEYS.USER_EMAIL // TODO!
+      };
+
+    // sets fields in form, makes field editable if no value
+    const setFields = (role, fields) => {
+      Object.keys(fields).forEach(key => {
+        let val = role[fields[key]];
+        if (debug)
+          console.log(`_FormPage.js : formMainNamesHandleClick : setFields : fields: `, fields, `, role: `, role, `, key: ${key}, val: ${val}`);
+        if (val) {
+          dispatch(change('form', key, val)); // change value in redux form
+        } else {
+          _formMainEditable = _formMainEditable.concat(key); // if no value make editable
+        }
+      });
+    };
+
+    destroy(); // delete entire form, to make sure manager reset, etc
+    setFields(recipient, recipient_fields); // set recipient fields in form
+    setFields(manager, manager_fields); // set manager fields in form
+
+    dispatch(change('form', KEYS.FORM_NAME, recipient[KEYS.USER_NAME])); // set recipients name
+
     dispatch(change('form', KEYS.FORM_SUBMIT_EMAIL, "submitter[KEYS.USER_EMAIL]")); // set submitter email
+    _formMainEditable = _formMainEditable.concat(KEYS.FORM_CAN_EDIT); // used to check in form if otehr fields should be editable
+    this.setState({formMainEditable: _formMainEditable});
     this.setState({formMainNamehidden: true}); // hide the list of names
   }
 
@@ -135,7 +168,9 @@ class FormPage extends React.Component {
    */
   formApprovalHandleRejectToggle(e) {
     e.preventDefault();
-    this.setState({formApprovalReject: !this.state.formApprovalReject}); // toggle display confirmation / handle confirmation
+    this.setState({
+      formApprovalReject: !this.state.formApprovalReject
+    }); // toggle display confirmation / handle confirmation
   }
   /**
    * TODO: handle validating they have filled out reason
@@ -154,7 +189,6 @@ class FormPage extends React.Component {
     browserHistory.push('/'); // redirect to homepage
   }
 
-
   render() {
     const {
       handleSubmit,
@@ -167,7 +201,6 @@ class FormPage extends React.Component {
       initialValues,
       mainForm
     } = this.props;
-    let employee = this.state.formMainNameSelected; // entry object of employee selected from list
     // user is security role and not recipient
     let isSecurity = mainForm
       ? !getRoleInForm(mainForm, KEYS.FORM_SAM_RECEIVE, auth) && auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY)
@@ -193,15 +226,13 @@ class FormPage extends React.Component {
           formMainNamesOnClick={this.formMainNamesHandleClick}
           auth={auth}
           justifications={this.state.justifications}
-          disabled={!(!formStatus || (isManager && formStatus === KEYS.STATUS_PEND_MGR))}/>
-        {/* Manager terms form
+          disabledState={!(!formStatus || (isManager && formStatus === KEYS.STATUS_PEND_MGR))}
+          editableFields={this.state.formMainEditable}/> {/* Manager terms form
           - show if manager and new form, or
             manager, manager approval state, and not rejecting, or
             higher than manager approval, but not manager reject state
           - disable if not manager in new form or waiting manager approval state */}
-        {((isManager && !formStatus) ||
-          (isManager && formStatus === KEYS.STATUS_PEND_MGR && !this.state.formApprovalReject) ||
-          (formStatus > KEYS.STATUS_PEND_MGR && formStatus !== KEYS.STATUS_CANCEL_MGR)) && <FormTerms
+        {((isManager && !formStatus) || (isManager && formStatus === KEYS.STATUS_PEND_MGR && !this.state.formApprovalReject) || (formStatus > KEYS.STATUS_PEND_MGR && formStatus !== KEYS.STATUS_CANCEL_MGR)) && <FormTerms
           role={KEYS.ROLE_MANAGER}
           name={mainForm[KEYS.FORM_SUP_NAME]}
           disabled={!(isManager && !formStatus || formStatus === KEYS.STATUS_PEND_MGR)}/>}
@@ -209,8 +240,7 @@ class FormPage extends React.Component {
           - show if recipient, recipient approval state, and not rejecting or
             security approval state, approved state, or cancel security state
           - disable if not recipient in waiting recipient approval state */}
-        {((isRecipient && formStatus === KEYS.STATUS_PEND_REC && !this.state.formApprovalReject) ||
-          (formStatus === KEYS.STATUS_PEND_SEC || formStatus === KEYS.STATUS_APPROVED || formStatus === KEYS.STATUS_CANCEL_SEC )) && <FormTerms
+        {((isRecipient && formStatus === KEYS.STATUS_PEND_REC && !this.state.formApprovalReject) || (formStatus === KEYS.STATUS_PEND_SEC || formStatus === KEYS.STATUS_APPROVED || formStatus === KEYS.STATUS_CANCEL_SEC)) && <FormTerms
           role={KEYS.ROLE_RECIPIENT}
           name={mainForm[KEYS.FORM_NAME]}
           disabled={!(isRecipient && formStatus === KEYS.STATUS_PEND_REC)}/>}
@@ -218,8 +248,7 @@ class FormPage extends React.Component {
           - show if security, security approval state, and not rejecting, or
             approved state
           - disable if not security, or security and in recipient field, or past security approval state */}
-        {(isSecurity && formStatus === KEYS.STATUS_PEND_SEC && !this.state.formApprovalReject ||
-          formStatus === KEYS.STATUS_APPROVED) && <FormSecurity
+        {(isSecurity && formStatus === KEYS.STATUS_PEND_SEC && !this.state.formApprovalReject || formStatus === KEYS.STATUS_APPROVED) && <FormSecurity
           disabled={!isSecurity || (isSecurity && isRecipient) || (formStatus > KEYS.STATUS_PEND_SEC)}/>}
         {/* Rejection form
           - show if user has clicked the reject button from formApproval (formApprovalReject) or
@@ -228,10 +257,9 @@ class FormPage extends React.Component {
         {(this.state.formApprovalReject || formStatus > KEYS.STATUS_APPROVED) && <FormReject name="NAME__TODO" disabled={formStatus > KEYS.STATUS_APPROVED}/>}
         {/* Rejection form confirmation buttons
           - show if user is confirming to delete/reject the request  */}
-        {this.state.formApprovalReject &&
-          <FormRejectConfirm
-            onCancel={this.formApprovalHandleRejectToggle}
-            onReject={this.formApprovalHandleRejectConfirm}/>}
+        {this.state.formApprovalReject && <FormRejectConfirm
+          onCancel={this.formApprovalHandleRejectToggle}
+          onReject={this.formApprovalHandleRejectConfirm}/>}
         {/* Submit/Approve buttons
           - show submit buttons if new request
           - show approval buttons if is not confirming rejection, and
@@ -240,13 +268,7 @@ class FormPage extends React.Component {
               is recipient in recipient approval state, or
               is security who is not recipient and in security approval state
           - disable if approved or higher status */}
-        {(!formStatus && <FormSubmit onReset={reset}/>) ||
-         !this.state.formApprovalReject &&
-         ((isManager && formStatus === KEYS.STATUS_PEND_MGR) ||
-          (isRecipient && formStatus === KEYS.STATUS_PEND_REC) ||
-          (isSecurity && !isRecipient && formStatus === KEYS.STATUS_PEND_SEC)) &&
-        <FormApproval
-          onReject={this.formApprovalHandleRejectToggle}/>}
+        {(!formStatus && <FormSubmit onReset={reset}/>) || !this.state.formApprovalReject && ((isManager && formStatus === KEYS.STATUS_PEND_MGR) || (isRecipient && formStatus === KEYS.STATUS_PEND_REC) || (isSecurity && !isRecipient && formStatus === KEYS.STATUS_PEND_SEC)) && <FormApproval onReject={this.formApprovalHandleRejectToggle}/>}
       </form>
     );
   }

@@ -1,6 +1,8 @@
 /**
  * REQUEST FORM DATA
  */
+export const FORM_CAN_EDIT = 'formCanEdit'; // used for checking is user can edit form.
+
 export const FORM_ID = 'id';
 export const FORM_STATUS = 'requestState';
 // Applicatnt Information

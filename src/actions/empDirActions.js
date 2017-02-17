@@ -6,7 +6,7 @@ import * as types from './actionTypes';
 // mock data for testing
 import * as mock from '../mock/user';
 
-const debug = true;
+const debug = false;
 const EMP_DIR_URL =  mock.useMock.ED ? 'http://localhost:3001/ED' : process.env.API_ED;
 
 export const empDirRequest = () => ({type: types.EMP_DIR_REQUEST});
