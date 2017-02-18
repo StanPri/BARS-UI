@@ -15,8 +15,19 @@ class SearchPage extends React.Component {
   }
 
   componentDidMount() {
-    // load all requests from api
-    this.props.actions.requestsGetAll();
+    const {actions, fetchCallsInProgress} = this.props;
+    const getRequests = () => {
+      // load all requests
+      actions.requestsGetAll();
+    };
+    // if no fetches in progess
+    if (!fetchCallsInProgress) {
+      // call BARS API
+      getRequests();
+    } else {
+      // other wise wait adn call API
+      setTimeout(getRequests, 1000); // TODO: change to loop that checks if jwt loaded
+    }
   }
 
   render() {
@@ -30,7 +41,10 @@ class SearchPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  return {requestsAll: state.requestsAll};
+  return {
+    requestsAll: state.requestsAll,
+    fetchCallsInProgress: state.fetchCallsInProgress
+  };
 }
 
 function mapDispatchToProps(dispatch) {

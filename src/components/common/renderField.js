@@ -5,7 +5,7 @@
  * and https://github.com/erikras/redux-form/issues/1037 for bootstrap sepcific
  */
 import React from 'react';
-import { FormGroup, ControlLabel, FromGroup, HelpBlock, Label } from 'react-bootstrap';
+import { FormGroup, ControlLabel, HelpBlock, Label } from 'react-bootstrap';
 
 const renderField = ({ required, disabled, onInput, input, label, type, meta: {touched, error}}) => {
  const validState = touched && error ? "error" : null;
