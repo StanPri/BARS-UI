@@ -8,8 +8,8 @@ import * as types from './actionTypes';
 const debug = false;
 const AUTH_URL = 'https://sec.api.technology.ca.gov:3001/createToken';
 
-export const authRequest = () => ({type: types.AUTH_REQUEST, isAuthenticated: false});
-export const authSuccess = ({sam, role}) => ({type: types.AUTH_SUCCESS, isAuthenticated: true, sam, role});
+export const authRequest = () => ({type: types.AUTH_REQUEST});
+export const authSuccess = ({sam, role}) => ({type: types.AUTH_SUCCESS, sam, role});
 export const authFailure = message => ({type: types.AUTH_FAILURE, message});
 
 export const auth = () => dispatch => {
@@ -26,6 +26,8 @@ export const auth = () => dispatch => {
   localStorage.setItem('id_token', local_token);
   /** END TEST USERS **/
 
+  dispatch(authRequest()); // update fetchCallsInProgress
+
   // if token exists
   if (local_token) {
     const {sub: sam, BARS: role, exp, iat} = decode(local_token);
@@ -40,8 +42,6 @@ export const auth = () => dispatch => {
       return dispatch(authSuccess({sam, role}));
     }
   }
-
-  dispatch(authRequest());
 
   let config = {
     method: 'get',

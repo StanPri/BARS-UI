@@ -47,6 +47,8 @@ export default store => next => action => {
     successType,
     errorType] = types;
 
+  store.dispatch({ type:requestType }); // update fetchCallsInProgress
+
   // Passing the authenticated boolean back in our data will let us distinguish
   // between normal and secret quotes
   return callApi(endpoint, method, body).then(response => next({response, type: successType}), error => next({
