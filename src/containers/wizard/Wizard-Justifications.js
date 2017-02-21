@@ -13,7 +13,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import validate from './validate';
-import renderField from '../../components/common/renderField';
+import RenderField from '../../components/common/RenderField';
 
 const renderError = ({ meta: { touched, error } }) => touched && error ?
   <span>{error}</span> : false
@@ -23,7 +23,7 @@ const WizardJustifications = (props) => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Justifications</h2>
-      <Field name="email" type="email" component={renderField} label="Email"/>
+      <Field name="email" type="email" component={RenderField} label="Email"/>
       <div>
         <label>Sex</label>
         <div>

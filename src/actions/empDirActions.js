@@ -11,7 +11,7 @@ const EMP_DIR_URL =  mock.useMock.ED ? 'http://localhost:3001/ED' : process.env.
 
 export const empDirRequest = () => ({type: types.EMP_DIR_REQUEST});
 export const empDirSuccess = employees => ({type: types.EMP_DIR_SUCCESS, employees});
-export const empDirFailure = message => ({type: types.EMP_DIR_FAILURE, message});
+export const empDirFailure = error => ({type: types.EMP_DIR_FAILURE, error});
 
 export const empDir = () => dispatch => {
   dispatch(empDirRequest());
@@ -30,5 +30,5 @@ export const empDir = () => dispatch => {
         console.log(`\tsuccess: empDir -> employees: `, data);
       dispatch(empDirSuccess(data));
     }
-  }).catch(err => console.log("\tError: ", err));
+}).catch(err => dispatch(empDirFailure(err.message)));
 };

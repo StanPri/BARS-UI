@@ -7,7 +7,7 @@
 import React from 'react';
 import { FormGroup, ControlLabel, HelpBlock, Label } from 'react-bootstrap';
 
-const renderField = ({ required, disabled, onInput, input, label, type, meta: {touched, error}}) => {
+const RenderField = ({ required, disabled, onInput, input, label, type, meta: {touched, error}}) => {
  const validState = touched && error ? "error" : null;
  return (
    <FormGroup controlId={name} validationState={validState}>
@@ -25,4 +25,4 @@ const renderField = ({ required, disabled, onInput, input, label, type, meta: {t
  );
 };
 
-export default renderField;
+export default RenderField;

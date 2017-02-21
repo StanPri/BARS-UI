@@ -2,14 +2,11 @@
  * Main page container for wizard form
  * Displays when new request
  * See http://redux-form.com/6.5.0/examples/wizard/ for example
- * TODO: hook up to redux
- * TODO: logic for when to display, when to disable
  * TODO: local state for logic of when jsutifications, manager,etc
- * TODO: handle emp dir -> recip name, manager name
  */
- /*eslint no-class-assign: 0*/
- /*eslint-env es6*/
-// imported libraries
+/*eslint no-class-assign: 0*/
+/*eslint-env es6*/
+// libraries
 import React, { Component, PropTypes } from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -21,6 +18,8 @@ import WizardCompany from './Wizard-Company';
 import WizardRecipient from './Wizard-Recipient';
 import WizardJustifications from './Wizard-Justifications';
 // actions, constants, etc
+import FetchInProgress from '../../components/common/FetchInProgress';
+import DisplayError from '../../components/common/DisplayError';
 import validate from './validate';
 import initialState from '../../reducers/initialState';
 import * as empDirActions from '../../actions/empDirActions';
@@ -63,8 +62,9 @@ class WizardPage extends Component {
   }
 
   componentDidMount() {
+    const { actions } = this.props;
     // load employee directory from api for selecting name from list
-    this.props.actions.empDir();
+    actions.empDir();
   }
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////     CURRENT PAGE FUNCTIONS     ///////////////////////
@@ -318,6 +318,19 @@ class WizardPage extends Component {
       justificationsNeeded,
       fieldsDisabled
     } = this.state;
+    const {
+        empDir: {error},
+        fetchCallsInProgress,
+        actions
+    } = this.props;
+    // display loading graphic if fetching
+    if (fetchCallsInProgress) {
+        return <FetchInProgress />;
+    }
+    // handle api errors
+    // if (error) {
+    //     return <DisplayError error={error} onClick={actions.empDir} />;
+    // }
     // Set props for different pages of wizard
     const WizardRecipientProps = {
       recipientHandleInput: this.recipientHandleInput,
@@ -376,7 +389,8 @@ WizardPage.propTypes = {};
 
 // map all state (from redux store) to props
 const mapStateToProps = (state, ownProps) => ({
-  empDir: state.empDir
+  empDir: state.empDir,
+  fetchCallsInProgress: state.fetchCallsInProgress
 });
 
 // map all action creators to props
@@ -391,7 +405,7 @@ WizardPage = reduxForm({
   form: 'wizard',                   // <------ same form name
   destroyOnUnmount: false,          // <------ preserve form data
   forceUnregisterOnUnmount: true,   // <------ unregister fields on unmount
-  validate
+
 })(WizardPage);
 
 // connect to redux using state and dispatch

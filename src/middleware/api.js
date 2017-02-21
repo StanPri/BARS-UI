@@ -30,7 +30,7 @@ function callApi(endpoint, method, body) {
     if (debug)
       console.log(`api.js:\tBARS api call success`, text, response);
     return text;
-  }).catch(err => console.error(`error: api.js : failed BARS api call (catch)`));
+}).catch(err => Promise.reject(err));
 }
 
 export const CALL_API = Symbol('Call API');
@@ -47,7 +47,7 @@ export default store => next => action => {
     successType,
     errorType] = types;
 
-  store.dispatch({ type:requestType }); // update fetchCallsInProgress
+  store.dispatch({type: requestType}); // update fetchCallsInProgress
 
   // Passing the authenticated boolean back in our data will let us distinguish
   // between normal and secret quotes

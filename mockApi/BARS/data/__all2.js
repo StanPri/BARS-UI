@@ -1,5 +1,5 @@
 var KEYS = require('../constants');
-var    _       = require('lodash');
+var _    = require('lodash');
 
 var time = "2017-02-09T23:51:09.389Z";
 var data = [];

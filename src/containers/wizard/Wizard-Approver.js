@@ -1,19 +1,26 @@
-/**
- * First Page of wiazrd -> Recipient
- * Requires user to enter name, select one from list, then auto populates fields
- * See http://redux-form.com/6.5.0/examples/wizard/ for example
- * TODO: change validation for fields
- * TODO: change to components
- * TODO: on click an apporer name, check if approver is user, set apporer if so
- */
-// imported libraries
+// libraries
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
+// components
+import FormHeader from '../../components/form/Form-Header';
+import FormApprover from '../../components/form/Form-Approver';
+import FormButtons from '../../components/form/Form-Buttons';
 // actions, constants, etc
 import validate from './validate';
-import renderField from '../../components/common/renderField';
-import * as KEYS from '../../store/keyMap';
 
+/**
+ * Third page of wizard - Approver Information
+ * Displays list of approvers when name entered in supervisor name field
+ * Auto populated if manager already selected
+ * See http://redux-form.com/6.5.0/examples/wizard/ for example
+ * @param {func}    handleSubmit            - handles going to next page of wizard
+ * @param {func}    approverHandleInput     - populates list of approvers
+ * @param {func}    approverHandleClick     - handles clicking on name from list
+ * @param {object}  approverNames           - names to populate list with
+ * @param {bool}    approverNamesHidden     - toggles if list if visible
+ * @param {bool}    previousPage            - handles going to previous page of wizard
+ * @param {object}  fieldsDisabled          - determines which fields are disabled
+ */
 let WizardApprover = ({
   handleSubmit,
   approverHandleInput,
@@ -22,56 +29,21 @@ let WizardApprover = ({
   approverNamesHidden,
   previousPage,
   fieldsDisabled
-}) => {
-  let hidden = approverNamesHidden ? 'hidden' : '';
-  return (
-    <form onSubmit={handleSubmit}>
-      <h2>Supervisor Information</h2>
-      <div className="row">
-        <div className="col-sm-6 col-sm-offset-3">
-          <Field
-            label="Supervisor Name"
-            name={KEYS.FORM_SUP_NAME}
-            disabled={fieldsDisabled[KEYS.FORM_SUP_NAME]}
-            component={renderField}
-            type="text"
-            onInput={approverHandleInput}
-            required />
-          <ul className={`form_field_auto_list ${hidden}`}>
-            {/* display full name and email for each employee */}
-            {approverNames.allIds.map(x => <li key={x}>
-              <a onClick={approverHandleClick} data-id={x}>{`${approverNames.byId[x][KEYS.USER_NAME]} <${approverNames.byId[x][KEYS.USER_EMAIL]}>`}</a>
-            </li>)}
-          </ul>
-        </div>
-        <div className="col-sm-6 col-sm-offset-3">
-          <Field
-            label="Supervisor Email"
-            name={KEYS.FORM_SUP_EMAIL}
-            disabled={fieldsDisabled[KEYS.FORM_SUP_EMAIL]}
-            component={renderField}
-            type="email"
-            required />
-        </div>
-        <div className="col-sm-6 col-sm-offset-3">
-          <Field
-            label="Supervisor Phone"
-            name={KEYS.FORM_SUP_PHONE}
-            disabled={fieldsDisabled[KEYS.FORM_SUP_PHONE]}
-            component={renderField}
-            type="cel"
-            required />
-        </div>
-      </div>
-      <div className="row text-center">
-        <div className="btn-group">
-          <button type="button" className="previous btn btn-default" onClick={previousPage}>Previous</button>
-          <button type="submit" className="next btn btn-primary">Next</button>
-        </div>
-      </div>
-    </form>
-  );
-};
+}) => (
+  <form onSubmit={handleSubmit}>
+    <FormHeader header="Supervisor Information" centered/>
+    <FormApprover
+      approverHandleInput={approverHandleInput}
+      approverHandleClick={approverHandleClick}
+      approverNames={approverNames}
+      approverNamesHidden={approverNamesHidden}
+      fieldsDisabled={fieldsDisabled}/>
+    <FormButtons
+      onSubmitText={"Next"}
+      onClick={previousPage}
+      onClickText={"Previous"}/>
+  </form>
+);
 
 WizardApprover.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
@@ -84,11 +56,6 @@ WizardApprover.propTypes = {
 }
 
 // connect to redux form
-WizardApprover = reduxForm({
-  form: 'wizard',                   // <------ same form name
-  destroyOnUnmount: false,          // <------ preserve form data
-  forceUnregisterOnUnmount: true,   // <------ unregister fields on unmount
-  validate
-})(WizardApprover);
+WizardApprover = reduxForm({ form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate })( WizardApprover );
 
 export default WizardApprover;

@@ -12,14 +12,23 @@ import * as KEYS from '../store/keyMap';
 export const requestsAllReducer = (state = initialState.requestsAll, action) => {
   switch (action.type) {
     case REQUESTS_ALL_REQUEST:
-      return state;
+      return {
+        ...state,
+        isFetching: true
+      };
     case REQUESTS_ALL_SUCCESS:
       return {
         byId: getById(action.response, KEYS.FORM_ID),
-        allIds: getAllIds(action.response, KEYS.FORM_ID)
+        allIds: getAllIds(action.response, KEYS.FORM_ID),
+        error: null,
+        isFetching: false
       };
     case REQUESTS_ALL_FAILURE:
-      return state;
+      return {
+        ...initialState.requestsAll,
+        error: action.error,
+        isFetching: false
+      };
     default:
       return state;
   }
