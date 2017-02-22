@@ -1,7 +1,7 @@
 // imported libraries
-import React, { PropTypes } from 'react';
-import { Field } from 'redux-form';
-import { Row, Col } from 'react-bootstrap';
+import React, {PropTypes} from 'react';
+import {Field} from 'redux-form';
+import {Col} from 'react-bootstrap';
 // components
 import RenderField from '../common/RenderField';
 import NameList from '../common/NameList';
@@ -34,7 +34,7 @@ const FormRecipient = ({
     ? 0
     : 3;
   return (
-    <Row>
+    <div onClick={(e) => console.log(e.target)}>
       <Col sm={width} smOffset={offset}>
         <Field
           label="Name"
@@ -43,7 +43,8 @@ const FormRecipient = ({
           component={RenderField}
           type="text"
           onInput={recipientHandleInput}
-          required={!allDisabled}/> {!allDisabled && <NameList
+          required={!allDisabled}/>
+        {!allDisabled && <NameList
           hidden={recipientNamesHidden}
           list={recipientNames}
           onClick={recipientHandleClick}/>}
@@ -83,7 +84,7 @@ const FormRecipient = ({
           type="cel"
           required={!allDisabled}/>
       </Col>
-    </Row>
+    </div>
   );
 };
 

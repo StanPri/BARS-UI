@@ -1,6 +1,6 @@
 // libraries
-import React, { Component, PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, {Component, PropTypes} from 'react';
+import {Field, reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormTermsApprover from '../../components/form/Form-TermsApprover';
@@ -18,8 +18,8 @@ import * as KEYS from '../../store/keyMap';
  * @param {string}  approverName      - name user must enter to complete terms and conditions
  * @return JSX
  */
-let WizardTerms = ({ handleSubmit, onSubmit, previousPage, approverName }) => (
-  <form onSubmit={handleSubmit( onSubmit )}>
+let WizardTerms = ({handleSubmit, onSubmit, previousPage, approverName}) => (
+  <form onSubmit={handleSubmit(onSubmit)}>
     <FormHeader header="Terms and Conditions" centered/>
     <FormTermsApprover label={approverName} name={KEYS.FORM_TERMS_NAME_SUP}/>
     <FormButtons
@@ -37,6 +37,6 @@ WizardTerms.propTypes = {
 };
 
 // connect to redux form
-WizardTerms = reduxForm({ form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate })( WizardTerms );
+WizardTerms = reduxForm({form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate})(WizardTerms);
 
 export default WizardTerms;

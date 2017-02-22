@@ -1,7 +1,7 @@
 // libraries
-import React, { PropTypes } from 'react';
-import { Field } from 'redux-form';
-import { Row, Col } from 'react-bootstrap';
+import React, {PropTypes} from 'react';
+import {Field} from 'redux-form';
+import {Row, Col} from 'react-bootstrap';
 // compnents
 import RenderField from '../common/RenderField';
 // constants, actions, etc
@@ -13,7 +13,7 @@ import * as KEYS from '../../store/keyMap';
  * @param {bool}    allDisabled     - toggles disabling all fields
  * @param {bool}    singleLine      - toggles al fields being in a single line
  */
-const FormCompany = ({ fieldsDisabled, allDisabled, singleLine }) => {
+const FormCompany = ({fieldsDisabled, allDisabled, singleLine}) => {
   let width = singleLine
     ? 3
     : 6;
@@ -21,7 +21,7 @@ const FormCompany = ({ fieldsDisabled, allDisabled, singleLine }) => {
     ? 0
     : 3;
   return (
-    <Row>
+    <div>
       <Col sm={width} smOffset={offset}>
         <Field
           label="Company Name"
@@ -58,7 +58,7 @@ const FormCompany = ({ fieldsDisabled, allDisabled, singleLine }) => {
           type="text"
           required={!allDisabled}/>
       </Col>
-    </Row>
+    </div>
   );
 };
 

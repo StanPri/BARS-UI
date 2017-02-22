@@ -1,7 +1,7 @@
 // libraries
-import React, { Component, PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { Row } from 'react-bootstrap';
+import React, {Component, PropTypes} from 'react';
+import {Field, reduxForm} from 'redux-form';
+import {Row} from 'react-bootstrap';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormJustifications from '../../components/form/Form-Justifications';
@@ -19,12 +19,12 @@ import * as KEYS from '../../store/keyMap';
  * @param {object}  fieldsDisabled      - object of all fields that should be disabled
  * @return JSX
  */
-let WizardJustifications = ({ handleSubmit, onSubmit, previousPage, justifications, submitButton }) => {
+let WizardJustifications = ({handleSubmit, onSubmit, previousPage, justifications, submitButton}) => {
   let _submitButton = submitButton
     ? "Submit"
     : "Next";
   return (
-    <form onSubmit={handleSubmit( onSubmit )}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader header="Justifications" centered/>
       <Row className="text-center">
         <p>Please enter justifications for the following Access Requirements:</p>
@@ -47,6 +47,6 @@ WizardJustifications.propTypes = {
 };
 
 // connect to redux form
-WizardJustifications = reduxForm({ form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate })( WizardJustifications );
+WizardJustifications = reduxForm({form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate})(WizardJustifications);
 
 export default WizardJustifications;

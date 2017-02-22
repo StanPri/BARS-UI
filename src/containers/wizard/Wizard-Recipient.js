@@ -1,6 +1,6 @@
 // libraries
-import React, { Component, PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, {Component, PropTypes} from 'react';
+import {Field, reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormRecipient from '../../components/form/Form-Recipient';
@@ -30,7 +30,7 @@ let WizardRecipient = ({
   recipientNamesHidden,
   fieldsDisabled
 }) => (
-  <form onSubmit={handleSubmit( onSubmit )}>
+  <form onSubmit={handleSubmit(onSubmit)}>
     <FormHeader header="Recipient Information" centered/>
     <FormRecipient
       recipientHandleInput={recipientHandleInput}
@@ -53,6 +53,6 @@ WizardRecipient.propTypes = {
 };
 
 // connect to redux form
-WizardRecipient = reduxForm({ form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate })( WizardRecipient );
+WizardRecipient = reduxForm({form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, touchOnBlur: false, validate})(WizardRecipient);
 
 export default WizardRecipient;

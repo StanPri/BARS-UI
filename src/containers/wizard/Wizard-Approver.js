@@ -1,6 +1,6 @@
 // libraries
-import React, { Component, PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, {Component, PropTypes} from 'react';
+import {Field, reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormApprover from '../../components/form/Form-Approver';
@@ -33,7 +33,7 @@ let WizardApprover = ({
   previousPage,
   fieldsDisabled
 }) => (
-  <form onSubmit={handleSubmit( onSubmit )}>
+  <form onSubmit={handleSubmit(onSubmit)}>
     <FormHeader header="Supervisor Information" centered/>
     <FormApprover
       approverHandleInput={approverHandleInput}
@@ -60,6 +60,6 @@ WizardApprover.propTypes = {
 }
 
 // connect to redux form
-WizardApprover = reduxForm({ form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate })( WizardApprover );
+WizardApprover = reduxForm({form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, touchOnBlur: false, validate})(WizardApprover);
 
 export default WizardApprover;

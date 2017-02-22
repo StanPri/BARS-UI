@@ -1,7 +1,7 @@
 // imported libraries
-import React, { PropTypes } from 'react';
-import { Field } from 'redux-form';
-import { Row, Col } from 'react-bootstrap';
+import React, {PropTypes} from 'react';
+import {Field} from 'redux-form';
+import {Col} from 'react-bootstrap';
 // common compnents
 import RenderField from '../common/RenderField';
 import NameList from '../common/NameList';
@@ -33,7 +33,7 @@ const FormMainApprover = ({
     ? 0
     : 3;
   return (
-    <Row>
+    <div>
       <Col sm={width} smOffset={offset}>
         <Field
           label="Supervisor Name"
@@ -65,7 +65,7 @@ const FormMainApprover = ({
           type="cel"
           required={!allDisabled}/>
       </Col>
-    </Row>
+    </div>
   );
 };
 

@@ -40,9 +40,12 @@ const validate = values => {
     errors[KEYS.FORM_UNIT] = 'Required';
   }
   // Approver Information
-  // TODO: validate sam to make sure form empDir? how to make sure selcetd from list
   if (!values[KEYS.FORM_SUP_NAME]) {
     errors[KEYS.FORM_SUP_NAME] = 'Required';
+  }
+  // check if user has changed after selcting a name from list (email should be populated...)
+  if (!values[KEYS.FORM_SAM_SUPER]) {
+    errors[KEYS.FORM_SUP_NAME] = 'Enter the supervisors name, then select it from the list';
   }
   if (!values[KEYS.FORM_SUP_EMAIL]) {
     errors[KEYS.FORM_SUP_EMAIL] = 'Required';

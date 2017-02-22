@@ -1,6 +1,6 @@
 // libraries
-import React, { Component, PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, {Component, PropTypes} from 'react';
+import {Field, reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormCompany from '../../components/form/Form-Company';
@@ -18,8 +18,8 @@ import * as KEYS from '../../store/keyMap';
  * @param {object}  fieldsDisabled      - object of all fields that should be disabled
  * @return JSX
  */
-let WizardCompany = ({ handleSubmit, onSubmit, previousPage, fieldsDisabled }) => (
-  <form onSubmit={handleSubmit( onSubmit )}>
+let WizardCompany = ({handleSubmit, onSubmit, previousPage, fieldsDisabled}) => (
+  <form onSubmit={handleSubmit(onSubmit)}>
     <FormHeader header="Company Information" centered/>
     <FormCompany fieldsDisabled={fieldsDisabled}/>
     <FormButtons
@@ -37,6 +37,6 @@ WizardCompany.propTypes = {
 };
 
 // connect to redux form
-WizardCompany = reduxForm({ form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate })( WizardCompany );
+WizardCompany = reduxForm({form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate})(WizardCompany);
 
 export default WizardCompany;

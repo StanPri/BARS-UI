@@ -4,14 +4,17 @@ import * as KEYS from '../store/keyMap';
  * Initial state of application
  */
 export default {
-  form : {}, // redux-form, single form entry (our form has key of 'form' inside this)
+  form : {
+    form: {},
+    wizard: {}
+  }, // redux-form, single form entry (our form has key of 'form' inside this)
   empDir : {
     byId: {},
     allIds: [],
     error: null,
     isFetching: false
   }, // information for all users in employee directory
-  requestForm : {}, // used to set state of redux form, single form entry
+  requestForm : {}, // used to set state of exisitng entry in redux form, single form entry
   requestsAll : {
     byId: {},
     allIds: [],
@@ -32,7 +35,7 @@ export default {
       isFetching: false
     }
   }, // requests for user -> approvals, requests
-  auth: {
+  auth : {
     [KEYS.USER_ROLE]: '',
     [KEYS.USER_SAM]: '',
     error: null,

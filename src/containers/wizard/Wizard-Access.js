@@ -6,9 +6,9 @@
  * TODO: on click a jsutification neeeded add to jsutifications, set justificationsNeeded
  */
 // libraries
-import React, { Component, PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { Row } from 'react-bootstrap';
+import React, {Component, PropTypes} from 'react';
+import {Field, reduxForm} from 'redux-form';
+import {Row} from 'react-bootstrap';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormAccess from '../../components/form/Form-Access';
@@ -26,12 +26,14 @@ import * as KEYS from '../../store/keyMap';
  * @param {func}  previousPage      - handles moving back to previous page in wizard
  * @return JSX
  */
-let WizardAccess = ({ handleSubmit, onSubmit, submitButton, previousPage, accessHandleChange }) => {
+let WizardAccess = ({handleSubmit, onSubmit, submitButton, previousPage, accessHandleChange}) => {
   let _submitButton = submitButton
     ? "Submit"
     : "Next";
   return (
-    <form onSubmit={handleSubmit( onSubmit )} onChange={accessHandleChange}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      onChange={accessHandleChange}>
       <FormHeader header="Access Requirements" centered/>
       <FormAccess/>
       <Row className="text-center">
@@ -53,6 +55,6 @@ WizardAccess.propTypes = {
 }
 
 // connect to redux form
-WizardAccess = reduxForm({ form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate })( WizardAccess );
+WizardAccess = reduxForm({form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate})(WizardAccess);
 
 export default WizardAccess;
