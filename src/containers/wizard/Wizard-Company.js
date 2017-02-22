@@ -12,12 +12,14 @@ import * as KEYS from '../../store/keyMap';
 /**
  * Second page of wizard - Recipients Company Information
  * See http://redux-form.com/6.5.0/examples/wizard/ for example
- * @param {func}    handleSubmit    - handles moving to next page in form
- * @param {func}    previousPage    - handles moving back to previous page in wizard
- * @param {object}  fieldsDisabled  - object of all fields that should be disabled
+ * @param {func}    handleSubmit        - handles sending submit to redux-form
+ * @param {func}    onSubmit            - handles going to next page
+ * @param {func}    previousPage        - handles moving back to previous page in wizard
+ * @param {object}  fieldsDisabled      - object of all fields that should be disabled
+ * @return JSX
  */
-let WizardCompany = ({ handleSubmit, previousPage, fieldsDisabled }) => (
-  <form onSubmit={handleSubmit}>
+let WizardCompany = ({ handleSubmit, onSubmit, previousPage, fieldsDisabled }) => (
+  <form onSubmit={handleSubmit( onSubmit )}>
     <FormHeader header="Company Information" centered/>
     <FormCompany fieldsDisabled={fieldsDisabled}/>
     <FormButtons
@@ -29,6 +31,7 @@ let WizardCompany = ({ handleSubmit, previousPage, fieldsDisabled }) => (
 
 WizardCompany.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   previousPage: PropTypes.func.isRequired,
   fieldsDisabled: PropTypes.object.isRequired
 };

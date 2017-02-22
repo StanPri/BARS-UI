@@ -27,7 +27,7 @@ const RadioGroup = ({
                 name={name}
                 value={index}
                 checked={input.value.indexOf(index) !== -1}
-                onChange={input.onChange}/>
+                onChange={input.onChange} />
               {`${option.name} ${option.justification ? "*" : ""}`}
             </label>
           </div>))

@@ -12,7 +12,8 @@ import validate from './validate';
  * First Page of wiazrd - Recipient Information
  * Displays list of recipeint when name entered in name field
  * Auto populates based off name from list selected
- * @param {func}    handleSubmit            - handles going to next page
+ * @param {func}    handleSubmit            - handles sending submit to redux-form
+ * @param {func}    onSubmit                - handles going to next page
  * @param {func}    recipientHandleInput    - populates list of recipients
  * @param {func}    recipientHandleClick    - handles clicking on name from list
  * @param {object}  recipientNames          - names to populate list with
@@ -22,26 +23,28 @@ import validate from './validate';
  */
 let WizardRecipient = ({
   handleSubmit,
+  onSubmit,
   recipientHandleInput,
   recipientHandleClick,
   recipientNames,
   recipientNamesHidden,
   fieldsDisabled
 }) => (
-  <form onSubmit={handleSubmit}>
-    <FormHeader header="Recipient Information" centered />
+  <form onSubmit={handleSubmit( onSubmit )}>
+    <FormHeader header="Recipient Information" centered/>
     <FormRecipient
       recipientHandleInput={recipientHandleInput}
       recipientHandleClick={recipientHandleClick}
       recipientNames={recipientNames}
       recipientNamesHidden={recipientNamesHidden}
       fieldsDisabled={fieldsDisabled}/>
-    <FormButtons onSubmitText="Next" />
+    <FormButtons onSubmitText="Next"/>
   </form>
 );
 
 WizardRecipient.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   recipientHandleInput: PropTypes.func.isRequired,
   recipientHandleClick: PropTypes.func.isRequired,
   recipientNames: PropTypes.object.isRequired,

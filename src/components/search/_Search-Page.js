@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import {Link, browserHistory} from 'react-router';
 import {Button} from 'react-bootstrap';
 import RequestTable from '../common/RequestTable';
+import FetchInProgress from '../../components/common/FetchInProgress';
+import DisplayError from '../../components/common/DisplayError';
 import * as requestsActions from '../../actions/requestsActions';
 
 class SearchPage extends React.Component {
@@ -31,7 +33,15 @@ class SearchPage extends React.Component {
   }
 
   render() {
-    const {requestsAll, actions} = this.props;
+    const {requestsAll, fetchCallsInProgress, actions} = this.props;
+    // display loading graphic if fetching
+    if (fetchCallsInProgress) {
+        return <FetchInProgress />;
+    }
+    // handle api errors
+    if (requestsAll.error) {
+        return <DisplayError error={requestsAll.error} onClick={actions.requestsGetAll} />;
+    }
     return (
       <div>
         <RequestTable table="requestsAll" title="All Requests" rows={requestsAll}/>

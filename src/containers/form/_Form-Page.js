@@ -8,6 +8,7 @@ import { reduxForm, change, touch } from 'redux-form';
 // actions, constants, etc
 import FetchInProgress from '../../components/common/FetchInProgress';
 import DisplayError from '../../components/common/DisplayError';
+import FormHeader from '../../components/form/Form-Header';
 import validate from '../wizard/validate';
 import initialState from '../../reducers/initialState';
 import * as empDirActions from '../../actions/empDirActions';
@@ -23,10 +24,10 @@ class FormPage extends Component {
     return (
       <form onSubmit={handleSubmit}>
         <FormHeader header="Recipient Information"/>
-        <FormRecipient allDisabled singleLine/>
+        {/* <FormRecipient allDisabled singleLine/>
         <FormCompany allDisabled singleLine/>
         <FormApprover allDisabled singleLine/>
-        <FormAccess allDisabled singleLine/>
+        <FormAccess allDisabled singleLine/> */}
         {/* <FormJustifications allDisabled singleLine /> */}
       </form>
     );

@@ -17,14 +17,16 @@ export const auth = () => dispatch => {
   let local_token = localStorage.getItem('id_token');
 
   // /** TEST DATA **/
-  local_token = null; // force request from api instedad of localstorage
+  // local_token = null; // force request from api instedad of localstorage
   // // chris -> user
-  // // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXGNocmlzLmt1bW1lciIsIkJBUlMiOlsiVXNlciJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.htHTv7kqJZNZ6CN781oCdWl9__3qSgKPDxDvLLR43rQ';
-  // // van -> user (approver)
-  // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXGRjY3Q1MCIsIkJBUlMiOlsiVXNlciJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.SK3jLRUYM6ouwCFDyH3RINGqwDi1tWkWZ_P6U7O9zEw';
+  // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjaHJpcy5rdW1tZXIiLCJCQVJTIjpbIlVzZXIiXSwiQ1RTIjoiVXNlci1jd2siLCJWTCI6IkFkbWluIiwiaWF0IjoxNDg2NDI0MTI0LCJleHAiOjE5ODY0Mjc3MjR9.nc9D-Uqf1gmRN0pl_QA8JrLbIBBKfSQy1oeoscqeU-w';
+  // // van -> user
+  local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkY2N0NTAiLCJCQVJTIjpbIlVzZXIiXSwiQ1RTIjoiVXNlci1jd2siLCJWTCI6IkFkbWluIiwiaWF0IjoxNDg2NDI0MTI0LCJleHAiOjE5ODY0Mjc3MjR9.OZoCzjbS4IfTWojImiz1va1ysOyJXTyySiniF8jTgiI';
   // // ryan -> user, security
-  // // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXHJ5YW4udm9sbG1lciIsIkJBUlMiOlsiVXNlciIsIlNlY3VyaXR5Il0sIkNUUyI6IlVzZXItY3drIiwiVkwiOiJBZG1pbiIsImlhdCI6MTQ4NjQyNDEyNCwiZXhwIjoxOTg2NDI3NzI0fQ.lvzunf24JDCVJgCha7eytDVkfUdvDpStGDFPUEOmC28';
-  // localStorage.setItem('id_token', local_token);
+  // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyeWFuLnZvbGxtZXIiLCJCQVJTIjpbIlVzZXIiLCJTZWN1cml0eSJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.vJvbR2jhWmGDli-9jb6Wu7quNrfRKubSij_FbtLgamg';
+  // // throw an error (invalid token)
+  // local_token = '1eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXHJ5YW4udm9sbG1lciIsIkJBUlMiOlsiVXNlciIsIlNlY3VyaXR5Il0sIkNUUyI6IlVzZXItY3drIiwiVkwiOiJBZG1pbiIsImlhdCI6MTQ4NjQyNDEyNCwiZXhwIjoxOTg2NDI3NzI0fQ.lvzunf24JDCVJgCha7eytDVkfUdvDpStGDFPUEOmC28';
+  localStorage.setItem('id_token', local_token);
   // /** END TEST USERS **/
 
   dispatch(authRequest()); // update fetchCallsInProgress

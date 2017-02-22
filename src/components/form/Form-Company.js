@@ -63,7 +63,7 @@ const FormCompany = ({ fieldsDisabled, allDisabled, singleLine }) => {
 };
 
 FormCompany.propTypes = {
-  fieldsDisabled: PropTypes.boobjectol,
+  fieldsDisabled: PropTypes.object,
   allDisabled: PropTypes.bool,
   singleLine: PropTypes.bool
 }

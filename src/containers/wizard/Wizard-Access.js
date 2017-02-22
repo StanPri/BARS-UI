@@ -17,12 +17,21 @@ import FormButtons from '../../components/form/Form-Buttons';
 import validate from './validate';
 import * as KEYS from '../../store/keyMap';
 
-let WizardAccess = ({ handleSubmit, submitButton, previousPage }) => {
+/**
+ * Fourth page of wizard - Access Requirements
+ * See http://redux-form.com/6.5.0/examples/wizard/ for example
+ * @param {func}  handleSubmit      - handles sending submit to redux-form
+ * @param {func}  onSubmit          - handles going to next page or submitting
+ * @param {bool}  submitButton      - determines if text of submit button
+ * @param {func}  previousPage      - handles moving back to previous page in wizard
+ * @return JSX
+ */
+let WizardAccess = ({ handleSubmit, onSubmit, submitButton, previousPage, accessHandleChange }) => {
   let _submitButton = submitButton
     ? "Submit"
     : "Next";
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit( onSubmit )} onChange={accessHandleChange}>
       <FormHeader header="Access Requirements" centered/>
       <FormAccess/>
       <Row className="text-center">
@@ -38,6 +47,7 @@ let WizardAccess = ({ handleSubmit, submitButton, previousPage }) => {
 
 WizardAccess.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   submitButton: PropTypes.bool.isRequired,
   previousPage: PropTypes.func.isRequired
 }
