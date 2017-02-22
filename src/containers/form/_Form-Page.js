@@ -1,9 +1,6 @@
 /*eslint no-class-assign: 0*/
 /*eslint-env es6*/
 // libraries
-//
-import ReactDOMServer from 'react-dom/server'
-
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -110,21 +107,21 @@ class FormPage extends Component {
       // Reject -> disabled
 
     return (
-      <FormPrint data={      <form onSubmit={handleSubmit(onSubmit)}>
-              <FormHeader header="Recipient Information"/>
-              <div className="row">
-                <FormRecipient allDisabled singleLine/>
-                <FormCompany allDisabled singleLine/>
-                <FormApprover allDisabled singleLine/>
-              </div>
-              <FormHeader header="Access Requirements"/>
-              <FormAccess allDisabled singleLine/>
-              {/* <FormHeader header="Justifications"/>
-              <FormJustifications allDisabled singleLine  /> */}
-              {/* <FormHeader header="Security"/>
-              <FormSecurity allDisabled />*/}
-              <FormButtons onClickText="Reject" onSubmitText="Accept"/>
-            </form>} handleSubmit={handleSubmit} onSubmit={onSubmit}/>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormHeader header="Recipient Information"/>
+        <div className="row">
+          <FormRecipient allDisabled singleLine/>
+          <FormCompany allDisabled singleLine/>
+          <FormApprover allDisabled singleLine/>
+        </div>
+        <FormHeader header="Access Requirements"/>
+        <FormAccess allDisabled singleLine/>
+        {/* <FormHeader header="Justifications"/>
+        <FormJustifications allDisabled singleLine  /> */}
+        {/* <FormHeader header="Security"/>
+        <FormSecurity allDisabled />*/}
+        <FormButtons onClickText="Reject" onSubmitText="Accept"/>
+      </form>
     );
   }
 }
@@ -132,10 +129,7 @@ class FormPage extends Component {
 
 const onSubmit = (vals) => {
   // submit goes here
-  let html = ReactDOMServer.renderToStaticMarkup(
-    <div>{vals.fullName}</div>
-  );
-  console.log(html);
+  console.log(vals);
 };
 
 FormPage.propTypes = {};
