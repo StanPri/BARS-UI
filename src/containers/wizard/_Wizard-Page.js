@@ -1,31 +1,34 @@
-/**
- * Main page container for wizard form
- * Displays when new request
- * See http://redux-form.com/6.5.0/examples/wizard/ for example
- * TODO: hook up to redux
- * TODO: logic for when to display, when to disable
- * TODO: local state for logic of when jsutifications, manager,etc
- * TODO: handle emp dir -> recip name, manager name
- */
- /*eslint no-class-assign: 0*/
- /*eslint-env es6*/
-// imported libraries
+/*eslint no-class-assign: 0*/
+/*eslint-env es6*/
+// libraries
 import React, { Component, PropTypes } from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {reduxForm, change, touch} from 'redux-form';
+import {reduxForm, change, touch, getFormValues} from 'redux-form';
+import {browserHistory} from 'react-router';
 // wizard pages
 import WizardAccess from './Wizard-Access';
 import WizardApprover from './Wizard-Approver';
 import WizardCompany from './Wizard-Company';
 import WizardRecipient from './Wizard-Recipient';
 import WizardJustifications from './Wizard-Justifications';
+import WizardTerms from './Wizard-Terms';
 // actions, constants, etc
+import FetchInProgress from '../../components/common/FetchInProgress';
+import DisplayError from '../../components/common/DisplayError';
 import validate from './validate';
 import initialState from '../../reducers/initialState';
+import * as requestFormActions from '../../actions/requestFormActions';
 import * as empDirActions from '../../actions/empDirActions';
 import * as KEYS from '../../store/keyMap';
 
+const debug = 0;
+
+/**
+ * Main page container for wizard form
+ * Displays when new request
+ * See http://redux-form.com/6.5.0/examples/wizard/ for example
+ */
 class WizardPage extends Component {
   constructor(props) {
     super(props)
@@ -33,11 +36,12 @@ class WizardPage extends Component {
       page: 1,                              // current page of wizard form
       recipientNames: initialState.empDir,  // list of recipient names when on recipient page
       recipientNamesHidden: true,           // hide recipient names when on recipient page
-      approving: false,                     // set when selecting approver name, will render approver terms TODO!
+      approving: false,                     // set when selecting approver name, will render approver terms
+      approverName: "",
       approverNames: initialState.empDir,   // list of manager names when on approver page
       approverNamesHidden: true,            // hide manager names when on approver page
-      justifications: {},                   // list of justifications tht are needed TODO!
-      justificationsNeeded: false,          // displays justifications page if true TODO!
+      justifications: [],                   // list of justifications tht are needed
+      justificationsUpdate: false,          // handles updating jsutificatinos after state has been set (componentDidUpdate)
       fieldsDisabled: {                     // which fields are disbaled
         // recipient
         [KEYS.FORM_EMAIL]: true,
@@ -51,6 +55,10 @@ class WizardPage extends Component {
         [KEYS.FORM_SUP_PHONE]: true
       }
     }
+
+    // bind api functions
+    this.formHandleSubmit = this.formHandleSubmit.bind(this);
+    this.loadEmpDir = this.loadEmpDir.bind(this);
     // bind page functions
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
@@ -60,12 +68,89 @@ class WizardPage extends Component {
     // bind approver functions
     this.approverHandleInput = this.approverHandleInput.bind(this);
     this.approverHandleClick = this.approverHandleClick.bind(this);
+    // bind justifications functions
+    this.updateJustifications = this.updateJustifications.bind(this);
+    this.accessHandleChange = this.accessHandleChange.bind(this);
   }
 
   componentDidMount() {
-    // load employee directory from api for selecting name from list
-    this.props.actions.empDir();
+    this.loadEmpDir();
   }
+
+  componentDidUpdate() {
+    this.updateJustifications();
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////     API FUNCTIONS     ////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  /**
+   * Handles loading employee directory data
+   * Used for populating names and supervisor names lists
+   */
+  loadEmpDir() {
+    const { actions } = this.props;
+    // load employee directory from api for selecting name from list
+    actions.empDir();
+  }
+
+  /**
+   * Handles submitting requests (submit/approve buttons)
+   * @param {object} vals       - values from redux-form
+   */
+  formHandleSubmit(vals) {
+    if (debug) console.log("formHandleSubmit: ", vals);
+    const {actions, destroy} = this.props;
+    actions.submitNewRequest(vals); // submit new request
+    destroy(); // clear form
+    browserHistory.push('/'); // redirect to homepage
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///////////////////////     JUSTIFICATIONS FUNCTIONS     /////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  /**
+   * handles updating justifications needed
+   */
+  updateJustifications() {
+    const {wizardValues} = this.props;
+    const {justificationsUpdate} = this.state;
+    const _justifications = [];
+    // if form mounted and justification update needed (need tp keep track for componentDidMount to work)
+    if (wizardValues && justificationsUpdate) {
+      // check sections
+      if (wizardValues[KEYS.FORM_AREAS]) {
+        // set jusifiction needed if requried field set
+        wizardValues[KEYS.FORM_AREAS].forEach(key => {
+          if (KEYS.OPTIONS_AREA[+key].justification) {
+            _justifications.push(KEYS.OPTIONS_AREA[key]);
+          }
+        });
+      }
+      if (wizardValues[KEYS.FORM_REASON]) {
+        if (KEYS.OPTIONS_REASON[+wizardValues[KEYS.FORM_REASON]].justification) {
+          _justifications.push(KEYS.OPTIONS_REASON[+wizardValues[KEYS.FORM_REASON]]);
+        }
+      }
+      if (wizardValues[KEYS.FORM_HOURS]) {
+        if (KEYS.OPTIONS_HOURS[+wizardValues[KEYS.FORM_HOURS]].justification) {
+          _justifications.push(KEYS.OPTIONS_HOURS[+wizardValues[KEYS.FORM_HOURS]]);
+        }
+      }
+      // update state and make componentDidMount not go into endless loop
+      this.setState({justificationsUpdate: false});
+      this.setState({justifications: _justifications});
+    }
+  }
+
+  /**
+   * Handles form changing on access requirements page
+   * Sets if values should be updated
+   */
+  accessHandleChange(e) {
+    this.setState({justificationsUpdate: true});
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////     CURRENT PAGE FUNCTIONS     ///////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -74,9 +159,9 @@ class WizardPage extends Component {
    * Skips Justifications page if none needed
    */
   nextPage() {
-    const {page, justificationsNeeded, approving} = this.state;
+    const {page, justifications, approving} = this.state;
     // if no justifications and approving skip next page (justifications page)
-    let next = !justificationsNeeded && approving ? page + 2 : page + 1;
+    let next = page === 4 && !justifications.length && approving ? page + 2 : page + 1;
     this.setState({ page: next });
   }
 
@@ -85,9 +170,9 @@ class WizardPage extends Component {
    * Skips Justifications page if none needed
    */
   previousPage() {
-    const {page, justificationsNeeded, approving} = this.state;
+    const {page, justifications, approving} = this.state;
     // if no justifications and approving skip prev page (justifications page)
-    let prev = !justificationsNeeded && approving ? page - 2 : page - 1;
+    let prev = page === 6 && !justifications.length && approving ? page - 2 : page - 1;
     this.setState({ page: prev });
   }
 
@@ -102,8 +187,8 @@ class WizardPage extends Component {
    */
   recipientHandleInput(e) {
     e.preventDefault();
+    let {empDir, dispatch} = this.props;
     if (e.target.value.length) {
-      let {empDir} = this.props;
       let _search = '(?=.*' + e.target.value.split(/, +|,| +/).join(')(?=.*') + ')';
       let re = new RegExp(_search, 'i');
       // filter list of employees in name list
@@ -125,6 +210,8 @@ class WizardPage extends Component {
       // if empty input hide list
       this.setState({recipientNames: initialState.empDir, recipientNamesHidden: true});
     }
+    // blank recipient sam to check if user from list selcted
+    dispatch(change('wizard', KEYS.FORM_SAM_RECEIVE, ""));
   }
 
   /**
@@ -135,11 +222,15 @@ class WizardPage extends Component {
    */
   recipientHandleClick(e) {
     e.preventDefault();
-    const {dispatch, empDir} = this.props;
+    const {dispatch, empDir, auth} = this.props;
     const {recipientNames, fieldsDisabled} = this.state;
     let _fieldsDisabled = fieldsDisabled;
     // get employees sam account (set by mapping of names on data-id)
     let id = e.target.dataset.id;
+    /////////// SUBMITTER (TODO:move to common function) ////////////////
+    // TODO! JWT CHARS , make conistent from api...
+    let submitter = empDir.byId[auth[KEYS.USER_SAM]];
+    dispatch(change('wizard', KEYS.FORM_SUBMIT_EMAIL, submitter[KEYS.USER_EMAIL]));
     /////////// RECIPIENT (TODO:move to common function) ////////////////
     // look up employee who has this sam
     let recipient = recipientNames.byId[id];
@@ -223,7 +314,7 @@ class WizardPage extends Component {
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  /////////////////////////     APPROVER FUNCTIONS     ////////////////////////
+  /////////////////////////     APPROVER FUNCTIONS     /////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   /**
    * Handles typing name into supervisor name field
@@ -238,7 +329,7 @@ class WizardPage extends Component {
       let _search = '(?=.*' + e.target.value.split(/, +|,| +/).join(')(?=.*') + ')';
       let re = new RegExp(_search, 'i');
       // filter list of employees in name list where they have isManager
-      let _employees = empDir.allIds.filter(id => {
+      let _managers = empDir.allIds.filter(id => {
         if (`${empDir.byId[id][KEYS.USER_NAME]}`.match(re) &&
           empDir.byId[id][KEYS.USER_IS_MANAGER] === 1) {
           return true;
@@ -248,14 +339,17 @@ class WizardPage extends Component {
       // set list of approver names to select from and display it
       this.setState({
         approverNames: {
-          allIds: _employees,
+          allIds: _managers,
           byId: empDir.byId
         },
-        approverNamesHidden: false
+        approverNamesHidden: false,
       });
     } else {
       // if empty input hide list
-      this.setState({approverNames: initialState.empDir, approverNamesHidden: true});
+      this.setState({
+        approverNames: initialState.empDir,
+        approverNamesHidden: true
+      });
     }
   }
 
@@ -266,7 +360,7 @@ class WizardPage extends Component {
    */
   approverHandleClick(e) {
     e.preventDefault();
-    const {dispatch, empDir} = this.props;
+    const {dispatch, empDir, auth} = this.props;
     const {approverNames, fieldsDisabled} = this.state;
     let _fieldsDisabled = fieldsDisabled;
     // get employees sam account (set by mapping of names on data-id)
@@ -305,6 +399,15 @@ class WizardPage extends Component {
     // set approver name field as editable
     _fieldsDisabled[KEYS.FORM_SUP_NAME] = false;
     this.setState({fieldsDisabled: _fieldsDisabled});
+    // if submitter is manager
+    if (approver[KEYS.USER_SAM] === auth[KEYS.USER_SAM]) {
+      // set approving, so approval terms display later
+      this.setState({approving: true});
+      this.setState({approverName: approver[KEYS.USER_NAME]});
+    }
+    else {
+      this.setState({approving: false});
+    }
   }
 
   render() {
@@ -314,10 +417,24 @@ class WizardPage extends Component {
       recipientNamesHidden,
       approving,
       approverNames,
+      approverName,
       approverNamesHidden,
-      justificationsNeeded,
+      justifications,
       fieldsDisabled
     } = this.state;
+    const {
+        empDir: {error},
+        fetchCallsInProgress,
+        actions
+    } = this.props;
+    // display loading graphic if fetching
+    if (fetchCallsInProgress) {
+        return <FetchInProgress />;
+    }
+    // handle api errors
+    if (error) {
+        return <DisplayError error={error} onClick={actions.empDir} />;
+    }
     // Set props for different pages of wizard
     const WizardRecipientProps = {
       recipientHandleInput: this.recipientHandleInput,
@@ -342,47 +459,49 @@ class WizardPage extends Component {
       onSubmit: this.nextPage
     };
     const WizardAccessProps = {
+      accessHandleChange: this.accessHandleChange,
       previousPage: this.previousPage,
-      onSubmit: (justificationsNeeded || approving ? this.nextPage : testSubmit),
-      submitButton: (!justificationsNeeded && !approving)
+      onSubmit: (!justifications.length && !approving ? this.formHandleSubmit : this.nextPage),
+      submitButton: (!justifications.length && !approving)
     };
     const WizardJustificationsProps = {
+      justifications: justifications,
       previousPage: this.previousPage,
-      onSubmit: (approving ? this.nextPage : testSubmit),
+      onSubmit: (approving ? this.nextPage : this.formHandleSubmit),
       submitButton: !approving
     };
-    // const WizardTermsProps = {
-    //   previousPage: this.previousPage,
-    //   onSubmit: testSubmit
-    // };
+    const WizardTermsProps = {
+      previousPage: this.previousPage,
+      onSubmit: this.formHandleSubmit,
+      approverName: approverName
+    };
     return (<div>
         {page === 1 && <WizardRecipient {...WizardRecipientProps} />}
         {page === 2 && <WizardCompany {...WizardCompanyProps} />}
         {page === 3 && <WizardApprover {...WizardApproverProps} />}
         {page === 4 && <WizardAccess {...WizardAccessProps} />}
         {page === 5 && <WizardJustifications {...WizardJustificationsProps} />}
-        {/*TODO:::: page === 6 && <WizardTerms {...WizardTermsProps} />*/}
+        {page === 6 && <WizardTerms {...WizardTermsProps} />}
       </div>
     )
   }
-}
-
-//TODO!!!!!!!!!! make acutal submit fucnxtion (in class)
-const testSubmit = (vals) => {
-  console.log("SUBMITTING::::: ", vals);
 }
 
 WizardPage.propTypes = {};
 
 // map all state (from redux store) to props
 const mapStateToProps = (state, ownProps) => ({
-  empDir: state.empDir
+  empDir: state.empDir,
+  auth: state.auth,
+  fetchCallsInProgress: state.fetchCallsInProgress,
+  wizardValues: getFormValues('wizard')(state)
 });
 
 // map all action creators to props
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
-    ...empDirActions
+    ...empDirActions,
+    ...requestFormActions
   }, dispatch)
 });
 

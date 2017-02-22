@@ -40,6 +40,8 @@ export const FORM_SECURITY_NAME = 'securityApproverName';
 export const FORM_SECURITY_TIME = 'securityApprovalTimestampUtc';
 export const FORM_TERMS = 'receiverAgreementTimestampUtc';
 export const FORM_TERMS_SUP = 'supervisorApprovalTimestampUtc';
+export const FORM_TERMS_NAME_SUP = 'supervisorTerms';
+
 // Sam accounts
 export const FORM_SAM_SUBMIT = 'submitterSamAccount';
 export const FORM_SAM_RECEIVE = 'receiverSamAccount';
@@ -47,6 +49,46 @@ export const FORM_SAM_SUPER = 'supervisorSamAccount';
 // submission info
 export const FORM_SUBMIT_EMAIL = 'submitterEmail';
 export const FORM_REJECT_REASON = 'cancellationReason';
+/**
+ * Justifications
+ */
+export const JUSTIFICATIONS_GC_DOCK = 'justification_gc_dock';
+export const JUSTIFICATIONS_GC_COMPUTER_ROOM = 'justification_gc_computer_room';
+export const JUSTIFICATIONS_GC_TMS = 'justification_gc_tms';
+export const JUSTIFICATIONS_TRAINING_ROOM = 'justification_training_room';
+export const JUSTIFICATIONS_OTHER = 'justification_other_area';
+export const JUSTIFICATIONS_CHANGE_ACCESS = 'justification_change_access';
+export const JUSTIFICATIONS_24_HOURS = 'justification_24_hours';
+
+/**
+ * options for access requirements
+ */
+ export const OPTIONS_AREA = [
+   { name: "Office" },
+   { name: "Gold Camp" },
+   { name: "Gold Camp - Dock", justification: JUSTIFICATIONS_GC_DOCK },
+   { name: "Gold Camp - Computer Room (Raised Floor)" },
+   { name: "Gold Camp - Tenant Managed Space (TMS-p)", justification: JUSTIFICATIONS_GC_TMS },
+   { name: "Prospect Green" },
+   { name: "Croydon Warehouse" },
+   { name: "Extended Current Access" },
+   { name: "Training Center (24/7)", justification: JUSTIFICATIONS_TRAINING_ROOM },
+   { name: "Other Area", justification: JUSTIFICATIONS_OTHER }
+ ];
+
+ export const OPTIONS_REASON = [
+   { name: "New Employee", },
+   { name: "Student / Intern" },
+   { name: "Vendor / Contractor" },
+   { name: "Badge Replacement" },
+   { name: "Change Access", justification: JUSTIFICATIONS_CHANGE_ACCESS }
+ ];
+
+ export const OPTIONS_HOURS = [
+   { name: "Weekdays (6am - 7pm)" },
+   { name: "24 hours / Day", justification: JUSTIFICATIONS_24_HOURS }
+ ];
+
 /**
  * Form status codes
  */
@@ -70,11 +112,6 @@ export const STATUS_NAMES = [
   'Cancelled by Recipient',
   'Cancelled by Submitter'
 ];
-
-/**
- * Justifications
- */
-export const JUSTIFICATIONS_OTHER = 'justification_other_area';
 
 /**
  * USER ROLES

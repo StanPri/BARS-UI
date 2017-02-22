@@ -8,9 +8,12 @@ import * as KEYS from '../../store/keyMap';
 const validate = values => {
   const errors = {};
   // Recipient Information
-  // TODO: validate sam to make sure form empDir? how to make sure selcetd from list
   if (!values[KEYS.FORM_NAME]) {
     errors[KEYS.FORM_NAME] = 'Required';
+  }
+  // check if user has changed after selcting a name from list (email should be populated...)
+  if (values[KEYS.FORM_EMAIL] && !values[KEYS.FORM_SAM_RECEIVE]) {
+    errors[KEYS.FORM_NAME] = 'Enter the recipients name, then select it from the list';
   }
   if (!values[KEYS.FORM_PHONE]) {
     errors[KEYS.FORM_PHONE] = 'Required';
@@ -37,9 +40,12 @@ const validate = values => {
     errors[KEYS.FORM_UNIT] = 'Required';
   }
   // Approver Information
-  // TODO: validate sam to make sure form empDir? how to make sure selcetd from list
   if (!values[KEYS.FORM_SUP_NAME]) {
     errors[KEYS.FORM_SUP_NAME] = 'Required';
+  }
+  // check if user has changed after selcting a name from list (email should be populated...)
+  if (!values[KEYS.FORM_SAM_SUPER]) {
+    errors[KEYS.FORM_SUP_NAME] = 'Enter the supervisors name, then select it from the list';
   }
   if (!values[KEYS.FORM_SUP_EMAIL]) {
     errors[KEYS.FORM_SUP_EMAIL] = 'Required';
@@ -58,8 +64,37 @@ const validate = values => {
     errors[KEYS.FORM_HOURS] = 'Required';
   }
   // Justifications
-  // Sam accounts etc?
+  if (!values[KEYS.JUSTIFICATIONS_OTHER]) {
+    errors[KEYS.JUSTIFICATIONS_OTHER] = 'Required';
+  }
+  if (!values[KEYS.JUSTIFICATIONS_GC_DOCK]) {
+    errors[KEYS.JUSTIFICATIONS_GC_DOCK] = 'Required';
+  }
+  if (!values[KEYS.JUSTIFICATIONS_GC_TMS]) {
+    errors[KEYS.JUSTIFICATIONS_GC_TMS] = 'Required';
+  }
+  if (!values[KEYS.JUSTIFICATIONS_TRAINING_ROOM]) {
+    errors[KEYS.JUSTIFICATIONS_TRAINING_ROOM] = 'Required';
+  }
+  if (!values[KEYS.JUSTIFICATIONS_CHANGE_ACCESS]) {
+    errors[KEYS.JUSTIFICATIONS_CHANGE_ACCESS] = 'Required';
+  }
+  if (!values[KEYS.JUSTIFICATIONS_24_HOURS]) {
+    errors[KEYS.JUSTIFICATIONS_24_HOURS] = 'Required';
+  }
+  if (!values[KEYS.JUSTIFICATIONS_GC_COMPUTER_ROOM]) {
+    errors[KEYS.JUSTIFICATIONS_GC_COMPUTER_ROOM] = 'Required';
+  }
+  // Terms and Conditions
+  if (!values[KEYS.FORM_TERMS_NAME_SUP]) {
+    errors[KEYS.FORM_TERMS_NAME_SUP] = 'Required';
+  }
+  if (values[KEYS.FORM_TERMS_NAME_SUP] !== values[KEYS.FORM_SUP_NAME]) {
+    errors[KEYS.FORM_TERMS_NAME_SUP] = 'Please enter your name exactly as it appears above.';
+  }
+
   return errors;
+  // return {}; // disable validation
 }
 
 export default validate;

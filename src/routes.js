@@ -1,10 +1,11 @@
 import React from 'react';
 import {Route, Redirect, IndexRoute} from 'react-router';
 import App from './components/App';
-import ListsPage from './components/lists/_ListsPage';
-import AboutPage from './components/about/_AboutPage';
+import ListsPage from './containers/lists/_Lists-Page';
+import AboutPage from './components/about/_About-Page';
 import WizardPage from './containers/wizard/_Wizard-Page';
-import SearchPage from './components/search/_SearchPage';
+import FormPage from './containers/form/_Form-Page';
+import SearchPage from './containers/search/_Search-Page';
 
 // TODO: change all componetns to containers...
 export default(
@@ -12,6 +13,7 @@ export default(
     <IndexRoute component={ListsPage}/>
     <Route path="about" component={AboutPage}/>
     <Route path="wizard" component={WizardPage}/>
+    <Route path="form" component={FormPage}/>
     <Route path="search" component={SearchPage}/>
     <Redirect from="*" to="/"/>
   </Route>

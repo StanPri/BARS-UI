@@ -2,8 +2,6 @@ import {combineReducers} from 'redux';
 import {AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE} from '../actions/actionTypes';
 import initialState from './initialState';
 import * as KEYS from '../store/keyMap';
-// mock data for testing
-import * as mock from '../mock/user';
 
 /**
  * Information about user's authrentication, including their role, name and if authenicated
@@ -14,16 +12,23 @@ import * as mock from '../mock/user';
 export const authReducer = (state = initialState.auth, action) => {
   switch (action.type) {
     case AUTH_REQUEST:
-      return state;
+      return {
+          ...state,
+          isFetching: true
+      };
     case AUTH_SUCCESS:
       return Object.assign({}, state, {
-        // [KEYS.USER_ROLE]: mock.useMock.ED ? mock.user.role : action.role,
-        // [KEYS.USER_SAM]: mock.useMock.ED ? mock.user.sam : action.sam
         [KEYS.USER_ROLE]: action.role,
-        [KEYS.USER_SAM]: action.sam
+        [KEYS.USER_SAM]: action.sam,
+        error: null,
+        isFetching: false
       });
     case AUTH_FAILURE:
-      return initialState.auth; // TODO: add error handling
+      return {
+          ...initialState.auth,
+          error: action.error,
+          isFetching: false
+      };
     default:
       return state;
   }

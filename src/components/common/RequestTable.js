@@ -1,14 +1,10 @@
 import React, {PropTypes} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 import {Col, Row} from 'react-bootstrap';
 import {Table} from 'reactable';
-import {browserHistory} from 'react-router';
 import RequestTableButton from './RequestTableButton';
-import * as requestFormActions from '../../actions/requestFormActions';
 import * as KEYS from '../../store/keyMap';
 
-function RequestTable({rows, title, actions}) {
+function RequestTable({rows, title, onClick}) {
   // map column keys (from api) to labels (displayed text)
   const _columns = [
     {
@@ -38,18 +34,17 @@ function RequestTable({rows, title, actions}) {
     }
   ];
 
-  // add button to copy of rows TODO: move to external function...
+  // add button to copy of rows
+  // TODO: should this (and above stuff?) move to container...
   const _data = rows.allIds.map(id => ({
     ...rows.byId[id],
-    [KEYS.FORM_STATUS] : KEYS.STATUS_NAMES[rows.byId[id][KEYS.FORM_STATUS]],
-    button: <RequestTableButton
-        onClick={() => {
-        actions.requestFormView(rows.byId[id]);
-        browserHistory.push('/form');
-      }}/>
+    [KEYS.FORM_STATUS]: KEYS.STATUS_NAMES[rows.byId[id][KEYS.FORM_STATUS]],
+    button: <RequestTableButton onClick={() => onClick(rows.byId[id])}/>
   }));
 
-  const _itemsPerPage = rows.allIds.length > 15 ? 15 : 0;
+  const _itemsPerPage = rows.allIds.length > 15
+    ? 15
+    : 0;
 
   return (
     <Row>
@@ -76,17 +71,10 @@ function RequestTable({rows, title, actions}) {
   );
 }
 
-const mapStateToProps = (state) => ({state: state});
-
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(requestFormActions, dispatch)
-});
-
 RequestTable.propTypes = {
   title: PropTypes.string.isRequired,
   rows: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  onClick: PropTypes.func.isRequired
 };
 
-export {RequestTable as RequestTableTest}; // for testing without redux
-export default connect(mapStateToProps, mapDispatchToProps)(RequestTable);
+export default RequestTable;

@@ -1,23 +1,45 @@
-import React, {PropTypes} from 'react';
-import {Field, reduxForm} from 'redux-form';
-import {Row, Col, Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
-import FormInput from '../common/FormInput';
-import FormSelect from '../common/FormSelect';
+// libraries
+import React, { PropTypes } from 'react';
+import { Field } from 'redux-form';
+import { Row, Col } from 'react-bootstrap';
+// compnents
+import RenderField from '../common/RenderField';
+// constants, actions, etc
+import * as KEYS from '../../store/keyMap';
 
-const FormJustifications = props => (
-  <div>
+/**
+ * Displays company section of form
+ * @param {object}  fieldsDisabled  - contains all fields that should be disabled
+ * @param {bool}    allDisabled     - toggles disabling all fields
+ * @param {bool}    singleLine      - toggles al fields being in a single line
+ */
+const FormJustifications = ({ allDisabled, singleLine, justifications }) => {
+  let width = singleLine
+    ? 3
+    : 6;
+  let offset = singleLine
+    ? 0
+    : 3;
+  return (
     <Row>
-      <Col xs={12}>
-        <h2>
-          Justifications
-          <Button><Glyphicon glyph="question-sign"/></Button>
-        </h2>
-      </Col>
-      <Col xs={12}>
-        justifications go here. You got some explainin to do....
-      </Col>
+      {justifications.map(key => (
+        <Col sm={width} smOffset={offset} key={key.name}>
+          <Field
+            label={key.name}
+            name={key.justification}
+            disabled={allDisabled}
+            component={RenderField}
+            componentClass="textarea"
+            required={!allDisabled}/>
+        </Col>
+      ))}
     </Row>
-  </div>
-);
+  );
+};
+
+FormJustifications.propTypes = {
+  allDisabled: PropTypes.bool,
+  singleLine: PropTypes.bool
+}
 
 export default FormJustifications;

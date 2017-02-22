@@ -4,8 +4,6 @@ import initialState from './initialState';
 import {getById, getAllIds} from './index';
 import * as KEYS from '../store/keyMap';
 
-const debug = 0;
-
 /**
  * Reducer for all empoyees in empoyee directory
  * @param  {object} state     - immutable section of store
@@ -15,15 +13,23 @@ const debug = 0;
 export const empDirReducer = (state = initialState.empDir, action) => {
   switch (action.type) {
     case EMP_DIR_REQUEST:
-      return state;
+      return {
+        ...state,
+        isFetching: true
+      };
     case EMP_DIR_SUCCESS:
-      if (debug) console.log(action.employees);
       return {
         byId: getById(action.employees, KEYS.USER_SAM),
-        allIds: getAllIds(action.employees, KEYS.USER_SAM)
+        allIds: getAllIds(action.employees, KEYS.USER_SAM),
+        error: null,
+        isFetching: false
       };
     case EMP_DIR_FAILURE:
-      return state;
+      return {
+        ...initialState.empDir,
+        error: action.error,
+        isFetching: false
+      };
     default:
       return state;
   }

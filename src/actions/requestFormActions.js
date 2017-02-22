@@ -5,13 +5,16 @@ import * as KEYS from '../store/keyMap';
 // mock data for testing
 import * as mock from '../mock/user';
 
+const debug = 0;
+
 // View exisiting request
 export const requestFormView = data => ({type: types.REQUEST_FORM_VIEW, data});
 export const requestFormReset = data => ({type: types.REQUEST_FORM_RESET});
 
 // Submit new request
 export const submitNewRequest = data => {
-  console.log("Submitting new request: ", data);
+  if (debug)
+    console.log("Submitting new request: ", data);
   return ({
     [CALL_API]: {
       endpoint: mock.useMock.BARS
