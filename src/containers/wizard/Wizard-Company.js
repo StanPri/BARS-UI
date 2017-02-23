@@ -4,7 +4,7 @@ import {Field, reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormCompany from '../../components/form/Form-Company';
-import FormButtons from '../../components/form/Form-Buttons';
+import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
 import validate from './validate';
 import * as KEYS from '../../store/keyMap';
@@ -22,7 +22,7 @@ let WizardCompany = ({handleSubmit, onSubmit, previousPage, fieldsDisabled}) => 
   <form onSubmit={handleSubmit(onSubmit)}>
     <FormHeader header="Company Information" centered/>
     <FormCompany fieldsDisabled={fieldsDisabled}/>
-    <FormButtons
+    <WizardButtons
       onSubmitText={"Next"}
       onClick={previousPage}
       onClickText={"Previous"}/>

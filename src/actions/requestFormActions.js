@@ -51,7 +51,7 @@ export const deleteExistingRequest = (id, reason) => {
         ? `/CancelBadgeRequest/`
         : `/CancelBadgeRequest/${id}`,
       method: 'put',
-      body: reason,
+      body: {[KEYS.FORM_REJECT_REASON]: reason},
       types: [types.CANCEL_EXISTING_REQUEST, types.CANCEL_EXISTING_SUCCESS, types.CANCEL_EXISTING_FAILURE]
     }
   });

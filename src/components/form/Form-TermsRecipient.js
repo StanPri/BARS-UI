@@ -8,13 +8,13 @@ import RenderField from '../common/RenderField';
 import * as KEYS from '../../store/keyMap';
 
 /**
- * Displays approval of terms and conditions for supervisors in form
+ * Displays approval of terms and conditions for recipient in form
  * @param {string}  label           - name user must match to confirm
  * @param {string}  name            - field name
  * @param {bool}    allDisabled     - toggles disabling all fields
  * @param {bool}    singleLine      - toggles al fields being in a single line
  */
-const FormTermsApprover = ({label, name, allDisabled, singleLine}) => {
+const FormTermsRecipient = ({label, name, allDisabled, singleLine}) => {
   let width = singleLine
     ? 12
     : 6;
@@ -28,7 +28,7 @@ const FormTermsApprover = ({label, name, allDisabled, singleLine}) => {
           <p>By entering your name exactly as it appears below you
             agree to the following terms and conditions:</p>
           <ul>
-            <li>approvers terms and condiitions....</li>
+            <li>recipient terms and condiitions....</li>
             <li>more terms and condiitions....</li>
           </ul>
         </div>}
@@ -44,10 +44,10 @@ const FormTermsApprover = ({label, name, allDisabled, singleLine}) => {
   );
 };
 
-FormTermsApprover.propTypes = {
+FormTermsRecipient.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   allDisabled: PropTypes.bool
 }
 
-export default FormTermsApprover;
+export default FormTermsRecipient;

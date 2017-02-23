@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { Row, Col, ButtonGroup, Button } from 'react-bootstrap';
 
 /**
- * Buttons for form pages
+ * Buttons for wizard form pages
  * @param {string}  onSubmitText    - text to display for submit button
  * @param {func}    onClick         - handles button that is not submit button
  * @param {string}  onClickText     - text to display for button that is not submit button

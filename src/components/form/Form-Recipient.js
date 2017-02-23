@@ -9,7 +9,7 @@ import NameList from '../common/NameList';
 import * as KEYS from '../../store/keyMap';
 
 /**
- * Renders recipient section of form
+ * Renders recipient information section of form
  * @param {func}    recipientHandleInput   - handles entering a name into name field
  * @param {func}    recipientHandleClick   - handles clicking on a name from list
  * @param {object}  recipientNames         - list of names to display
@@ -34,7 +34,7 @@ const FormRecipient = ({
     ? 0
     : 3;
   return (
-    <div onClick={(e) => console.log(e.target)}>
+    <div>
       <Col sm={width} smOffset={offset}>
         <Field
           label="Name"

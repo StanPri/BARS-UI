@@ -40,6 +40,8 @@ export const FORM_SECURITY_NAME = 'securityApproverName';
 export const FORM_SECURITY_TIME = 'securityApprovalTimestampUtc';
 export const FORM_TERMS = 'receiverAgreementTimestampUtc';
 export const FORM_TERMS_SUP = 'supervisorApprovalTimestampUtc';
+// INTERNAL ONLY, placeholder for users aggreement to terms and conditions
+export const FORM_TERMS_NAME_REC = 'srecipientTerms';
 export const FORM_TERMS_NAME_SUP = 'supervisorTerms';
 
 // Sam accounts

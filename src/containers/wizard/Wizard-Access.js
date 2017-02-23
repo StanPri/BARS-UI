@@ -12,7 +12,7 @@ import {Row} from 'react-bootstrap';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormAccess from '../../components/form/Form-Access';
-import FormButtons from '../../components/form/Form-Buttons';
+import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
 import validate from './validate';
 import * as KEYS from '../../store/keyMap';
@@ -39,7 +39,7 @@ let WizardAccess = ({handleSubmit, onSubmit, submitButton, previousPage, accessH
       <Row className="text-center">
         <p>Fields marked with an asterisk (*) require a justification.</p>
       </Row>
-      <FormButtons
+      <WizardButtons
         onSubmitText={_submitButton}
         onClick={previousPage}
         onClickText={"Previous"}/>
