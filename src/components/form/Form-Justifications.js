@@ -8,7 +8,7 @@ import RenderField from '../common/RenderField';
 import * as KEYS from '../../store/keyMap';
 
 /**
- * Displays company section of form
+ * Displays justifications section of form
  * @param {object}  fieldsDisabled  - contains all fields that should be disabled
  * @param {bool}    allDisabled     - toggles disabling all fields
  * @param {bool}    singleLine      - toggles al fields being in a single line

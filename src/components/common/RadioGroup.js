@@ -13,6 +13,7 @@ const RadioGroup = ({
     name,
     options,
     input,
+    disabled,
     meta: {touched, error}
 }) =>{
   const validState = touched && error ? "error" : null;
@@ -27,7 +28,8 @@ const RadioGroup = ({
                 name={name}
                 value={index}
                 checked={input.value.toString().indexOf(index) !== -1}
-                onChange={input.onChange} />
+                onChange={input.onChange}
+                disabled={disabled} />
               {`${option.name} ${option.justification ? "*" : ""}`}
             </label>
           </div>))

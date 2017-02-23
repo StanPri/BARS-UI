@@ -1,20 +1,34 @@
 // imported libraries
-import React, { PropTypes } from 'react';
-import { Row, Col, ButtonGroup, Button } from 'react-bootstrap';
+import React, {PropTypes} from 'react';
+import {Row, Col, ButtonGroup, Button} from 'react-bootstrap';
 
 /**
- * Buttons for form pages
- * @param {string}  onSubmitText    - text to display for submit button
- * @param {func}    onClick         - handles button that is not submit button
- * @param {string}  onClickText     - text to display for button that is not submit button
+ * Buttons for form
+ * @param {string}  rightColor    - color of right button. requires bootstrap naming.
+ * @param {string}  rightText     - text to display for right button
+ * @param {func}    rightClick    - function to fire when right button clicked
+ * @param {string}  leftColor     - color of left button. requires bootstrap naming.
+ * @param {string}  leftText      - text to display for left button
+ * @param {func}    leftClick     - function to fire when left button clicked
  */
-const FormButtons = ({ onSubmitText, onClick, onClickText, onClickColor }) => {
+const FormButtons = ({
+  rightColor,
+  rightText,
+  rightClick,
+  leftColor,
+  leftText,
+  leftClick
+}) => {
   return (
     <Row>
       <Col xs={12} className="text-center">
-        <ButtonGroup>
-          {onClickText && <Button bsStyle={onClickColor} onClick={onClick}>{onClickText}</Button>}
-          <Button type="submit" bsStyle="primary">{onSubmitText}</Button>
+        <ButtonGroup>\
+          <Button
+            bsStyle={leftColor || "primary"}
+            onClick={leftClick}>{leftText  || "Submit"}</Button>
+          {rightClick && <Button
+            bsStyle={rightColor || "default"}
+            onClick={rightClick}>{rightText}</Button>}
         </ButtonGroup>
       </Col>
     </Row>
@@ -22,10 +36,12 @@ const FormButtons = ({ onSubmitText, onClick, onClickText, onClickColor }) => {
 };
 
 FormButtons.propTypes = {
-  onSubmitText: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
-  onClickText: PropTypes.string,
-  onClickColor: PropTypes.string,
+  rightColor: PropTypes.string,
+  rightText: PropTypes.string,
+  rightClick: PropTypes.func,
+  leftColor: PropTypes.string,
+  leftText: PropTypes.string,
+  leftClick: PropTypes.func.isRequired
 };
 
 export default FormButtons;

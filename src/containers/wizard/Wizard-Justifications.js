@@ -5,7 +5,7 @@ import {Row} from 'react-bootstrap';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormJustifications from '../../components/form/Form-Justifications';
-import FormButtons from '../../components/form/Form-Buttons';
+import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
 import validate from './validate';
 import * as KEYS from '../../store/keyMap';
@@ -30,7 +30,7 @@ let WizardJustifications = ({handleSubmit, onSubmit, previousPage, justification
         <p>Please enter justifications for the following Access Requirements:</p>
       </Row>
       <FormJustifications justifications={justifications}/>
-      <FormButtons
+      <WizardButtons
         onSubmitText={_submitButton}
         onClick={previousPage}
         onClickText={"Previous"}/>

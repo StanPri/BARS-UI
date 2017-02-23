@@ -4,7 +4,7 @@ import {Field, reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormApprover from '../../components/form/Form-Approver';
-import FormButtons from '../../components/form/Form-Buttons';
+import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
 import validate from './validate';
 
@@ -41,7 +41,7 @@ let WizardApprover = ({
       approverNames={approverNames}
       approverNamesHidden={approverNamesHidden}
       fieldsDisabled={fieldsDisabled}/>
-    <FormButtons
+    <WizardButtons
       onSubmitText={"Next"}
       onClick={previousPage}
       onClickText={"Previous"}/>

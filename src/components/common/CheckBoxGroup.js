@@ -13,6 +13,7 @@ const CheckBoxGroup = ({
     name,
     options,
     input,
+    disabled,
     meta: {touched, error}
 }) => {
   const validState = touched && error ? "error" : null;
@@ -34,7 +35,8 @@ const CheckBoxGroup = ({
                    newValue.splice(newValue.indexOf(index), 1);
                  }
                  return input.onChange(newValue);
-                }}/>
+                }}
+                disabled={disabled} />
               {`${option.name} ${option.justification ? "*" : ""}`}
             </label>
           </div>))

@@ -4,7 +4,7 @@ import {Field, reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormRecipient from '../../components/form/Form-Recipient';
-import FormButtons from '../../components/form/Form-Buttons';
+import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
 import validate from './validate';
 
@@ -38,7 +38,7 @@ let WizardRecipient = ({
       recipientNames={recipientNames}
       recipientNamesHidden={recipientNamesHidden}
       fieldsDisabled={fieldsDisabled}/>
-    <FormButtons onSubmitText="Next"/>
+    <WizardButtons onSubmitText="Next"/>
   </form>
 );
 

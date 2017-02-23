@@ -4,7 +4,7 @@ import {Field, reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormTermsApprover from '../../components/form/Form-TermsApprover';
-import FormButtons from '../../components/form/Form-Buttons';
+import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
 import validate from './validate';
 import * as KEYS from '../../store/keyMap';
@@ -22,7 +22,7 @@ let WizardTerms = ({handleSubmit, onSubmit, previousPage, approverName}) => (
   <form onSubmit={handleSubmit(onSubmit)}>
     <FormHeader header="Terms and Conditions" centered/>
     <FormTermsApprover label={approverName} name={KEYS.FORM_TERMS_NAME_SUP}/>
-    <FormButtons
+    <WizardButtons
       onSubmitText={"Submit"}
       onClick={previousPage}
       onClickText={"Previous"}/>

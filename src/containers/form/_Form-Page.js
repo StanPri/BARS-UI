@@ -11,8 +11,9 @@ import FormMain from '../../components/form/Form-Main';
 import FormAccess from '../../components/form/Form-Access';
 import FormJustifications from '../../components/form/Form-Justifications';
 import FormTermsApprover from '../../components/form/Form-TermsApprover';
-// import FormSecurity from
-// '../../components/form/Form-Security';
+import FormTermsRecipient from '../../components/form/Form-TermsRecipient';
+import FormSecurity from '../../components/form/Form-Security';
+import FormReject from '../../components/form/Form-Reject';
 import FormButtons from '../../components/form/Form-Buttons';
 // actions, constants, etc
 import FetchInProgress from '../../components/common/FetchInProgress';
@@ -27,9 +28,10 @@ class FormPage extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {};
-    this.state = {};
     this.errorRedirect = this.errorRedirect.bind(this);
     this.toggleReject = this.toggleReject.bind(this);
+    this.submitReject = this.submitReject.bind(this);
+    this.submitApproval = this.submitApproval.bind(this);
   }
 
   errorRedirect() {
@@ -42,120 +44,95 @@ class FormPage extends Component {
     return;
   }
 
+  submitReject() {
+    //TODO: handle submitting rejection
+    return;
+  }
+
+  submitApproval() {
+    //TODO: handle submitting approval
+    return;
+  }
+
   render() {
     const {handleSubmit, requestForm, auth} = this.props;
+    const {isRejecting} = this.state;
+
+    // init roles for users in form, based off user's role and if found in form fields
     const isApprover = requestForm[KEYS.FORM_SAM_SUPER] === auth[KEYS.USER_SAM];
     const isRecipient = requestForm[KEYS.FORM_SAM_RECEIVE] === auth[KEYS.USER_SAM];
     const isSecurity = !isRecipient && (auth[KEYS.USER_ROLE] === KEYS.ROLE_SECURITY);
 
     // init properties for sections of form that will change
-    // cointains if should be displayed and props
-    let propsAccess = {display: false, props: {}};
+    // contains if should be displayed and props to pass
+    let propsAccess         = {display: false, props: {}};
     let propsJustifications = {display: false, props: {}};
-    let propsTermsApprover = {display: false, props: {}};
+    let propsTermsApprover  = {display: false, props: {}};
     let propsTermsRecipient = {display: false, props: {}};
-    let propsSecurity = {display: false, props: {}};
-    let propsReject = {display: false, props: {}};
-    let propsButtons = {display: false, props: {}};
+    let propsSecurity       = {display: false, props: {}};
+    let propsReject         = {display: false, props: {}};
+    let propsButtons        = {display: false, props: {}};
 
+    // buttons for approving or rejecting properties
+    let buttonApproving = {rightColor: "danger", rightText: "Reject", rightClick: this.toggleReject, leftText: "Accept", leftClick: this.submitApproval};
+    let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: this.submitReject};
+
+    // check status of form, and display / disable based off that and users role in form
     switch (requestForm[KEYS.FORM_STATUS]) {
       case KEYS.STATUS_PEND_MGR:
-        if (isApprover) {
-          propsAccess = {display: true, props: {}};
-          propsJustifications = {display: true, props: {}};
-          propsTermsApprover = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME]}};
-          propsButtons = {display: true, props: {onClickColor: "danger", onClickText: "Reject", onClick: this.toggleReject, onSubmitText: "Accept"}};
-        }
+        propsAccess         = {display: true, props: {allDisabled: !isApprover}};
+        propsJustifications = {display: true, props: {allDisabled: !isApprover}};
+        propsReject         = {display: isRejecting, props:{}};
+        propsTermsApprover  = {display: isApprover && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME]}};
+        propsButtons        = {display: isApprover, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
       case KEYS.STATUS_PEND_REC:
-        if (isRecipient) {
-          console.log("RECIPIETN");
-          // return (
-          //   <div>
-          //     <FormHeader header="Access Requirements"/>
-          //     <FormAccess singleLine/>
-          //     <FormHeader header="Justifications"/>
-          //     {/* <FormJustifications singleLine  /> */}
-          //     <FormHeader header="Terms and Conditions"/>
-          //     <FormTermsApprover
-          //       name={KEYS.FORM_TERMS_NAME_SUP}
-          //       label={requestForm[KEYS.FORM_SUP_NAME]}
-          //       singleLine/>
-          //     {/* <FormTermsRecipient
-          //       name={KEYS.FORM_TERMS_NAME_REC}
-          //       label={requestForm[KEYS.FORM_NAME]}
-          //       singleLine/> */}
-          //     <FormButtons
-          //       onClickText="Reject"
-          //       onClick={this.toggleReject}
-          //       onSubmitText="Accept"/>
-          //   </div>
-          // );
-        }
+        propsAccess         = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsReject         = {display: isRejecting, props: {}};
+        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
+        propsTermsRecipient = {display: isRecipient && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_REC, label: requestForm[KEYS.FORM_NAME]}};
+        propsButtons        = {display: isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
-        // <form onSubmit={handleSubmit(onSubmit)}>   <FormHeader
-        // header="Recipient Information"/>   <FormMain/>
-        // <FormHeader header="Access Requirements"/>   <FormAccess
-        // allDisabled singleLine/>   <FormHeader
-        // header="Justifications"/>   <FormJustifications
-        // allDisabled singleLine  />   <FormHeader header="Terms
-        // and Conditions"/>   <FormTermsApprover disabled />
-        // <FormTermsRecipient />   <FormButtons
-        // onClickText="Reject" onClick={this.toggleReject}
-        // onSubmitText="Accept"/> </form>
       case KEYS.STATUS_PEND_SEC:
-        // <form onSubmit={handleSubmit(onSubmit)}>   <FormHeader
-        // header="Recipient Information"/>   <FormMain/>
-        // <FormHeader header="Access Requirements"/>   <FormAccess
-        // allDisabled singleLine/>   <FormHeader
-        // header="Justifications"/>   <FormJustifications
-        // allDisabled singleLine  />   <FormHeader header="Terms
-        // and Conditions"/>   <FormTermsApprover disabled />
-        // <FormTermsRecipient disabled />   <FormSescurity />
-        // <FormButtons onClickText="Reject"
-        // onClick={this.toggleReject} onSubmitText="Accept"/>
-        // </form>
+        propsAccess         = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsReject         = {display: isRejecting, props: {}};
+        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
+        propsTermsRecipient = {display: true, props: {name: KEYS.FORM_TERMS_NAME_REC, label: requestForm[KEYS.FORM_NAME], allDisabled: true}};
+        propsSecurity       = {display: isSecurity && !isRejecting && !isRecipient, props: {}};
+        propsButtons        = {display: isSecurity && !isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
+        break;
       case KEYS.STATUS_APPROVED:
-        // <form onSubmit={handleSubmit(onSubmit)}>   <FormHeader
-        // header="Recipient Information"/>   <FormMain/>
-        // <FormHeader header="Access Requirements"/>   <FormAccess
-        // allDisabled singleLine/>   <FormHeader
-        // header="Justifications"/>   <FormJustifications
-        // allDisabled singleLine  />   <FormTermsApprover disabled
-        // />   <FormTermsRecipient disabled />   <FormSescurity
-        // disabled />   <FormButtons onClickText="Reject"
-        // onClick={this.toggleReject} onSubmitText="Accept"/>
-        // </form>
+        propsAccess         = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
+        propsTermsRecipient = {display: true, props: {name: KEYS.FORM_TERMS_NAME_REC, label: requestForm[KEYS.FORM_NAME], allDisabled: true}};
+        propsSecurity       = {display: true, props: {allDisabled: true}};
+        break;
       case KEYS.STATUS_CANCEL_SUB:
-        // <form onSubmit={handleSubmit(onSubmit)}>   <FormHeader
-        // header="Recipient Information"/>   <FormMain/>
-        // <FormHeader header="Access Requirements"/>   <FormAccess
-        // allDisabled singleLine/>   <FormHeader
-        // header="Justifications"/>   <FormJustifications
-        // singleLine  />   <FormReject /> </form>
+        propsAccess         = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsReject         = {display: true, props: {allDisabled: true}};
+        break;
       case KEYS.STATUS_CANCEL_MGR:
-        // <form onSubmit={handleSubmit(onSubmit)}>   <FormHeader
-        // header="Recipient Information"/>   <FormMain/>
-        // <FormHeader header="Access Requirements"/>   <FormAccess
-        // allDisabled singleLine/>   <FormHeader
-        // header="Justifications"/>   <FormJustifications
-        // singleLine  />   <FormReject /> </form>
+        propsAccess         = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsReject         = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, allDisabled: true}};
+        break;
       case KEYS.STATUS_CANCEL_REC:
-        // <form onSubmit={handleSubmit(onSubmit)}>   <FormHeader
-        // header="Recipient Information"/>   <FormMain/>
-        // <FormHeader header="Access Requirements"/>   <FormAccess
-        // allDisabled singleLine/>   <FormHeader
-        // header="Justifications"/>   <FormJustifications
-        // singleLine  />   <FormTermsApprover disabled />
-        // <FormReject /> </form>
+        propsAccess         = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
+        propsReject         = {display: true, props: {name: KEYS.FORM_NAME, allDisabled: true}};
+        break;
       case KEYS.STATUS_CANCEL_SEC:
-        // <form onSubmit={handleSubmit(onSubmit)}>   <FormHeader
-        // header="Recipient Information"/>   <FormMain/>
-        // <FormHeader header="Access Requirements"/>   <FormAccess
-        // allDisabled singleLine/>   <FormHeader
-        // header="Justifications"/>   <FormJustifications
-        // singleLine  />   <FormTermsApprover disabled />
-        // <FormTermsRecipient disabled />   <FormReject /> </form>
+        propsAccess         = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
+        propsTermsRecipient = {display: true, props: {name: KEYS.FORM_TERMS_NAME_REC, label: requestForm[KEYS.FORM_NAME], allDisabled: true}};
+        propsReject         = {display: true, props: {name: "Security", allDisabled: true}};
+        break;
       case KEYS.STATUS_ERROR:
       default:
         // Unknown/Error State display error
@@ -170,10 +147,10 @@ class FormPage extends Component {
           <FormHeader header="Access Requirements"/>
           <FormAccess {...propsAccess.props} singleLine/>
         </div>}
-        {propsJustifications.display && <div>
+        {/* {propsJustifications.display && <div>
           <FormHeader header="Justifications"/>
           <FormJustifications {...propsJustifications.props} singleLine/>
-        </div>}
+        </div>} */}
         {propsTermsApprover.display && <div>
           <FormHeader header="Terms and Conditions"/>
           <FormTermsApprover {...propsTermsApprover.props} singleLine/>

@@ -99,11 +99,11 @@ class WizardPage extends Component {
    * @param {object} vals       - values from redux-form
    */
   formHandleSubmit(vals) {
-    if (debug) console.log("formHandleSubmit: ", vals);
+    if (debug) console.log("\tformHandleSubmit:\tvals: ", vals);
     const {actions, destroy} = this.props;
     actions.submitNewRequest(vals); // submit new request
-    destroy(); // clear form
-    browserHistory.push('/'); // redirect to homepage
+    destroy();                      // clear form
+    browserHistory.push('/');       // redirect to homepage
   }
 
   //////////////////////////////////////////////////////////////////////////////
