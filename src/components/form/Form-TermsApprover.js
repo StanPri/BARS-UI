@@ -8,15 +8,22 @@ import RenderField from '../common/RenderField';
 import * as KEYS from '../../store/keyMap';
 
 /**
- * Displays company section of form
- * @param {object}  fieldsDisabled  - contains all fields that should be disabled
+ * Displays approval of terms and conditions for supervisors in form
+ * @param {string}  label           - name user must match to confirm
+ * @param {string}  name            - field name
  * @param {bool}    allDisabled     - toggles disabling all fields
  * @param {bool}    singleLine      - toggles al fields being in a single line
  */
-const FormTermsApprover = ({ label, name, allDisabled }) => {
+const FormTermsApprover = ({ label, name, allDisabled, singleLine }) => {
+  let width = singleLine
+    ? 12
+    : 6;
+  let offset = singleLine
+    ? 0
+    : 3;
   return (
     <Row>
-      <Col sm={6} smOffset={3}>
+      <Col sm={width} smOffset={offset}>
         {!allDisabled && <div>
           <p>By entering your name exactly as it appears below you agree to the following
             terms and conditions:</p>

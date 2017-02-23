@@ -8,12 +8,12 @@ import { Row, Col, ButtonGroup, Button } from 'react-bootstrap';
  * @param {func}    onClick         - handles button that is not submit button
  * @param {string}  onClickText     - text to display for button that is not submit button
  */
-const FormButtons = ({ onSubmitText, onClick, onClickText }) => {
+const FormButtons = ({ onSubmitText, onClick, onClickText, onClickColor }) => {
   return (
     <Row>
       <Col xs={12} className="text-center">
         <ButtonGroup>
-          {onClickText && <Button onClick={onClick}>{onClickText}</Button>}
+          {onClickText && <Button bsStyle={onClickColor} onClick={onClick}>{onClickText}</Button>}
           <Button type="submit" bsStyle="primary">{onSubmitText}</Button>
         </ButtonGroup>
       </Col>
@@ -24,7 +24,8 @@ const FormButtons = ({ onSubmitText, onClick, onClickText }) => {
 FormButtons.propTypes = {
   onSubmitText: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  onClickText: PropTypes.string
+  onClickText: PropTypes.string,
+  onClickColor: PropTypes.string,
 };
 
 export default FormButtons;
