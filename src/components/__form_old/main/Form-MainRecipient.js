@@ -10,7 +10,7 @@ import {
   Label
 } from 'react-bootstrap';
 // components
-import RenderField from '../../common/RenderField';
+import FieldInput from '../../common/FieldInput';
 import NameList from '../../common/NameList';
 // constants, actions, etc
 import * as KEYS from '../../../store/keyMap';
@@ -47,7 +47,7 @@ const FormMainRecipient = ({
           label="Name"
           name={KEYS.FORM_NAME}
           disabled={allDisabled}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           onInput={recipientHandleInput}
           required={!allDisabled}/> {!allDisabled && <NameList
@@ -60,7 +60,7 @@ const FormMainRecipient = ({
           label="Email"
           name={KEYS.FORM_EMAIL}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_EMAIL]}
-          component={RenderField}
+          component={FieldInput}
           type="email"
           required={!allDisabled}/>
       </Col>
@@ -69,7 +69,7 @@ const FormMainRecipient = ({
           label="Phone"
           name={KEYS.FORM_PHONE}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_PHONE]}
-          component={RenderField}
+          component={FieldInput}
           type="cel"
           required={!allDisabled}/>
       </Col>
@@ -78,7 +78,7 @@ const FormMainRecipient = ({
           label="Cell"
           name={KEYS.FORM_CELL}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_CELL]}
-          component={RenderField}
+          component={FieldInput}
           type="cel"/>
       </Col>
       <Col sm={width} smOffset={offset}>
@@ -86,7 +86,7 @@ const FormMainRecipient = ({
           label="License Plate"
           name={KEYS.FORM_LICENSE}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_LICENSE]}
-          component={RenderField}
+          component={FieldInput}
           type="cel"
           required={!allDisabled}/>
       </Col>

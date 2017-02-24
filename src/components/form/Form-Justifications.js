@@ -3,15 +3,15 @@ import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-bootstrap';
 // compnents
-import RenderField from '../common/RenderField';
+import FieldInput from '../common/FieldInput';
 // constants, actions, etc
 import * as KEYS from '../../store/keyMap';
 
 /**
  * Displays justifications section of form
- * @param {object}  fieldsDisabled  - contains all fields that should be disabled
  * @param {bool}    allDisabled     - toggles disabling all fields
  * @param {bool}    singleLine      - toggles al fields being in a single line
+ * @param {array}   justifications  - contains names of all justifications needed
  */
 const FormJustifications = ({ allDisabled, singleLine, justifications }) => {
   let width = singleLine
@@ -26,9 +26,9 @@ const FormJustifications = ({ allDisabled, singleLine, justifications }) => {
         <Col sm={width} smOffset={offset} key={key.name}>
           <Field
             label={key.name}
-            name={key.justification}
+            name={`${KEYS.JUSTIFICATIONS}[${key.justification}]`}
             disabled={allDisabled}
-            component={RenderField}
+            component={FieldInput}
             componentClass="textarea"
             required={!allDisabled}/>
         </Col>
@@ -39,7 +39,8 @@ const FormJustifications = ({ allDisabled, singleLine, justifications }) => {
 
 FormJustifications.propTypes = {
   allDisabled: PropTypes.bool,
-  singleLine: PropTypes.bool
-}
+  singleLine: PropTypes.bool,
+  justifications: PropTypes.array.isRequired
+};
 
 export default FormJustifications;

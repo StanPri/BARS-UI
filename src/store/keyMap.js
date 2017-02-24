@@ -54,8 +54,8 @@ export const FORM_REJECT_REASON = 'cancellationReason';
 /**
  * Justifications
  */
+export const JUSTIFICATIONS = "justifications";
 export const JUSTIFICATIONS_GC_DOCK = 'justification_gc_dock';
-export const JUSTIFICATIONS_GC_COMPUTER_ROOM = 'justification_gc_computer_room';
 export const JUSTIFICATIONS_GC_TMS = 'justification_gc_tms';
 export const JUSTIFICATIONS_TRAINING_ROOM = 'justification_training_room';
 export const JUSTIFICATIONS_OTHER = 'justification_other_area';

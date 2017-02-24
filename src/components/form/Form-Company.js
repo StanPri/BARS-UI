@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {Field} from 'redux-form';
 import {Row, Col} from 'react-bootstrap';
 // compnents
-import RenderField from '../common/RenderField';
+import FieldInput from '../common/FieldInput';
 // constants, actions, etc
 import * as KEYS from '../../store/keyMap';
 
@@ -27,7 +27,7 @@ const FormCompany = ({fieldsDisabled, allDisabled, singleLine}) => {
           label="Company Name"
           name={KEYS.FORM_COMPANY}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_COMPANY]}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           required={!allDisabled}/>
       </Col>
@@ -36,7 +36,7 @@ const FormCompany = ({fieldsDisabled, allDisabled, singleLine}) => {
           label="Company Address"
           name={KEYS.FORM_COMPANY_ADDRESS}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_COMPANY_ADDRESS]}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           required={!allDisabled}/>
       </Col>
@@ -45,7 +45,7 @@ const FormCompany = ({fieldsDisabled, allDisabled, singleLine}) => {
           label="Divison"
           name={KEYS.FORM_DIVISION}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_DIVISION]}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           required={!allDisabled}/>
       </Col>
@@ -54,7 +54,7 @@ const FormCompany = ({fieldsDisabled, allDisabled, singleLine}) => {
           label="Unit / Project"
           name={KEYS.FORM_UNIT}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_UNIT]}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           required={!allDisabled}/>
       </Col>

@@ -4,7 +4,7 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {reduxForm} from 'redux-form';
+import {reduxForm, getFormValues} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormMain from '../../components/form/Form-Main';
@@ -15,9 +15,9 @@ import FormTermsRecipient from '../../components/form/Form-TermsRecipient';
 import FormSecurity from '../../components/form/Form-Security';
 import FormReject from '../../components/form/Form-Reject';
 import FormButtons from '../../components/form/Form-Buttons';
-// actions, constants, etc
 import FetchInProgress from '../../components/common/FetchInProgress';
 import DisplayError from '../../components/common/DisplayError';
+// actions, constants, etc
 import validate from '../wizard/validate';
 import initialState from '../../reducers/initialState';
 import * as requestFormActions from '../../actions/requestFormActions';
@@ -27,41 +27,113 @@ import * as KEYS from '../../store/keyMap';
 class FormPage extends Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {};
+    this.state = {
+      justifications: this.props.initialValues[KEYS.JUSTIFICATIONS] || [], // justification component expects array of names
+      justificationsUpdate: false,  // handles updating jsutificatinos after state has been set (componentDidUpdate)
+      isRejecting: false  // determines if user has clicked the "Reject"
+    };
     this.errorRedirect = this.errorRedirect.bind(this);
     this.toggleReject = this.toggleReject.bind(this);
+    // bind api functions
     this.submitReject = this.submitReject.bind(this);
     this.submitApproval = this.submitApproval.bind(this);
+    // bind justifications functions
+    this.updateJustifications = this.updateJustifications.bind(this);
+    this.formHandleChange = this.formHandleChange.bind(this);
+  }
+
+  componentDidUpdate() {
+    this.updateJustifications();
   }
 
   errorRedirect() {
     //TODO: redirect to homepage
+    console.log("REDIRECTING FORM USER CLICKING ERROR BUTTON");
     return;
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////     REJECT FUNCTIONS     /////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   toggleReject() {
-    //TODO: toggle rejection component based off state
+    const {isRejecting} = this.state;
+    this.setState({isRejecting : !isRejecting});
     return;
   }
 
-  submitReject() {
+  //////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////     API FUNCTIONS     ////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  submitReject(vals) {
     //TODO: handle submitting rejection
+    console.log("REJECTING");
+    console.log(vals);
     return;
   }
 
-  submitApproval() {
+  submitApproval(vals) {
     //TODO: handle submitting approval
+    console.log("ARRPOVING");
+    console.log(vals);
     return;
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///////////////////////     JUSTIFICATIONS FUNCTIONS     /////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  /**
+   * handles updating justifications needed
+   * (checks in componentDidUpdate)
+   */
+  updateJustifications() {
+    const {formValues} = this.props;
+    const {justificationsUpdate} = this.state;
+    const _justifications = [];
+    // if form mounted and justification update needed (need tp keep track for componentDidMount to work)
+    if (formValues && justificationsUpdate) {
+      // check area sections
+      if (formValues[KEYS.FORM_AREAS]) {
+        // set justifiction needed if requried field set
+        formValues[KEYS.FORM_AREAS].forEach(key => {
+          if (KEYS.OPTIONS_AREA[+key].justification) {
+            _justifications.push(KEYS.OPTIONS_AREA[key]);
+          }
+        });
+      }
+      if (formValues[KEYS.FORM_REASON]) {
+        if (KEYS.OPTIONS_REASON[+formValues[KEYS.FORM_REASON]].justification) {
+          _justifications.push(KEYS.OPTIONS_REASON[+formValues[KEYS.FORM_REASON]]);
+        }
+      }
+      if (formValues[KEYS.FORM_HOURS]) {
+        if (KEYS.OPTIONS_HOURS[+formValues[KEYS.FORM_HOURS]].justification) {
+          _justifications.push(KEYS.OPTIONS_HOURS[+formValues[KEYS.FORM_HOURS]]);
+        }
+      }
+      // update state and make componentDidMount not go into endless loop
+      this.setState({justificationsUpdate: false});
+      this.setState({justifications: _justifications});
+    }
+  }
+
+  /**
+   * Handles form changing
+   */
+  formHandleChange(e) {
+    // update justifications in componentDidUpdate
+    this.setState({justificationsUpdate: true});
   }
 
   render() {
-    const {handleSubmit, requestForm, auth} = this.props;
-    const {isRejecting} = this.state;
+    const {handleSubmit, initialValues, auth} = this.props;
+    const {isRejecting, justifications} = this.state;
 
     // init roles for users in form, based off user's role and if found in form fields
-    const isApprover = requestForm[KEYS.FORM_SAM_SUPER] === auth[KEYS.USER_SAM];
-    const isRecipient = requestForm[KEYS.FORM_SAM_RECEIVE] === auth[KEYS.USER_SAM];
-    const isSecurity = !isRecipient && (auth[KEYS.USER_ROLE] === KEYS.ROLE_SECURITY);
+    const isApprover = initialValues[KEYS.FORM_SAM_SUPER] === auth[KEYS.USER_SAM];
+    const isRecipient = initialValues[KEYS.FORM_SAM_RECEIVE] === auth[KEYS.USER_SAM];
+    const isSecurity = !isRecipient && (auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY));
 
     // init properties for sections of form that will change
     // contains if should be displayed and props to pass
@@ -74,83 +146,84 @@ class FormPage extends Component {
     let propsButtons        = {display: false, props: {}};
 
     // buttons for approving or rejecting properties
-    let buttonApproving = {rightColor: "danger", rightText: "Reject", rightClick: this.toggleReject, leftText: "Accept", leftClick: this.submitApproval};
-    let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: this.submitReject};
+    let buttonApproving = {rightColor: "danger", rightText: "Reject", rightClick: this.toggleReject, leftText: "Accept", leftClick: handleSubmit(this.submitApproval)};
+    let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: handleSubmit(this.submitReject)};
+
+    let justificationsNeeded = !!justifications.length;
 
     // check status of form, and display / disable based off that and users role in form
-    switch (requestForm[KEYS.FORM_STATUS]) {
+    switch (initialValues[KEYS.FORM_STATUS]) {
       case KEYS.STATUS_PEND_MGR:
         propsAccess         = {display: true, props: {allDisabled: !isApprover}};
-        propsJustifications = {display: true, props: {allDisabled: !isApprover}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isApprover, justifications}};
         propsReject         = {display: isRejecting, props:{}};
-        propsTermsApprover  = {display: isApprover && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME]}};
+        propsTermsApprover  = {display: isApprover && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsButtons        = {display: isApprover, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
       case KEYS.STATUS_PEND_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
         propsReject         = {display: isRejecting, props: {}};
-        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
-        propsTermsRecipient = {display: isRecipient && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_REC, label: requestForm[KEYS.FORM_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsRecipient = {display: isRecipient && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
         propsButtons        = {display: isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
       case KEYS.STATUS_PEND_SEC:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
         propsReject         = {display: isRejecting, props: {}};
-        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
-        propsTermsRecipient = {display: true, props: {name: KEYS.FORM_TERMS_NAME_REC, label: requestForm[KEYS.FORM_NAME], allDisabled: true}};
-        propsSecurity       = {display: isSecurity && !isRejecting && !isRecipient, props: {}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
+        propsSecurity       = {display: isSecurity && !isRejecting, props: {}};
         propsButtons        = {display: isSecurity && !isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
       case KEYS.STATUS_APPROVED:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: true, props: {allDisabled: true}};
-        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
-        propsTermsRecipient = {display: true, props: {name: KEYS.FORM_TERMS_NAME_REC, label: requestForm[KEYS.FORM_NAME], allDisabled: true}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
         propsSecurity       = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_SUB:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
         propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_MGR:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: true, props: {allDisabled: true}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
         propsReject         = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: true, props: {allDisabled: true}};
-        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
-        propsReject         = {display: true, props: {name: KEYS.FORM_NAME, allDisabled: true}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsReject         = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME}};
         break;
       case KEYS.STATUS_CANCEL_SEC:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: true, props: {allDisabled: true}};
-        propsTermsApprover  = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: requestForm[KEYS.FORM_SUP_NAME], allDisabled: true}};
-        propsTermsRecipient = {display: true, props: {name: KEYS.FORM_TERMS_NAME_REC, label: requestForm[KEYS.FORM_NAME], allDisabled: true}};
-        propsReject         = {display: true, props: {name: "Security", allDisabled: true}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
+        propsReject         = {display: true, props: {allDisabled: true, name: "Security"}};
         break;
-      case KEYS.STATUS_ERROR:
       default:
         // Unknown/Error State display error
         return <DisplayError onClick={this.errorRedirect}/>;
     }
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onChange={this.formHandleChange}>
         <FormHeader header="Recipient Information"/>
         <FormMain />
         {propsAccess.display && <div>
           <FormHeader header="Access Requirements"/>
           <FormAccess {...propsAccess.props} singleLine/>
         </div>}
-        {/* {propsJustifications.display && <div>
+        {propsJustifications.display && <div>
           <FormHeader header="Justifications"/>
           <FormJustifications {...propsJustifications.props} singleLine/>
-        </div>} */}
+        </div>}
         {propsTermsApprover.display && <div>
           <FormHeader header="Terms and Conditions"/>
           <FormTermsApprover {...propsTermsApprover.props} singleLine/>
@@ -159,7 +232,7 @@ class FormPage extends Component {
           <FormTermsRecipient {...propsTermsRecipient.props} singleLine/>}
         {propsSecurity.display && <div>
           <FormHeader header="Security"/>
-          <FormSescurity {...propsSecurity.props} singleLine/>
+          <FormSecurity {...propsSecurity.props} singleLine/>
         </div>}
         {propsReject.display && <div>
           <FormHeader header="Rejection"/>
@@ -172,15 +245,15 @@ class FormPage extends Component {
   }
 }
 
-const onSubmit = (vals) => {
-  // submit goes here
-  console.log(vals);
-};
-
 FormPage.propTypes = {};
 
 // map all state (from redux store) to props
-const mapStateToProps = (state, ownProps) => ({fetchCallsInProgress: state.fetchCallsInProgress, auth: state.auth, requestForm: state.requestForm, initialValues: state.requestForm});
+const mapStateToProps = (state, ownProps) => ({
+  fetchCallsInProgress: state.fetchCallsInProgress,
+  auth: state.auth,
+  formValues: getFormValues('form')(state),          // forms values from redux-form
+  initialValues: state.requestForm                  // inital values to populate form with
+});
 
 // map all action creators to props
 const mapDispatchToProps = (dispatch) => ({

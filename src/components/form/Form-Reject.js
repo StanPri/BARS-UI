@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {Field} from 'redux-form';
 // compnents
-import RenderField from '../common/RenderField';
+import FieldInput from '../common/FieldInput';
 // constants, actions, etc
 import * as KEYS from '../../store/keyMap';
 
@@ -30,8 +30,8 @@ const FormReject = ({name, allDisabled}) => {
         <Field
           label="Rejection Reason"
           name={KEYS.FORM_REJECT_REASON}
-          disabled={allDisabled || fieldsDisabled[KEYS.FORM_COMPANY]}
-          component={RenderField}
+          disabled={allDisabled}
+          component={FieldInput}
           componentClass="textarea"
           required={!allDisabled}/>
       </Col>
