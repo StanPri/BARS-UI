@@ -82,9 +82,6 @@ const validate = values => {
   if (!values[KEYS.JUSTIFICATIONS_24_HOURS]) {
     errors[KEYS.JUSTIFICATIONS_24_HOURS] = 'Required';
   }
-  if (!values[KEYS.JUSTIFICATIONS_GC_COMPUTER_ROOM]) {
-    errors[KEYS.JUSTIFICATIONS_GC_COMPUTER_ROOM] = 'Required';
-  }
   // Terms and Conditions
   if (!values[KEYS.FORM_TERMS_NAME_SUP]) {
     errors[KEYS.FORM_TERMS_NAME_SUP] = 'Required';
@@ -93,8 +90,8 @@ const validate = values => {
     errors[KEYS.FORM_TERMS_NAME_SUP] = 'Please enter your name exactly as it appears above.';
   }
 
-  return errors;
-  // return {}; // disable validation
+  // return errors;
+  return {}; // disable validation
 }
 
 export default validate;

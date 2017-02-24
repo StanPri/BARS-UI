@@ -3,11 +3,10 @@
  * Displays when new request
  * See http://redux-form.com/6.5.0/examples/wizard/ for example
  * TODO: change validation for fields
- * TODO: on click a jsutification neeeded add to jsutifications, set justificationsNeeded
  */
 // libraries
 import React, {Component, PropTypes} from 'react';
-import {Field, reduxForm} from 'redux-form';
+import {reduxForm} from 'redux-form';
 import {Row} from 'react-bootstrap';
 // components
 import FormHeader from '../../components/form/Form-Header';

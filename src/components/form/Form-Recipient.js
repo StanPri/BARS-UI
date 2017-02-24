@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {Field} from 'redux-form';
 import {Col} from 'react-bootstrap';
 // components
-import RenderField from '../common/RenderField';
+import FieldInput from '../common/FieldInput';
 import NameList from '../common/NameList';
 // constants, actions, etc
 import * as KEYS from '../../store/keyMap';
@@ -40,7 +40,7 @@ const FormRecipient = ({
           label="Name"
           name={KEYS.FORM_NAME}
           disabled={allDisabled}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           onInput={recipientHandleInput}
           required={!allDisabled}/>
@@ -54,7 +54,7 @@ const FormRecipient = ({
           label="Email"
           name={KEYS.FORM_EMAIL}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_EMAIL]}
-          component={RenderField}
+          component={FieldInput}
           type="email"
           required={!allDisabled}/>
       </Col>
@@ -63,7 +63,7 @@ const FormRecipient = ({
           label="Phone"
           name={KEYS.FORM_PHONE}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_PHONE]}
-          component={RenderField}
+          component={FieldInput}
           type="cel"
           required={!allDisabled}/>
       </Col>
@@ -72,7 +72,7 @@ const FormRecipient = ({
           label="Cell"
           name={KEYS.FORM_CELL}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_CELL]}
-          component={RenderField}
+          component={FieldInput}
           type="cel"/>
       </Col>
       <Col sm={width} smOffset={offset}>
@@ -80,7 +80,7 @@ const FormRecipient = ({
           label="License Plate"
           name={KEYS.FORM_LICENSE}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_LICENSE]}
-          component={RenderField}
+          component={FieldInput}
           type="cel"
           required={!allDisabled}/>
       </Col>

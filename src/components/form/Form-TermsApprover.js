@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {Field} from 'redux-form';
 import {Row, Col} from 'react-bootstrap';
 // compnents
-import RenderField from '../common/RenderField';
+import FieldInput from '../common/FieldInput';
 // constants, actions, etc
 import * as KEYS from '../../store/keyMap';
 
@@ -36,7 +36,7 @@ const FormTermsApprover = ({label, name, allDisabled, singleLine}) => {
           label={label}
           name={name}
           disabled={allDisabled}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           required={!allDisabled}/>
       </Col>

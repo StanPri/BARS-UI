@@ -111,6 +111,7 @@ class WizardPage extends Component {
   //////////////////////////////////////////////////////////////////////////////
   /**
    * handles updating justifications needed
+   * (checks in componentDidUpdate)
    */
   updateJustifications() {
     const {wizardValues} = this.props;
@@ -118,9 +119,9 @@ class WizardPage extends Component {
     const _justifications = [];
     // if form mounted and justification update needed (need tp keep track for componentDidMount to work)
     if (wizardValues && justificationsUpdate) {
-      // check sections
+      // check area sections
       if (wizardValues[KEYS.FORM_AREAS]) {
-        // set jusifiction needed if requried field set
+        // set justifiction needed if requried field set
         wizardValues[KEYS.FORM_AREAS].forEach(key => {
           if (KEYS.OPTIONS_AREA[+key].justification) {
             _justifications.push(KEYS.OPTIONS_AREA[key]);

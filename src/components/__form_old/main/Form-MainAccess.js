@@ -1,5 +1,5 @@
 /**
- * renderField.js
+ * FieldInput.js
  * renders a redux-form field
  * see http://redux-form.com/6.5.0/examples/wizard/ for example
  * and https://github.com/erikras/redux-form/issues/1037 for bootstrap sepcific
@@ -9,8 +9,8 @@ import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
 import { Row, Col, FormGroup, ControlLabel, HelpBlock, Label } from 'react-bootstrap';
 // common compnents
-import RadioGroup from '../../common/RadioGroup';
-import CheckBoxGroup from '../../common/CheckBoxGroup';
+import FieldRadioGroup from '../../common/FieldRadioGroup';
+import FieldCheckGroup from '../../common/FieldCheckGroup';
 import * as KEYS from '../../../store/keyMap';
 
 const areaOptions = [
@@ -50,7 +50,7 @@ const FormMainApprover = ({ allDisabled }) => {
           name={KEYS.FORM_REASON}
           disabled={allDisabled}
           options={reasonOptions}
-          component={RadioGroup}
+          component={FieldRadioGroup}
           required={!allDisabled}/>
       </Col>
       <Col sm={width} smOffset={offset}>
@@ -59,7 +59,7 @@ const FormMainApprover = ({ allDisabled }) => {
           name={KEYS.FORM_AREAS}
           disabled={allDisabled}
           options={areaOptions}
-          component={CheckBoxGroup}
+          component={FieldCheckGroup}
           required={!allDisabled}/>
       </Col>
       <Col sm={width} smOffset={offset}>
@@ -68,7 +68,7 @@ const FormMainApprover = ({ allDisabled }) => {
           name={KEYS.FORM_HOURS}
           disabled={allDisabled}
           options={hoursOptions}
-          component={RadioGroup}
+          component={FieldRadioGroup}
           required={!allDisabled}/>
       </Col>
     </Row>

@@ -8,7 +8,6 @@ import {
   Image
 } from 'react-bootstrap';
 
-
 class AboutPage extends React.Component {
   render() {
     return (

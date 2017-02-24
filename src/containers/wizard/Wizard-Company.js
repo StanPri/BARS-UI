@@ -1,6 +1,6 @@
 // libraries
 import React, {Component, PropTypes} from 'react';
-import {Field, reduxForm} from 'redux-form';
+import {reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormCompany from '../../components/form/Form-Company';

@@ -1,5 +1,5 @@
 /**
- * renderField.js
+ * FieldInput.js
  * renders a redux-form field
  * see http://redux-form.com/6.5.0/examples/wizard/ for example
  * and https://github.com/erikras/redux-form/issues/1037 for bootstrap sepcific
@@ -7,7 +7,7 @@
 import React from 'react';
 import { FormGroup, ControlLabel, HelpBlock, Label } from 'react-bootstrap';
 
-const RadioGroup = ({
+const FieldRadioGroup = ({
     label,
     required,
     name,
@@ -39,4 +39,4 @@ const RadioGroup = ({
   );
 };
 
-export default RadioGroup;
+export default FieldRadioGroup;

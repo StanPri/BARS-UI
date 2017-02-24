@@ -3,8 +3,8 @@ import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-bootstrap';
 // compnents
-import RadioGroup from '../common/RadioGroup';
-import CheckBoxGroup from '../common/CheckBoxGroup';
+import FieldRadioGroup from '../common/FieldRadioGroup';
+import FieldCheckGroup from '../common/FieldCheckGroup';
 // constants, actions, etc
 import * as KEYS from '../../store/keyMap';
 
@@ -23,7 +23,7 @@ const FormAccess = ({ allDisabled }) => {
           name={KEYS.FORM_REASON}
           disabled={allDisabled}
           options={KEYS.OPTIONS_REASON}
-          component={RadioGroup}
+          component={FieldRadioGroup}
           required={!allDisabled}/>
       </Col>
       <Col sm={width} smOffset={offset}>
@@ -32,7 +32,7 @@ const FormAccess = ({ allDisabled }) => {
           name={KEYS.FORM_AREAS}
           disabled={allDisabled}
           options={KEYS.OPTIONS_AREA}
-          component={CheckBoxGroup}
+          component={FieldCheckGroup}
           required={!allDisabled}/>
       </Col>
       <Col sm={width} smOffset={offset}>
@@ -41,7 +41,7 @@ const FormAccess = ({ allDisabled }) => {
           name={KEYS.FORM_HOURS}
           disabled={allDisabled}
           options={KEYS.OPTIONS_HOURS}
-          component={RadioGroup}
+          component={FieldRadioGroup}
           required={!allDisabled}/>
       </Col>
     </Row>

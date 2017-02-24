@@ -1,5 +1,5 @@
 /**
- * renderField.js
+ * FieldInput.js
  * renders a redux-form field
  * see http://redux-form.com/6.5.0/examples/wizard/ for example
  * and https://github.com/erikras/redux-form/issues/1037 for bootstrap sepcific
@@ -16,7 +16,7 @@ import {
   Label
 } from 'react-bootstrap';
 // common compnents
-import RenderField from '../../common/RenderField';
+import FieldInput from '../../common/FieldInput';
 import * as KEYS from '../../../store/keyMap';
 
 const FormMainCompany = ({ fieldsDisabled, allDisabled, singleLine }) => {
@@ -33,7 +33,7 @@ const FormMainCompany = ({ fieldsDisabled, allDisabled, singleLine }) => {
           label="Company Name"
           name={KEYS.FORM_COMPANY}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_COMPANY]}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           required={!allDisabled}/>
       </Col>
@@ -42,7 +42,7 @@ const FormMainCompany = ({ fieldsDisabled, allDisabled, singleLine }) => {
           label="Company Address"
           name={KEYS.FORM_COMPANY_ADDRESS}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_COMPANY_ADDRESS]}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           required={!allDisabled}/>
       </Col>
@@ -51,7 +51,7 @@ const FormMainCompany = ({ fieldsDisabled, allDisabled, singleLine }) => {
           label="Divison"
           name={KEYS.FORM_DIVISION}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_DIVISION]}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           required={!allDisabled}/>
       </Col>
@@ -60,7 +60,7 @@ const FormMainCompany = ({ fieldsDisabled, allDisabled, singleLine }) => {
           label="Unit / Project"
           name={KEYS.FORM_UNIT}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_UNIT]}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           required={!allDisabled}/>
       </Col>

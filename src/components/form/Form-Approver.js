@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {Field} from 'redux-form';
 import {Col} from 'react-bootstrap';
 // common compnents
-import RenderField from '../common/RenderField';
+import FieldInput from '../common/FieldInput';
 import NameList from '../common/NameList';
 import * as KEYS from '../../store/keyMap';
 
@@ -39,7 +39,7 @@ const FormMainApprover = ({
           label="Supervisor Name"
           name={KEYS.FORM_SUP_NAME}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_SUP_NAME]}
-          component={RenderField}
+          component={FieldInput}
           type="text"
           onInput={approverHandleInput}
           required={!allDisabled}/> {!allDisabled && <NameList
@@ -52,7 +52,7 @@ const FormMainApprover = ({
           label="Supervisor Email"
           name={KEYS.FORM_SUP_EMAIL}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_SUP_EMAIL]}
-          component={RenderField}
+          component={FieldInput}
           type="email"
           required={!allDisabled}/>
       </Col>
@@ -61,7 +61,7 @@ const FormMainApprover = ({
           label="Supervisor Phone"
           name={KEYS.FORM_SUP_PHONE}
           disabled={allDisabled || fieldsDisabled[KEYS.FORM_SUP_PHONE]}
-          component={RenderField}
+          component={FieldInput}
           type="cel"
           required={!allDisabled}/>
       </Col>
