@@ -59,7 +59,7 @@ class WizardPage extends Component {
     // bind api functions
     this.formHandleSubmit = this.formHandleSubmit.bind(this);
     this.loadEmpDir = this.loadEmpDir.bind(this);
-    this.finalSubmitNewRequest = this.finalSubmitNewRequest.bind(this);
+    this.redirectFormPage = this.redirectFormPage.bind(this);
     // bind page functions
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
@@ -95,7 +95,7 @@ class WizardPage extends Component {
     actions.empDir();
   }
 
-  finalSubmitNewRequest(vals)
+  redirectFormPage(vals)
   {
     const {destroy, fetchCallsInProgress} = this.props;
 
@@ -103,7 +103,7 @@ class WizardPage extends Component {
       destroy();                      // clear form
       browserHistory.push('/');       // redirect to homepage
     } else {
-      setTimeout(this.finalSubmitNewRequest, 2000);
+      setTimeout(this.redirectFormPage, 1000);
     }
   }
   /**
@@ -115,7 +115,7 @@ class WizardPage extends Component {
     const {actions, destroy, fetchCallsInProgress} = this.props;
 
     actions.submitNewRequest(vals); // submit new request
-    this.finalSubmitNewRequest(vals);
+    this.redirectFormPage(vals);
   }
 
   //////////////////////////////////////////////////////////////////////////////
