@@ -59,6 +59,7 @@ class WizardPage extends Component {
     // bind api functions
     this.formHandleSubmit = this.formHandleSubmit.bind(this);
     this.loadEmpDir = this.loadEmpDir.bind(this);
+    this.finalSubmitNewRequest = this.finalSubmitNewRequest.bind(this);
     // bind page functions
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
@@ -94,16 +95,27 @@ class WizardPage extends Component {
     actions.empDir();
   }
 
+  finalSubmitNewRequest(vals)
+  {
+    const {destroy, fetchCallsInProgress} = this.props;
+
+    if(!fetchCallsInProgress) {
+      destroy();                      // clear form
+      browserHistory.push('/');       // redirect to homepage
+    } else {
+      setTimeout(this.finalSubmitNewRequest, 2000);
+    }
+  }
   /**
    * Handles submitting requests (submit/approve buttons)
    * @param {object} vals       - values from redux-form
    */
   formHandleSubmit(vals) {
     if (debug) console.log("\tformHandleSubmit:\tvals: ", vals);
-    const {actions, destroy} = this.props;
+    const {actions, destroy, fetchCallsInProgress} = this.props;
+
     actions.submitNewRequest(vals); // submit new request
-    destroy();                      // clear form
-    browserHistory.push('/');       // redirect to homepage
+    this.finalSubmitNewRequest(vals);
   }
 
   //////////////////////////////////////////////////////////////////////////////
