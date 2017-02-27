@@ -20,7 +20,7 @@ const FormButtons = ({
   leftClick
 }) => {
   return (
-    <Row>
+    <Row className="add-padding">
       <Col xs={12} className="text-center">
         <ButtonGroup>\
           <Button

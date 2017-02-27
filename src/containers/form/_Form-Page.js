@@ -5,6 +5,7 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
+import {browserHistory} from 'react-router';
 // components
 import FormHeader from '../../components/form/Form-Header';
 import FormMain from '../../components/form/Form-Main';
@@ -32,7 +33,7 @@ class FormPage extends Component {
       justificationsUpdate: false,  // handles updating jsutificatinos after state has been set (componentDidUpdate)
       isRejecting: false  // determines if user has clicked the "Reject"
     };
-    this.errorRedirect = this.errorRedirect.bind(this);
+    this.errorOnClick = this.errorOnClick.bind(this);
     this.toggleReject = this.toggleReject.bind(this);
     // bind api functions
     this.submitReject = this.submitReject.bind(this);
@@ -46,7 +47,7 @@ class FormPage extends Component {
     this.updateJustifications();
   }
 
-  errorRedirect() {
+  errorOnClick() {
     //TODO: redirect to homepage
     console.log("REDIRECTING FORM USER CLICKING ERROR BUTTON");
     return;
@@ -65,7 +66,10 @@ class FormPage extends Component {
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////     API FUNCTIONS     ////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-
+  /**
+   * Handles rejecting an approval
+   * @param {object} vals   - values passed by redux-form's handleSubmit
+   */
   submitReject(vals) {
     //TODO: handle submitting rejection
     console.log("REJECTING");
@@ -73,11 +77,16 @@ class FormPage extends Component {
     return;
   }
 
+  /**
+   * Handles submitting an approval
+   * @param {object} vals   - values passed by redux-form's handleSubmit
+   */
   submitApproval(vals) {
-    //TODO: handle submitting approval
-    console.log("ARRPOVING");
-    console.log(vals);
-    return;
+    const {actions, mainForm, destroy} = this.props;
+    actions.submitExistingRequest(vals[KEYS.FORM_ID]); // approve existing request
+    //TODO: handle errors, wait for feetch to complete.
+    destroy(); // clear form
+    browserHistory.push('/'); // redirect to homepage
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -164,7 +173,7 @@ class FormPage extends Component {
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
         propsReject         = {display: isRejecting, props: {}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: isRecipient && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
         propsButtons        = {display: isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
@@ -172,16 +181,16 @@ class FormPage extends Component {
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
         propsReject         = {display: isRejecting, props: {}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
-        propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsSecurity       = {display: isSecurity && !isRejecting, props: {}};
         propsButtons        = {display: isSecurity && !isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
       case KEYS.STATUS_APPROVED:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
-        propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsSecurity       = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_SUB:
@@ -197,19 +206,19 @@ class FormPage extends Component {
       case KEYS.STATUS_CANCEL_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsReject         = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME}};
         break;
       case KEYS.STATUS_CANCEL_SEC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
-        propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsReject         = {display: true, props: {allDisabled: true, name: "Security"}};
         break;
       default:
         // Unknown/Error State display error
-        return <DisplayError onClick={this.errorRedirect}/>;
+        return <DisplayError onClick={this.errorOnClick}/>;
     }
 
     return (
@@ -226,17 +235,17 @@ class FormPage extends Component {
         </div>}
         {propsTermsApprover.display && <div>
           <FormHeader header="Terms and Conditions"/>
-          <FormTermsApprover {...propsTermsApprover.props} singleLine/>
+          <FormTermsApprover {...propsTermsApprover.props}/>
         </div>}
         {propsTermsRecipient.display &&
-          <FormTermsRecipient {...propsTermsRecipient.props} singleLine/>}
+          <FormTermsRecipient {...propsTermsRecipient.props}/>}
         {propsSecurity.display && <div>
           <FormHeader header="Security"/>
-          <FormSecurity {...propsSecurity.props} singleLine/>
+          <FormSecurity {...propsSecurity.props}/>
         </div>}
         {propsReject.display && <div>
           <FormHeader header="Rejection"/>
-          <FormReject {...propsReject.props} singleLine/>
+          <FormReject {...propsReject.props}/>
         </div>}
         {propsButtons.display &&
           <FormButtons {...propsButtons.props} />}
