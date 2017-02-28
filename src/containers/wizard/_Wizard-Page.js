@@ -42,6 +42,7 @@ class WizardPage extends Component {
       approverNamesHidden: true,            // hide manager names when on approver page
       justifications: [],                   // list of justifications tht are needed
       justificationsUpdate: false,          // handles updating jsutificatinos after state has been set (componentDidUpdate)
+      accessDisplayOtherArea: false,        // handles is other area selected, display field to enter other area
       fieldsDisabled: {                     // which fields are disbaled
         // recipient
         [KEYS.FORM_EMAIL]: true,
@@ -157,23 +158,35 @@ class WizardPage extends Component {
     const {wizardValues} = this.props;
     const {justificationsUpdate} = this.state;
     const _justifications = [];
+    let otherAreaDisplay = false;
     // if form mounted and justification update needed (need tp keep track for componentDidMount to work)
     if (wizardValues && justificationsUpdate) {
       // check area sections
       if (wizardValues[KEYS.FORM_AREAS]) {
         // set justifiction needed if requried field set
         wizardValues[KEYS.FORM_AREAS].forEach(key => {
-          if (KEYS.OPTIONS_AREA[+key].justification) {
+          let value = KEYS.OPTIONS_AREA[+key].justification;
+          if (value) {
             _justifications.push(KEYS.OPTIONS_AREA[key]);
+            // check if other area box selecetd, set display if so
+            if (value === KEYS.JUSTIFICATIONS_OTHER) {
+              otherAreaDisplay = true;
+            }
           }
         });
+        // set display of other area field
+        this.setState({accessDisplayOtherArea: otherAreaDisplay});
       }
+      // check reason section
       if (wizardValues[KEYS.FORM_REASON]) {
+        // set justification needed if required reason set
         if (KEYS.OPTIONS_REASON[+wizardValues[KEYS.FORM_REASON]].justification) {
           _justifications.push(KEYS.OPTIONS_REASON[+wizardValues[KEYS.FORM_REASON]]);
         }
       }
+      // check hours section
       if (wizardValues[KEYS.FORM_HOURS]) {
+        // set justification needed if required hour set
         if (KEYS.OPTIONS_HOURS[+wizardValues[KEYS.FORM_HOURS]].justification) {
           _justifications.push(KEYS.OPTIONS_HOURS[+wizardValues[KEYS.FORM_HOURS]]);
         }
@@ -461,6 +474,7 @@ class WizardPage extends Component {
       approverName,
       approverNamesHidden,
       justifications,
+      accessDisplayOtherArea,
       fieldsDisabled
     } = this.state;
     const {
@@ -501,6 +515,7 @@ class WizardPage extends Component {
     };
     const WizardAccessProps = {
       accessHandleChange: this.accessHandleChange,
+      accessDisplayOtherArea: accessDisplayOtherArea,
       previousPage: this.previousPage,
       onSubmit: (!justifications.length && !approving ? this.formHandleSubmit : this.nextPage),
       submitButton: (!justifications.length && !approving)

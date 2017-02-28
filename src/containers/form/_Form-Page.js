@@ -28,9 +28,11 @@ import * as KEYS from '../../store/keyMap';
 class FormPage extends Component {
   constructor(props, context) {
     super(props, context);
+    const {initialValues} = this.props;
     this.state = {
-      justifications: this.props.initialValues[KEYS.JUSTIFICATIONS] || [], // justification component expects array of names
+      justifications: initialValues[KEYS.JUSTIFICATIONS] || [], // justification component expects array of names
       justificationsUpdate: true,  // handles updating jsutificatinos after state has been set (componentDidUpdate)
+      accessDisplayOtherArea: initialValues[KEYS.FORM_AREA_OTHER] ? true : false,        // handles is other area selected, display field to enter other area
       isRejecting: false  // determines if user has clicked the "Reject"
     };
     this.errorOnClick = this.errorOnClick.bind(this);
@@ -103,6 +105,7 @@ class FormPage extends Component {
   ///////////////////////     JUSTIFICATIONS FUNCTIONS     /////////////////////
   //////////////////////////////////////////////////////////////////////////////
   /**
+   * TODO: this is exact same as in waizrd page.. make into common function
    * handles updating justifications needed
    * (checks in componentDidUpdate)
    */
@@ -110,23 +113,35 @@ class FormPage extends Component {
     const {formValues} = this.props;
     const {justificationsUpdate} = this.state;
     const _justifications = [];
+    let otherAreaDisplay = false;
     // if form mounted and justification update needed (need tp keep track for componentDidMount to work)
     if (formValues && justificationsUpdate) {
       // check area sections
       if (formValues[KEYS.FORM_AREAS]) {
         // set justifiction needed if requried field set
         formValues[KEYS.FORM_AREAS].forEach(key => {
+          let value = KEYS.OPTIONS_AREA[+key].justification;
           if (KEYS.OPTIONS_AREA[+key].justification) {
             _justifications.push(KEYS.OPTIONS_AREA[key]);
+            // check if other area box selecetd, set display if so
+            if (value === KEYS.JUSTIFICATIONS_OTHER) {
+              otherAreaDisplay = true;
+            }
           }
         });
+        // set display of other area field
+        this.setState({accessDisplayOtherArea: otherAreaDisplay});
       }
+      // check reason section
       if (formValues[KEYS.FORM_REASON]) {
+        // set justification needed if required reason set
         if (KEYS.OPTIONS_REASON[+formValues[KEYS.FORM_REASON]].justification) {
           _justifications.push(KEYS.OPTIONS_REASON[+formValues[KEYS.FORM_REASON]]);
         }
       }
+      // check hours section
       if (formValues[KEYS.FORM_HOURS]) {
+        // set justification needed if required hour set
         if (KEYS.OPTIONS_HOURS[+formValues[KEYS.FORM_HOURS]].justification) {
           _justifications.push(KEYS.OPTIONS_HOURS[+formValues[KEYS.FORM_HOURS]]);
         }
@@ -147,7 +162,7 @@ class FormPage extends Component {
 
   render() {
     const {handleSubmit, initialValues, auth} = this.props;
-    const {isRejecting, justifications} = this.state;
+    const {isRejecting, justifications, accessDisplayOtherArea} = this.state;
 
     // init roles for users in form, based off user's role and if found in form fields
     const isApprover = initialValues[KEYS.FORM_SAM_SUPER] === auth[KEYS.USER_SAM];
@@ -181,7 +196,7 @@ class FormPage extends Component {
         break;
       case KEYS.STATUS_PEND_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsReject         = {display: isRejecting, props: {}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: isRecipient && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
@@ -189,7 +204,7 @@ class FormPage extends Component {
         break;
       case KEYS.STATUS_PEND_SEC:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsReject         = {display: isRejecting, props: {}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
@@ -198,30 +213,30 @@ class FormPage extends Component {
         break;
       case KEYS.STATUS_APPROVED:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsSecurity       = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_SUB:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_MGR:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_SEC:
         propsAccess         = {display: true, props: {allDisabled: true}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsReject         = {display: true, props: {allDisabled: true}};
@@ -237,11 +252,11 @@ class FormPage extends Component {
         <FormMain />
         {propsAccess.display && <div>
           <FormHeader header="Access Requirements"/>
-          <FormAccess {...propsAccess.props} singleLine/>
+          <FormAccess {...propsAccess.props} displayOtherArea={accessDisplayOtherArea} singleLine/>
         </div>}
         {propsJustifications.display && <div>
           <FormHeader header="Justifications"/>
-          <FormJustifications {...propsJustifications.props} singleLine/>
+          <FormJustifications {...propsJustifications.props} justifications={justifications} singleLine/>
         </div>}
         {propsTermsApprover.display && <div>
           <FormHeader header="Terms and Conditions"/>
@@ -282,7 +297,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // connect to redux form
-FormPage = reduxForm({form: 'form', destroyOnUnmount: false, forceUnregisterOnUnmount: true})(FormPage);
+FormPage = reduxForm({form: 'form', destroyOnUnmount: true, forceUnregisterOnUnmount: true})(FormPage);
 
 // connect to redux using state and dispatch
 FormPage = connect(mapStateToProps, mapDispatchToProps)(FormPage);

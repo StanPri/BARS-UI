@@ -63,6 +63,9 @@ const validate = values => {
   if (!values[KEYS.FORM_HOURS]) {
     errors[KEYS.FORM_HOURS] = 'Required';
   }
+  if (!values[KEYS.FORM_AREA_OTHER]) {
+    errors[KEYS.FORM_AREA_OTHER] = 'Required';
+  }
   // Justifications
   if (!values[KEYS.JUSTIFICATIONS_OTHER]) {
     errors[KEYS.JUSTIFICATIONS_OTHER] = 'Required';

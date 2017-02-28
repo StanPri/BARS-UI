@@ -16,6 +16,12 @@ import * as KEYS from '../../store/keyMap';
  * @param {bool}    singleLine      - toggles al fields being in a single line
  */
 const FormTermsApprover = ({label, name, allDisabled}) => {
+  let widthSm = allDisabled
+    ? 6
+    : 12;
+  let widthMd = allDisabled
+    ? 9
+    : 12;
   return (
     <div>
       <Row>
@@ -31,7 +37,7 @@ const FormTermsApprover = ({label, name, allDisabled}) => {
         </Col>
       </Row>
       <Row>
-        <Col sm={6} md={9}>
+        <Col sm={widthSm} md={widthMd}>
           <Field
             label={label}
             name={name}
@@ -40,14 +46,13 @@ const FormTermsApprover = ({label, name, allDisabled}) => {
             type="text"
             required={!allDisabled}/>
         </Col>
-        <Col sm={6} md={3}>
+        {allDisabled && <Col sm={6} md={3}>
           <Field
             label="Approval Date"
             name={KEYS.FORM_APPROVAL_DATE_SUP}
             disabled={allDisabled}
-            component={DatePicker}
-            required={!allDisabled}/>
-        </Col>
+            component={DatePicker}/>
+        </Col>}
       </Row>
     </div>
   );
