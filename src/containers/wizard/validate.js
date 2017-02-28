@@ -90,8 +90,8 @@ const validate = values => {
     errors[KEYS.FORM_TERMS_NAME_SUP] = 'Please enter your name exactly as it appears above.';
   }
 
-  // return errors;
-  return {}; // disable validation
+  return errors;
+  // return {}; // disable validation
 }
 
 export default validate;

@@ -43,7 +43,7 @@ export const FORM_TERMS_SUP = 'supervisorApprovalTimestampUtc';
 // INTERNAL ONLY, placeholder for users aggreement to terms and conditions
 export const FORM_TERMS_NAME_REC = 'srecipientTerms';
 export const FORM_TERMS_NAME_SUP = 'supervisorTerms';
-
+export const FORM_MODIFIED_DATE = 'mostRecentModifiedDateUtc';
 // Sam accounts
 export const FORM_SAM_SUBMIT = 'submitterSamAccount';
 export const FORM_SAM_RECEIVE = 'receiverSamAccount';
@@ -51,6 +51,7 @@ export const FORM_SAM_SUPER = 'supervisorSamAccount';
 // submission info
 export const FORM_SUBMIT_EMAIL = 'submitterEmail';
 export const FORM_REJECT_REASON = 'cancellationReason';
+
 /**
  * Justifications
  */

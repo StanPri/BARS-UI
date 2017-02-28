@@ -29,7 +29,8 @@ export const submitNewRequest = data => {
 
 // Submit existing request for approval
 export const submitExistingRequest = id => {
-  console.log("Submitting existing request: ", id);
+  if (debug)
+    console.log("Submitting existing request: ", id);
   return ({
     [CALL_API]: {
       endpoint: mock.useMock.BARS
@@ -43,15 +44,17 @@ export const submitExistingRequest = id => {
 
 // Submit existing request for approval
 export const deleteExistingRequest = (id, reason) => {
-  console.log("Deleting existing request: ", id);
-  console.log("\t\twith reason: ", reason);
+  if (debug)
+    console.log("Deleting existing request: ", id, "  with reason: ", reason);
   return ({
     [CALL_API]: {
       endpoint: mock.useMock.BARS
         ? `/CancelBadgeRequest/`
         : `/CancelBadgeRequest/${id}`,
       method: 'put',
-      body: {[KEYS.FORM_REJECT_REASON]: reason},
+      body: {
+        "reason": reason
+      },
       types: [types.CANCEL_EXISTING_REQUEST, types.CANCEL_EXISTING_SUCCESS, types.CANCEL_EXISTING_FAILURE]
     }
   });

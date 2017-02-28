@@ -12,6 +12,7 @@ import * as KEYS from '../../store/keyMap';
 const ca_gov_logo = require('../../images/ca_gov_logo.png');
 const cio_logo = require('../../images/cio_logo.png');
 
+// TODO: MOVE TO CONTAINERS...
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -111,5 +112,5 @@ const mapDispatchToProps = dispatch => ({
   }, dispatch)
 });
 
-Header = reduxForm({form: 'form', destroyOnUnmount: false, forceUnregisterOnUnmount: true})(Header);
+Header = reduxForm({form: 'wizard', destroyOnUnmount: true, forceUnregisterOnUnmount: true})(Header);
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

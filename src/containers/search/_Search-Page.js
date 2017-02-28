@@ -9,6 +9,7 @@ import RequestTable from '../../components/common/RequestTable';
 import FetchInProgress from '../../components/common/FetchInProgress';
 import DisplayError from '../../components/common/DisplayError';
 import * as requestsActions from '../../actions/requestsActions';
+import * as requestFormActions from '../../actions/requestFormActions';
 
 class SearchPage extends React.Component {
   constructor(props) {
@@ -74,7 +75,8 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      ...requestsActions
+      ...requestsActions,
+      ...requestFormActions
     }, dispatch)
   };
 }

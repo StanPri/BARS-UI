@@ -20,9 +20,9 @@ const FormButtons = ({
   leftClick
 }) => {
   return (
-    <Row>
+    <Row className="add-padding">
       <Col xs={12} className="text-center">
-        <ButtonGroup>\
+        <ButtonGroup>
           <Button
             bsStyle={leftColor || "primary"}
             onClick={leftClick}>{leftText  || "Submit"}</Button>
