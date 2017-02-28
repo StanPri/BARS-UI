@@ -30,12 +30,13 @@ class FormPage extends Component {
     super(props, context);
     this.state = {
       justifications: this.props.initialValues[KEYS.JUSTIFICATIONS] || [], // justification component expects array of names
-      justificationsUpdate: false,  // handles updating jsutificatinos after state has been set (componentDidUpdate)
+      justificationsUpdate: true,  // handles updating jsutificatinos after state has been set (componentDidUpdate)
       isRejecting: false  // determines if user has clicked the "Reject"
     };
     this.errorOnClick = this.errorOnClick.bind(this);
     this.toggleReject = this.toggleReject.bind(this);
     // bind api functions
+    this.handleRedirect = this.handleRedirect.bind(this);
     this.submitReject = this.submitReject.bind(this);
     this.submitApproval = this.submitApproval.bind(this);
     // bind justifications functions
@@ -56,37 +57,46 @@ class FormPage extends Component {
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////     REJECT FUNCTIONS     /////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-
+  /**
+   * Toggles displaying the Reject component when "Reject" button clicked
+   */
   toggleReject() {
     const {isRejecting} = this.state;
     this.setState({isRejecting : !isRejecting});
-    return;
   }
 
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////     API FUNCTIONS     ////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   /**
+   * Handles edirecting to homepage once API call completed
+   */
+  handleRedirect() {
+    const {destroy, fetchCallsInProgress} = this.props;
+    if(!fetchCallsInProgress) {
+      destroy();                      // clear form
+      browserHistory.push('/');       // redirect to homepage
+    } else {
+      setTimeout(this.handleRedirect, 100);
+    }
+  }
+  /**
    * Handles rejecting an approval
    * @param {object} vals   - values passed by redux-form's handleSubmit
    */
   submitReject(vals) {
-    //TODO: handle submitting rejection
-    console.log("REJECTING");
-    console.log(vals);
-    return;
+    const {actions} = this.props;
+    actions.deleteExistingRequest(+ vals[KEYS.FORM_ID], vals[KEYS.FORM_REJECT_REASON]);
+    this.handleRedirect();
   }
-
   /**
    * Handles submitting an approval
    * @param {object} vals   - values passed by redux-form's handleSubmit
    */
   submitApproval(vals) {
-    const {actions, mainForm, destroy} = this.props;
+    const {actions} = this.props;
     actions.submitExistingRequest(vals[KEYS.FORM_ID]); // approve existing request
-    //TODO: handle errors, wait for feetch to complete.
-    destroy(); // clear form
-    browserHistory.push('/'); // redirect to homepage
+    this.handleRedirect();
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -201,20 +211,20 @@ class FormPage extends Component {
       case KEYS.STATUS_CANCEL_MGR:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
-        propsReject         = {display: true, props: {name: KEYS.FORM_TERMS_NAME_SUP, allDisabled: true}};
+        propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
-        propsReject         = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME}};
+        propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_SEC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true, justifications}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
-        propsReject         = {display: true, props: {allDisabled: true, name: "Security"}};
+        propsReject         = {display: true, props: {allDisabled: true}};
         break;
       default:
         // Unknown/Error State display error
@@ -272,7 +282,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // connect to redux form
-FormPage = reduxForm({form: 'form', destroyOnUnmount: true, forceUnregisterOnUnmount: true})(FormPage);
+FormPage = reduxForm({form: 'form', destroyOnUnmount: false, forceUnregisterOnUnmount: true})(FormPage);
 
 // connect to redux using state and dispatch
 FormPage = connect(mapStateToProps, mapDispatchToProps)(FormPage);

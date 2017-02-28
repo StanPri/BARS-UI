@@ -3,15 +3,20 @@ import {Field, reduxForm} from 'redux-form';
 import {Row, Col, Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
 // compnents
 import FieldInput from '../common/FieldInput';
+import DatePicker from '../common/FieldDate';
 // constants, actions, etc
 import * as KEYS from '../../store/keyMap';
 
-const levelsOptions = ['Access1', 'Access2', 'Access3'];
+// TODO: DATES!
+// https://github.com/erikras/redux-form/issues/1536
+// https://github.com/jquense/react-widgets/blob/master/src/D
+// ateTimePicker.jsx
 
-// TODO: DATES! https://github.com/erikras/redux-form/issues/1536
-// https://github.com/jquense/react-widgets/blob/master/src/DateTimePicker.jsx
 
-const FormSecurity = ({allDisabled}) => (
+
+const FormSecurity = ({
+  allDisabled
+}) => (
   <div>
     <Row>
       <Col sm={6} md={3}>
@@ -27,16 +32,14 @@ const FormSecurity = ({allDisabled}) => (
           label="Issue Date"
           name={KEYS.FORM_ISSUE}
           disabled={allDisabled}
-          component={FieldInput}
-          type="date"/>
+          component={DatePicker}/>
       </Col>
       <Col sm={6} md={3}>
         <Field
           label="Expiration Date"
           name={KEYS.FORM_EXPIRE_DATE}
           disabled={allDisabled}
-          component={FieldInput}
-          type="date"/>
+          component={DatePicker}/>
       </Col>
       <Col sm={6} md={3}>
         <Field
@@ -61,8 +64,7 @@ const FormSecurity = ({allDisabled}) => (
           label="Approval Date"
           name={KEYS.FORM_APPROVAL_DATE_SEC}
           disabled={allDisabled}
-          component={FieldInput}
-          type="date"/>
+          component={DatePicker}/>
       </Col>
     </Row>
   </div>

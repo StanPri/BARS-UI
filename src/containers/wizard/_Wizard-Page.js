@@ -59,7 +59,7 @@ class WizardPage extends Component {
     // bind api functions
     this.formHandleSubmit = this.formHandleSubmit.bind(this);
     this.loadEmpDir = this.loadEmpDir.bind(this);
-    this.finalSubmitNewRequest = this.finalSubmitNewRequest.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
     // bind page functions
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
@@ -74,12 +74,41 @@ class WizardPage extends Component {
     this.accessHandleChange = this.accessHandleChange.bind(this);
   }
 
+  //////////////////////////////////////////////////////////////////////////////
+  /////////////////////////     LIFECYCLE FUNCTIONS     ////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   componentDidMount() {
     this.loadEmpDir();
   }
 
   componentDidUpdate() {
     this.updateJustifications();
+    this.updateOnRefresh();
+  }
+  /**
+   * Resets values when mounted (ex if press "New Request" while on wizard)
+   */
+  updateOnRefresh() {
+    const {wizardValues} = this.props;
+    const {page} = this.state;
+    if (!wizardValues && page !== 1) {
+      this.setState({page: 1});
+      this.setState({approving: false});
+      this.setState({approverName: ""});
+      this.setState({justifications: []});
+      this.setState({fieldsDisabled: {                     // which fields are disbaled
+        // recipient
+        [KEYS.FORM_EMAIL]: true,
+        [KEYS.FORM_PHONE]: true,
+        [KEYS.FORM_CELL]: true,
+        [KEYS.FORM_EMAIL]: true,
+        [KEYS.FORM_LICENSE]: true,
+        // approver
+        [KEYS.FORM_SUP_NAME]: false,
+        [KEYS.FORM_SUP_EMAIL]: true,
+        [KEYS.FORM_SUP_PHONE]: true
+      }});
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -94,16 +123,16 @@ class WizardPage extends Component {
     // load employee directory from api for selecting name from list
     actions.empDir();
   }
-
-  finalSubmitNewRequest(vals)
-  {
+  /**
+   * Handles edirecting to homepage once API call completed
+   */
+  handleRedirect() {
     const {destroy, fetchCallsInProgress} = this.props;
-
     if(!fetchCallsInProgress) {
       destroy();                      // clear form
       browserHistory.push('/');       // redirect to homepage
     } else {
-      setTimeout(this.finalSubmitNewRequest, 2000);
+      setTimeout(this.handleRedirect, 100);
     }
   }
   /**
@@ -112,10 +141,9 @@ class WizardPage extends Component {
    */
   formHandleSubmit(vals) {
     if (debug) console.log("\tformHandleSubmit:\tvals: ", vals);
-    const {actions, destroy, fetchCallsInProgress} = this.props;
-
+    const {actions} = this.props;
     actions.submitNewRequest(vals); // submit new request
-    this.finalSubmitNewRequest(vals);
+    this.handleRedirect();          // redirect to homepage
   }
 
   //////////////////////////////////////////////////////////////////////////////

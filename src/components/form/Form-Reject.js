@@ -16,12 +16,9 @@ import * as KEYS from '../../store/keyMap';
  * @param {string} name   - name of field in the form
  * @param {bool} disabeld - makes the field disabled from input
  */
-const FormReject = ({name, allDisabled}) => {
+const FormReject = ({allDisabled}) => {
   return (
     <Row>
-      {/* display who and when rejected if past request */}
-      {allDisabled && <h2>Rejected by {name}
-        on "date"</h2>}
       {/* show confirmation text if not past request*/}
       {!allDisabled && <p>Please enter your reason for rejecting this request
         below, followed by hitting the "Confirm" button.</p>}
@@ -40,7 +37,7 @@ const FormReject = ({name, allDisabled}) => {
 }
 
 FormReject.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   allDisabled: PropTypes.bool
 };
 
