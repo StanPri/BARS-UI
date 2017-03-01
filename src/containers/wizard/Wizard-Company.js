@@ -6,7 +6,7 @@ import FormHeader from '../../components/form/Form-Header';
 import FormCompany from '../../components/form/Form-Company';
 import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
-import validate from './validate';
+import validate from '../form/validate';
 import * as KEYS from '../../store/keyMap';
 
 /**

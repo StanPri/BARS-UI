@@ -13,7 +13,7 @@ import FormHeader from '../../components/form/Form-Header';
 import FormAccess from '../../components/form/Form-Access';
 import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
-import validate from './validate';
+import validate from '../form/validate';
 import * as KEYS from '../../store/keyMap';
 
 /**
@@ -25,7 +25,7 @@ import * as KEYS from '../../store/keyMap';
  * @param {func}  previousPage      - handles moving back to previous page in wizard
  * @return JSX
  */
-let WizardAccess = ({handleSubmit, onSubmit, submitButton, previousPage, accessHandleChange}) => {
+let WizardAccess = ({handleSubmit, onSubmit, submitButton, previousPage, accessHandleChange, accessDisplayOtherArea}) => {
   let _submitButton = submitButton
     ? "Submit"
     : "Next";
@@ -34,7 +34,7 @@ let WizardAccess = ({handleSubmit, onSubmit, submitButton, previousPage, accessH
       onSubmit={handleSubmit(onSubmit)}
       onChange={accessHandleChange}>
       <FormHeader header="Access Requirements" centered/>
-      <FormAccess/>
+      <FormAccess displayOtherArea={accessDisplayOtherArea}/>
       <Row className="text-center">
         <p>Fields marked with an asterisk (*) require a justification.</p>
       </Row>
@@ -50,7 +50,8 @@ WizardAccess.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   submitButton: PropTypes.bool.isRequired,
-  previousPage: PropTypes.func.isRequired
+  previousPage: PropTypes.func.isRequired,
+  accessDisplayOtherArea: PropTypes.bool
 }
 
 // connect to redux form

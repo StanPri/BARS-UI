@@ -13,9 +13,14 @@ import * as KEYS from '../../store/keyMap';
  * @param {string}  label           - name user must match to confirm
  * @param {string}  name            - field name
  * @param {bool}    allDisabled     - toggles disabling all fields
- * @param {bool}    singleLine      - toggles al fields being in a single line
  */
 const FormTermsRecipient = ({label, name, allDisabled}) => {
+  let widthSm = allDisabled
+    ? 6
+    : 12;
+  let widthMd = allDisabled
+    ? 9
+    : 12;
   return (
     <div>
       <Row>
@@ -31,7 +36,7 @@ const FormTermsRecipient = ({label, name, allDisabled}) => {
         </Col>
       </Row>
       <Row>
-        <Col sm={6} md={9}>
+        <Col sm={widthSm} md={widthMd}>
           <Field
             label={label}
             name={name}
@@ -40,14 +45,13 @@ const FormTermsRecipient = ({label, name, allDisabled}) => {
             type="text"
             required={!allDisabled}/>
         </Col>
-        <Col sm={6} md={3}>
+        {allDisabled && <Col sm={6} md={3}>
           <Field
             label="Approval Date"
             name={KEYS.FORM_APPROVAL_DATE_SUP}
             disabled={allDisabled}
-            component={DatePicker}
-            required={!allDisabled}/>
-        </Col>
+            component={DatePicker}/>
+        </Col>}
       </Row>
     </div>
   );

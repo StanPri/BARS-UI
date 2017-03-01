@@ -6,7 +6,7 @@ import FormHeader from '../../components/form/Form-Header';
 import FormRecipient from '../../components/form/Form-Recipient';
 import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
-import validate from './validate';
+import validate from '../form/validate';
 
 /**
  * First Page of wiazrd - Recipient Information

@@ -6,7 +6,7 @@ import FormHeader from '../../components/form/Form-Header';
 import FormApprover from '../../components/form/Form-Approver';
 import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
-import validate from './validate';
+import validate from '../form/validate';
 
 /**
  * Third page of wizard - Approver Information
