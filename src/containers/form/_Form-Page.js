@@ -25,9 +25,6 @@ import * as requestFormActions from '../../actions/requestFormActions';
 import * as empDirActions from '../../actions/empDirActions';
 import * as KEYS from '../../store/keyMap';
 
-// const fields = [KEYS.FORM_LEVELS, KEYS.FORM_ISSUE, KEYS.FORM_EXPIRE_DATE, KEYS.FORM_KEYCARD, KEYS.FORM_SECURITY_NAME];
-
-
 class FormPage extends Component {
   constructor(props, context) {
     super(props, context);
