@@ -2,24 +2,25 @@ import {reset} from 'redux-form';
 import {CALL_API} from '../middleware/api';
 import * as types from "./actionTypes";
 import * as KEYS from '../store/keyMap';
-// mock data for testing
-import * as mock from '../mock/user';
 
 const debug = 0;
 
 // View exisiting request
 export const requestFormView = data => ({type: types.REQUEST_FORM_VIEW, data});
+// reset form
 export const requestFormReset = data => ({type: types.REQUEST_FORM_RESET});
 
-// Submit new request
+/**
+ * Makes Put request to BARS API to submit an existing request
+ * @param  {object} data   - data of entire form
+ * @return {object}         - object that passes to api middleware
+ */
 export const submitNewRequest = data => {
   if (debug)
-    console.log("Submitting new request: ", data);
+    console.log("\tSubmitting new request: ", data);
   return ({
     [CALL_API]: {
-      endpoint: mock.useMock.BARS
-        ? `/CreateNewRequest/`
-        : `/CreateNewRequest/`,
+      endpoint: `/CreateNewRequest/`,
       method: 'post',
       body: data,
       types: [types.SUBMIT_NEW_REQUEST, types.SUBMIT_NEW_SUCCESS, types.SUBMIT_NEW_FAILURE]
@@ -27,30 +28,66 @@ export const submitNewRequest = data => {
   });
 }
 
-// Submit existing request for approval
+/**
+ * Makes Put request to BARS API to submit an existing request
+ * @param  {number} id    - id number
+ * @return {object}       - obejct that passes to api middleware
+ */
 export const submitExistingRequest = id => {
   if (debug)
-    console.log("Submitting existing request: ", id);
+    console.log("\tSubmitting existing request: ", id);
+  // return {type: "testing submitExistingRequest"};
   return ({
     [CALL_API]: {
-      endpoint: mock.useMock.BARS
-        ? `/Approve/`
-        : `/Approve/${id}`,
+      endpoint: `/Approve/${id}`,
       method: 'put',
       types: [types.SUBMIT_EXISTING_REQUEST, types.SUBMIT_EXISTING_SUCCESS, types.SUBMIT_EXISTING_FAILURE]
     }
   });
 }
 
-// Submit existing request for approval
-export const deleteExistingRequest = (id, reason) => {
-  if (debug)
-    console.log("Deleting existing request: ", id, "  with reason: ", reason);
+/**
+ * Hepler function to map field names for patch requests
+ * @param  {object} data    - entire form data
+ * @param  {array} fields   - fields to patch
+ * @return {array}          - fields mapped to objects having an op, value, and path
+ */
+const mapFieldsForPatch = (data, fields) => (fields.map(field => (({"op": "replace", "path": `/${field}`, "value": data[field]}))));
+
+/**
+ * Makes Patch request to BARS API to replace given fields
+ * @param  {object} data    - entire form data
+ * @param  {array} fields   - fields to patch
+ * @return {object}         - object that passes to api middleware
+ */
+export const patchExisitingRequest = (data, fields) => {
+  if (debug) {
+    console.log("\tPatching existing request id: ", data[KEYS.FORM_ID]);
+    console.log("\t\twith fields: ", mapFieldsForPatch(data, fields));
+  }
+  // return {type: "testing patchExisitingRequest"};
   return ({
     [CALL_API]: {
-      endpoint: mock.useMock.BARS
-        ? `/CancelBadgeRequest/`
-        : `/CancelBadgeRequest/${id}`,
+      endpoint: `/${data[KEYS.FORM_ID]}`,
+      method: 'patch',
+      body: mapFieldsForPatch(data, fields),
+      types: [types.PATCH_EXISTING_REQUEST, types.PATCH_EXISTING_SUCCESS, types.PATCH_EXISTING_FAILURE]
+    }
+  });
+}
+
+/**
+ * Makes put request to BARS API to cancel given reqeust
+ * @param  {number} id        - id of request
+ * @param  {string} reason    - reason for cancelling request
+ * @return {object}           - object that passes to api middleware
+ */
+export const cancelExistingRequest = (id, reason) => {
+  if (debug)
+    console.log("Cancelling existing request: ", id, "  with reason: ", reason);
+  return ({
+    [CALL_API]: {
+      endpoint: `/CancelBadgeRequest/${id}`,
       method: 'put',
       body: {
         "reason": reason

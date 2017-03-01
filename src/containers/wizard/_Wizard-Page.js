@@ -16,7 +16,7 @@ import WizardTerms from './Wizard-Terms';
 // actions, constants, etc
 import FetchInProgress from '../../components/common/FetchInProgress';
 import DisplayError from '../../components/common/DisplayError';
-import validate from './validate';
+import validate from '../form/validate';
 import initialState from '../../reducers/initialState';
 import * as requestFormActions from '../../actions/requestFormActions';
 import * as empDirActions from '../../actions/empDirActions';

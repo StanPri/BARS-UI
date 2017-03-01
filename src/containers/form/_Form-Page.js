@@ -19,11 +19,14 @@ import FormButtons from '../../components/form/Form-Buttons';
 import FetchInProgress from '../../components/common/FetchInProgress';
 import DisplayError from '../../components/common/DisplayError';
 // actions, constants, etc
-import validate from '../wizard/validate';
+import validate from './validate';
 import initialState from '../../reducers/initialState';
 import * as requestFormActions from '../../actions/requestFormActions';
 import * as empDirActions from '../../actions/empDirActions';
 import * as KEYS from '../../store/keyMap';
+
+// const fields = [KEYS.FORM_LEVELS, KEYS.FORM_ISSUE, KEYS.FORM_EXPIRE_DATE, KEYS.FORM_KEYCARD, KEYS.FORM_SECURITY_NAME];
+
 
 class FormPage extends Component {
   constructor(props, context) {
@@ -39,8 +42,10 @@ class FormPage extends Component {
     this.toggleReject = this.toggleReject.bind(this);
     // bind api functions
     this.handleRedirect = this.handleRedirect.bind(this);
-    this.submitReject = this.submitReject.bind(this);
-    this.submitApproval = this.submitApproval.bind(this);
+    this.handleSubmitRejectPatch = this.handleSubmitRejectPatch.bind(this);
+    this.handleSubmitReject = this.handleSubmitReject.bind(this);
+    this.handleSubmitApprovalPatch = this.handleSubmitApprovalPatch.bind(this);
+    this.handleSubmitApproval = this.handleSubmitApproval.bind(this);
     // bind justifications functions
     this.updateJustifications = this.updateJustifications.bind(this);
     this.formHandleChange = this.formHandleChange.bind(this);
@@ -83,22 +88,58 @@ class FormPage extends Component {
     }
   }
   /**
-   * Handles rejecting an approval
+   * Handles patching a rejection then rejecting a request
    * @param {object} vals   - values passed by redux-form's handleSubmit
    */
-  submitReject(vals) {
+  handleSubmitRejectPatch(vals) {
     const {actions} = this.props;
-    actions.deleteExistingRequest(+ vals[KEYS.FORM_ID], vals[KEYS.FORM_REJECT_REASON]);
-    this.handleRedirect();
+    actions.patchExisitingRequest(vals, [KEYS.FORM_REJECT_REASON]);
+    this.handleSubmitReject(vals);
   }
   /**
-   * Handles submitting an approval
+   * Handles rejecting a request after patch request completed
    * @param {object} vals   - values passed by redux-form's handleSubmit
    */
-  submitApproval(vals) {
+  handleSubmitReject(vals) {
+    const {actions, fetchCallsInProgress} = this.props;
+    if(!fetchCallsInProgress) {
+      actions.cancelExistingRequest(+ vals[KEYS.FORM_ID], vals[KEYS.FORM_REJECT_REASON]);
+      this.handleRedirect();
+    } else {
+      setTimeout(this.handleSubmitReject, 100, vals);
+    }
+  }
+  /**
+   * Handles patching approval then submitting an approval
+   * @param {object} vals   - values passed by redux-form's handleSubmit
+   */
+  handleSubmitApprovalPatch(vals) {
     const {actions} = this.props;
-    actions.submitExistingRequest(vals[KEYS.FORM_ID]); // approve existing request
-    this.handleRedirect();
+    // setup fields for approvers or security to patch
+    let fieldsApprover = [KEYS.JUSTIFICATIONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER];
+    let fieldsSecurity = [KEYS.FORM_SECURITY_NAME, KEYS.FORM_LEVELS, KEYS.FORM_ISSUE, KEYS.FORM_EXPIRE_DATE, KEYS.FORM_KEYCARD];
+    // check if in pending approval state and patch approver if so
+    if (vals[KEYS.FORM_STATUS] === KEYS.STATUS_PEND_MGR) {
+      actions.patchExisitingRequest(vals, fieldsApprover);
+    }
+    // check if in pending security state and pacth security if so
+    if (vals[KEYS.FORM_STATUS] === KEYS.STATUS_PEND_SEC) {
+      actions.patchExisitingRequest(vals, fieldsSecurity);
+    }
+    this.handleSubmitApproval(vals);
+  }
+  /**
+   * Handles submitting approval after patch request completed
+   * @param {object} vals   - values passed by redux-form's handleSubmit
+   */
+  handleSubmitApproval(vals) {
+    const {actions, fetchCallsInProgress} = this.props;
+    if(!fetchCallsInProgress) {
+      actions.submitExistingRequest(vals[KEYS.FORM_ID]); // approve existing request
+      this.handleRedirect();
+    } else {
+      setTimeout(this.handleSubmitting, 100, vals);
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -180,8 +221,8 @@ class FormPage extends Component {
     let propsButtons        = {display: false, props: {}};
 
     // buttons for approving or rejecting properties
-    let buttonApproving = {rightColor: "danger", rightText: "Reject", rightClick: this.toggleReject, leftText: "Accept", leftClick: handleSubmit(this.submitApproval)};
-    let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: handleSubmit(this.submitReject)};
+    let buttonApproving = {rightColor: "danger", rightText: "Reject", rightClick: this.toggleReject, leftText: "Accept", leftClick: handleSubmit(this.handleSubmitApprovalPatch)};
+    let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: handleSubmit(this.handleSubmitRejectPatch)};
 
     let justificationsNeeded = !!justifications.length;
 
@@ -297,7 +338,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // connect to redux form
-FormPage = reduxForm({form: 'form', destroyOnUnmount: true, forceUnregisterOnUnmount: true})(FormPage);
+FormPage = reduxForm({form: 'form', destroyOnUnmount: true, forceUnregisterOnUnmount: true, validate})(FormPage);
 
 // connect to redux using state and dispatch
 FormPage = connect(mapStateToProps, mapDispatchToProps)(FormPage);

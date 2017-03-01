@@ -13,7 +13,7 @@ import FormHeader from '../../components/form/Form-Header';
 import FormAccess from '../../components/form/Form-Access';
 import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
-import validate from './validate';
+import validate from '../form/validate';
 import * as KEYS from '../../store/keyMap';
 
 /**
