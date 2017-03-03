@@ -33,7 +33,14 @@ class Header extends React.Component {
       <Navbar fixedTop fluid>
         <input type="checkbox" id="navbar-toggle-cbox" className="hidden"/>
         <div className="navbar-header">
-          <label htmlFor="navbar-toggle-cbox" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" onClick={toggleMenuOnClick}>
+          <label
+            htmlFor="navbar-toggle-cbox"
+            className="navbar-toggle collapsed"
+            data-toggle="collapse"
+            data-target="#navbar"
+            aria-expanded="false"
+            aria-controls="navbar"
+            onClick={toggleMenuOnClick}>
             <span className="sr-only">Toggle navigation</span>
             <span className="icon-bar"/>
             <span className="icon-bar"/>
@@ -51,9 +58,9 @@ class Header extends React.Component {
               </IndexLink>
             </li>
             <li onClick={toggleMenuOnClick}>
-              <Link>
+              <link>
                 <Button className="btn-outline" onClick={this.handleRequestFormNew}>New Request</Button>
-              </Link>
+              </link>
             </li>
             <li onClick={toggleMenuOnClick}>
               <Link to="/about" activeClassName="active">
