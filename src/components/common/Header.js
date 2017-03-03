@@ -58,9 +58,9 @@ class Header extends React.Component {
               </IndexLink>
             </li>
             <li onClick={toggleMenuOnClick}>
-              <link>
+              <Link>
                 <Button className="btn-outline" onClick={this.handleRequestFormNew}>New Request</Button>
-              </link>
+              </Link>
             </li>
             <li onClick={toggleMenuOnClick}>
               <Link to="/about" activeClassName="active">
