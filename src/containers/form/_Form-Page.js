@@ -54,7 +54,7 @@ class FormPage extends Component {
 
   errorOnClick() {
     //TODO: redirect to homepage
-    console.log("REDIRECTING FORM USER CLICKING ERROR BUTTON");
+    browserHistory.push('/');
     return;
   }
 
