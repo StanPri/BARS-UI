@@ -1,7 +1,7 @@
 {
-  "name": "employee-directory",
+  "name": "bars",
   "version": "1.0.0",
-  "description": "Employee Directory",
+  "description": "BARS",
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
     "start": "npm-run-all --parallel test:watch open:src lint:watch",
