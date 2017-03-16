@@ -23,10 +23,10 @@ export const auth = () => dispatch => {
   // // van -> user
   // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkY2N0NTAiLCJCQVJTIjpbIlVzZXIiXSwiQ1RTIjoiVXNlci1jd2siLCJWTCI6IkFkbWluIiwiaWF0IjoxNDg2NDI0MTI0LCJleHAiOjE5ODY0Mjc3MjR9.OZoCzjbS4IfTWojImiz1va1ysOyJXTyySiniF8jTgiI';
   // // ryan -> user, security
-  local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyeWFuLnZvbGxtZXIiLCJCQVJTIjpbIlVzZXIiLCJTZWN1cml0eSJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.vJvbR2jhWmGDli-9jb6Wu7quNrfRKubSij_FbtLgamg';
+  // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyeWFuLnZvbGxtZXIiLCJCQVJTIjpbIlVzZXIiLCJTZWN1cml0eSJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.vJvbR2jhWmGDli-9jb6Wu7quNrfRKubSij_FbtLgamg';
   // // throw an error (invalid token)
   // local_token = '1eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXHJ5YW4udm9sbG1lciIsIkJBUlMiOlsiVXNlciIsIlNlY3VyaXR5Il0sIkNUUyI6IlVzZXItY3drIiwiVkwiOiJBZG1pbiIsImlhdCI6MTQ4NjQyNDEyNCwiZXhwIjoxOTg2NDI3NzI0fQ.lvzunf24JDCVJgCha7eytDVkfUdvDpStGDFPUEOmC28';
-  localStorage.setItem('id_token', local_token);
+  // localStorage.setItem('id_token', local_token);
   // /** END TEST USERS **/
 
   dispatch(authRequest()); // update fetchCallsInProgress
@@ -59,11 +59,11 @@ export const auth = () => dispatch => {
     } else {
       // If login was successful, set the token in local storage
       localStorage.setItem('id_token', user.id_token);
-      const {sub: name, BARS: role} = decode(user.id_token);
+      const {sub: sam, BARS: role} = decode(user.id_token);
       // Dispatch the success action
       if (debug)
-        console.log(`SETTING auth from API -> name: ${name}, role: ${role}`);
-      dispatch(authSuccess({name, role}));
+        console.log(`SETTING auth from API -> sam: ${sam}, role: ${role}`);
+      dispatch(authSuccess({sam, role}));
     }
   }).catch(err => dispatch(authFailure(err.message)));
 };
