@@ -57,13 +57,13 @@ const validate = values => {
     errors[KEYS.FORM_SUP_PHONE] = 'Required';
   }
   // Access Requirements
-  if (!values[KEYS.FORM_REASON]) {
+  if (!(values[KEYS.FORM_REASON] > -1)) {
     errors[KEYS.FORM_REASON] = 'Required';
   }
   if (!values[KEYS.FORM_AREAS] || (values[KEYS.FORM_AREAS] && !values[KEYS.FORM_AREAS].length)) {
     errors[KEYS.FORM_AREAS] = 'Required';
   }
-  if (!values[KEYS.FORM_HOURS]) {
+  if (!(values[KEYS.FORM_HOURS] > -1)) {
     errors[KEYS.FORM_HOURS] = 'Required';
   }
   if (!values[KEYS.FORM_AREA_OTHER]) {

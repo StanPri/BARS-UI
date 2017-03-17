@@ -205,7 +205,7 @@ class FormPage extends Component {
     // init roles for users in form, based off user's role and if found in form fields
     const isApprover = initialValues[KEYS.FORM_SAM_SUPER] === auth[KEYS.USER_SAM];
     const isRecipient = initialValues[KEYS.FORM_SAM_RECEIVE] === auth[KEYS.USER_SAM];
-    const isSecurity = !isRecipient && (auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY));
+    const isSecurity = auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY);
 
     // init properties for sections of form that will change
     // contains if should be displayed and props to pass
@@ -247,7 +247,7 @@ class FormPage extends Component {
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsSecurity       = {display: isSecurity && !isRejecting, props: {}};
-        propsButtons        = {display: isSecurity && !isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
+        propsButtons        = {display: isSecurity, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
       case KEYS.STATUS_APPROVED:
         propsAccess         = {display: true, props: {allDisabled: true}};
