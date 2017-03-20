@@ -33,7 +33,7 @@ const FieldInput = ({
         {...input}
         className="form-control"
         todayButton="Today"
-        placeholderText={`Enter ${label}`}
+        placeholderText={disabled ? '' : `Enter ${label}`}
         disabled={disabled}
         dateFormat="YYYY-MM-DD"
         selected={input.value

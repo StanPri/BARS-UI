@@ -29,7 +29,7 @@ const FieldInput = ({
       <FormControl
         {...input}
         onInput={onInput}
-        placeholder={`Enter ${label}`}
+        placeholder={disabled ? '' : `Enter ${label}`}
         type={type}
         disabled={disabled}
         autoComplete="off"

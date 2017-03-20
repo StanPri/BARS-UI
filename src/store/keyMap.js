@@ -56,12 +56,12 @@ export const FORM_REJECT_REASON = 'cancellationReason';
  * Justifications
  */
 export const JUSTIFICATIONS = "justifications";
-export const JUSTIFICATIONS_GC_DOCK = 'AreaGoldCampDock';
-export const JUSTIFICATIONS_GC_TMS = 'AreaTenantManagedSpace';
-export const JUSTIFICATIONS_TRAINING_ROOM = 'AreaTrainingCenter';
-export const JUSTIFICATIONS_OTHER = 'AreaOther';
-export const JUSTIFICATIONS_CHANGE_ACCESS = 'ReasonChangeAcess';
-export const JUSTIFICATIONS_24_HOURS = 'AllHoursPerDay';
+export const JUSTIFICATIONS_GC_DOCK = 'areaGoldCampDock';
+export const JUSTIFICATIONS_GC_TMS = 'areaTenantManagedSpace';
+export const JUSTIFICATIONS_TRAINING_ROOM = 'areaTrainingCenter';
+export const JUSTIFICATIONS_OTHER = 'areaOther';
+export const JUSTIFICATIONS_CHANGE_ACCESS = 'reasonChangeAcess';
+export const JUSTIFICATIONS_24_HOURS = 'allHoursPerDay';
 
 /**
  * options for access requirements
