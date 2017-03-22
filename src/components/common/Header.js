@@ -6,7 +6,6 @@ import {Navbar, Button} from 'react-bootstrap';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import json2csv from 'json2csv';
 import * as requestFormActions from '../../actions/requestFormActions';
 import * as KEYS from '../../store/keyMap';
 const ca_gov_logo = require('../../images/ca_gov_logo.png');
