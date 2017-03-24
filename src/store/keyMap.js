@@ -13,9 +13,12 @@ export const FORM_EMAIL = 'receiverEmail';
 export const FORM_LICENSE = 'licensePlate';
 export const FORM_COMPANY = 'companyName';
 export const FORM_COMPANY_ADDRESS = 'companyAddress';
-export const FORM_SUP_NAME = 'supervisorFullName';
+export const FORM_SUP_NAME = 'supervisorFullName'; // direct supervisor
 export const FORM_SUP_EMAIL = 'supervisorEmail';
 export const FORM_SUP_PHONE = 'supervisorPhoneNumber';
+export const FORM_MANAGER_NAME = 'managerFullName'; // supervisors manager
+export const FORM_MANAGER_EMAIL = 'managerEmail';
+export const FORM_MANAGER_PHONE = 'managerPhoneNumber';
 export const FORM_DIVISION = 'division';
 export const FORM_UNIT = 'unitOrProject';
 export const FORM_REQUEST_DATE = 'CreatedDateUtc';
@@ -47,7 +50,8 @@ export const FORM_MODIFIED_DATE = 'mostRecentModifiedDateUtc';
 // Sam accounts
 export const FORM_SAM_SUBMIT = 'submitterSamAccount';
 export const FORM_SAM_RECEIVE = 'receiverSamAccount';
-export const FORM_SAM_SUPER = 'supervisorSamAccount';
+export const FORM_SAM_SUPER = 'supervisorSamAccount';// direct supervisor
+export const FORM_SAM_MANAGER = 'managerSamAccount';// supervisor's manager
 // submission info
 export const FORM_SUBMIT_EMAIL = 'submitterEmail';
 export const FORM_REJECT_REASON = 'cancellationReason';
@@ -63,6 +67,9 @@ export const JUSTIFICATIONS_OTHER = 'areaOther';
 export const JUSTIFICATIONS_CHANGE_ACCESS = 'reasonChangeAcess';
 export const JUSTIFICATIONS_24_HOURS = 'allHoursPerDay';
 
+///////////////////////////////////////////////////////////////////
+// RADIO BUTTONS
+///////////////////////////////////////////////////////////////////
 /**
  * options for access requirements
  */

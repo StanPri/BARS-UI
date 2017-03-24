@@ -38,8 +38,7 @@ class WizardPage extends Component {
       recipientNamesHidden: true,           // hide recipient names when on recipient page
       approving: false,                     // set when selecting approver name, will render approver terms
       approverName: "",
-      approverNames: initialState.empDir,   // list of manager names when on approver page
-      approverNamesHidden: true,            // hide manager names when on approver page
+      approverNames: [{name: 'No Manager Listed'}],   // list of manager names when on approver page
       justifications: [],                   // list of justifications tht are needed
       justificationsUpdate: false,          // handles updating jsutificatinos after state has been set (componentDidUpdate)
       accessDisplayOtherArea: false,        // handles is other area selected, display field to enter other area
@@ -277,8 +276,9 @@ class WizardPage extends Component {
   recipientHandleClick(e) {
     e.preventDefault();
     const {dispatch, empDir, auth} = this.props;
-    const {recipientNames, fieldsDisabled} = this.state;
+    const {recipientNames, fieldsDisabled, approverNames} = this.state;
     let _fieldsDisabled = fieldsDisabled;
+    let _approverNames = approverNames;
     // get employees sam account (set by mapping of names on data-id)
     let id = e.target.dataset.id;
     /////////// SUBMITTER (TODO:move to common function) ////////////////
@@ -322,21 +322,29 @@ class WizardPage extends Component {
 
     /////////// APPROVER (TODO:move to common function) ////////////////
     // field map to use for setting editable / updting fields
-    let approver_fields = {
+    let sup_approver_fields = {
       [KEYS.FORM_SAM_SUPER]: KEYS.USER_SAM,
       [KEYS.FORM_SUP_NAME]: KEYS.USER_NAME,
       [KEYS.FORM_SUP_EMAIL]: KEYS.USER_EMAIL,
       [KEYS.FORM_SUP_PHONE]: KEYS.USER_PHONE
-    }
+    };
+
+    let manager_approver_fields = {
+      [KEYS.FORM_SAM_MANAGER]: KEYS.USER_SAM,
+      [KEYS.FORM_MANAGER_NAME]: KEYS.USER_NAME,
+      [KEYS.FORM_MANAGER_EMAIL]: KEYS.USER_EMAIL,
+      [KEYS.FORM_MANAGER_PHONE]: KEYS.USER_PHONE
+    };
     // if they have a manager set in employee directory listing
     if (recipient[KEYS.USER_SAM_MANAGER]) {
       // look up manager of employee
       let approver = empDir.byId[recipient[KEYS.USER_SAM_MANAGER]];
+      /*
       // set fields based off supervisor of selected employee if they exist
       // otherwise make field editable
-      Object.keys(approver_fields).forEach(key => {
+      Object.keys(sup_approver_fields).forEach(key => {
         let _fieldsDisabled = fieldsDisabled;
-        let user_key = approver_fields[key]
+        let user_key = sup_approver_fields[key]
         let val = approver[user_key];
         // if field has value
         if (val) {
@@ -352,19 +360,74 @@ class WizardPage extends Component {
           _fieldsDisabled[key] = false;
         }
       });
+      */
+     dispatch(change('wizard', KEYS.FORM_SAM_SUPER, approver[KEYS.USER_SAM]));
+     dispatch(change('wizard', KEYS.FORM_SUP_NAME, approver[KEYS.USER_NAME]));
+      _approverNames[0] = {name: approver[KEYS.USER_NAME]};
+
+
+
+
+      // if they have a manager's manager set in employee directory listing
+      if (approver[KEYS.USER_SAM_MANAGER]) {
+        // look up manager's manager of employee
+        let approverManager = empDir.byId[approver[KEYS.USER_SAM_MANAGER]];
+        // // set fields based off supervisor's supervisor of selected employee if they exist
+        // // otherwise make field editable
+        // Object.keys(manager_approver_fields).forEach(key => {
+        //   let _fieldsDisabled = fieldsDisabled;
+        //   let user_key = manager_approver_fields[key]
+        //   let val = approverManager[user_key];
+        //   // if field has value
+        //   if (val) {
+        //     // change value in redux form
+        //     dispatch(change('wizard', key, val));
+        //     // make field disabled
+        //     _fieldsDisabled[key] = true;
+        //   }
+        //   else {
+        //     // change value in redux form to empty
+        //     dispatch(change('wizard', key, ''));
+        //     // make field editable if no value found
+        //     _fieldsDisabled[key] = false;
+        //   }
+        // });
+
+
+        dispatch(change('wizard', KEYS.FORM_SAM_MANAGER, approverManager[KEYS.USER_SAM]));
+        dispatch(change('wizard', KEYS.FORM_MANAGER_NAME, approverManager[KEYS.USER_NAME]));
+         _approverNames[1] = {name: approverManager[KEYS.USER_NAME]};
+      }
+      else {
+        // set all approver fields to disbaled other than name
+        Object.keys(manager_approver_fields).forEach(key => {
+          // change value in redux form to empty
+          dispatch(change('wizard', key, ''));
+          // set fields as disabled
+          _fieldsDisabled[key] = true;
+        });
+      }
+
+
+
+
+
+
     }
     else {
       // set all approver fields to disbaled other than name
-      Object.keys(approver_fields).forEach(key => {
+      Object.keys(sup_approver_fields).forEach(key => {
         // change value in redux form to empty
         dispatch(change('wizard', key, ''));
         // set fields as disabled
         _fieldsDisabled[key] = true;
       });
     }
+
     // set approver name field as editable
     _fieldsDisabled[KEYS.FORM_SUP_NAME] = false;
     this.setState({fieldsDisabled: _fieldsDisabled});
+    this.setState({approverNames: _approverNames});
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -423,18 +486,19 @@ class WizardPage extends Component {
     // look up employee who has this sam
     let approver = approverNames.byId[id];
     // field map to use for setting editable / updting fields
-    let approver_fields = {
+    let sup_approver_fields = {
       [KEYS.FORM_SAM_SUPER]: KEYS.USER_SAM,
       [KEYS.FORM_SUP_NAME]: KEYS.USER_NAME,
       [KEYS.FORM_SUP_EMAIL]: KEYS.USER_EMAIL,
       [KEYS.FORM_SUP_PHONE]: KEYS.USER_PHONE
     };
+
     // hide the list of names
     this.setState({approverNamesHidden: true});
     // set fields based off selected employee if they exist
     // otherwise make field editable
-    Object.keys(approver_fields).forEach(key => {
-      let user_key = approver_fields[key];
+    Object.keys(sup_approver_fields).forEach(key => {
+      let user_key = sup_approver_fields[key];
       let val = approver[user_key];
       // if field has value
       if (val) {
@@ -450,6 +514,7 @@ class WizardPage extends Component {
         _fieldsDisabled[key] = false;
       }
     });
+
     // set approver name field as editable
     _fieldsDisabled[KEYS.FORM_SUP_NAME] = false;
     this.setState({fieldsDisabled: _fieldsDisabled});
@@ -505,10 +570,7 @@ class WizardPage extends Component {
       onSubmit: this.nextPage
     };
     const WizardApproverProps = {
-      approverHandleInput: this.approverHandleInput,
-      approverHandleClick: this.approverHandleClick,
       approverNames: approverNames,
-      approverNamesHidden: approverNamesHidden,
       fieldsDisabled: fieldsDisabled,
       previousPage: this.previousPage,
       onSubmit: this.nextPage

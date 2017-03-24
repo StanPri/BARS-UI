@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
-import FormApprover from '../../components/form/Form-Approver';
+import WizardMainApprover from '../../components/wizard/Wizard-Approver';
 import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
 import validate from '../form/validate';
@@ -26,21 +26,15 @@ import validate from '../form/validate';
 let WizardApprover = ({
   handleSubmit,
   onSubmit,
-  approverHandleInput,
-  approverHandleClick,
   approverNames,
-  approverNamesHidden,
   previousPage,
   fieldsDisabled
 }) => (
   <form onSubmit={handleSubmit(onSubmit)}>
     <FormHeader header="Supervisor Information" centered/>
-    <FormApprover
-      approverHandleInput={approverHandleInput}
-      approverHandleClick={approverHandleClick}
-      approverNames={approverNames}
-      approverNamesHidden={approverNamesHidden}
-      fieldsDisabled={fieldsDisabled}/>
+    <WizardMainApprover
+      fieldsDisabled={fieldsDisabled}
+      options={approverNames}/>
     <WizardButtons
       onSubmitText={"Next"}
       onClick={previousPage}
@@ -51,10 +45,7 @@ let WizardApprover = ({
 WizardApprover.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  approverHandleInput: PropTypes.func.isRequired,
-  approverHandleClick: PropTypes.func.isRequired,
-  approverNames: PropTypes.object.isRequired,
-  approverNamesHidden: PropTypes.bool.isRequired,
+  approverNames: PropTypes.array.isRequired,
   previousPage: PropTypes.func.isRequired,
   fieldsDisabled: PropTypes.object.isRequired
 }
