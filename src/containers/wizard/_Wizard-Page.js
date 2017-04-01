@@ -38,7 +38,13 @@ class WizardPage extends Component {
       recipientNamesHidden: true,           // hide recipient names when on recipient page
       approving: false,                     // set when selecting approver name, will render approver terms
       approverName: "",
-      approverNames: [{name: 'No Manager Listed'}],   // list of manager names when on approver page
+      approverNames: [
+        {name: 'No Manager Listed'},
+        {samAccount: 'Unknown'},
+        {email: ""},
+        {approversUpdate: 0}
+      ],   // list of manager names when on approver page
+      approversUpdate: false,
       justifications: [],                   // list of justifications tht are needed
       justificationsUpdate: false,          // handles updating jsutificatinos after state has been set (componentDidUpdate)
       accessDisplayOtherArea: false,        // handles is other area selected, display field to enter other area
@@ -69,6 +75,7 @@ class WizardPage extends Component {
     // bind approver functions
     this.approverHandleInput = this.approverHandleInput.bind(this);
     this.approverHandleClick = this.approverHandleClick.bind(this);
+    this.updateApprovers = this.updateApprovers.bind(this);
     // bind justifications functions
     this.updateJustifications = this.updateJustifications.bind(this);
     this.accessHandleChange = this.accessHandleChange.bind(this);
@@ -84,6 +91,7 @@ class WizardPage extends Component {
   componentDidUpdate() {
     this.updateJustifications();
     this.updateOnRefresh();
+    this.updateApprovers();
   }
   /**
    * Resets values when mounted (ex if press "New Request" while on wizard)
@@ -196,12 +204,38 @@ class WizardPage extends Component {
     }
   }
 
-  /**
-   * Handles form changing on access requirements page
-   * Sets if values should be updated
-   */
   accessHandleChange(e) {
     this.setState({justificationsUpdate: true});
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///////////////////////     APPROVERS FUNCTIONS     /////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  /**
+   * handles updating approvers needed
+   * (checks in componentDidUpdate)
+   */
+
+  /**
+   * Handles form changing on supervisors page
+   * Sets if values should be updated
+   */
+  updateApprovers() {
+    const {wizardValues, dispatch} = this.props;
+    const {approverNames, approversUpdate} = this.state;
+    wizardValues[KEYS.FORM_SAM_MANAGER] = approverNames.samAccount;
+    wizardValues[KEYS.FORM_MANAGER_NAME] = approverNames.name;
+    wizardValues[KEYS.FORM_MANAGER_EMAIL] = approverNames.email;
+
+    dispatch(change('wizard', KEYS.FORM_SAM_MANAGER, wizardValues[KEYS.FORM_SAM_MANAGER]));
+    dispatch(change('wizard', KEYS.FORM_MANAGER_NAME, wizardValues[KEYS.FORM_MANAGER_NAME]));
+    dispatch(change('wizard', KEYS.FORM_MANAGER_EMAIL, wizardValues[KEYS.FORM_MANAGER_EMAIL]));
+
+    this.setState({approversUpdate: false});
+  }
+
+  approversHandleChange(){
+    this.setState({approversUpdate: true});
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -361,8 +395,8 @@ class WizardPage extends Component {
         }
       });
       */
-     dispatch(change('wizard', KEYS.FORM_SAM_SUPER, approver[KEYS.USER_SAM]));
-     dispatch(change('wizard', KEYS.FORM_SUP_NAME, approver[KEYS.USER_NAME]));
+     //dispatch(change('wizard', KEYS.FORM_SAM_SUPER, approver[KEYS.USER_SAM]));
+     //dispatch(change('wizard', KEYS.FORM_SUP_NAME, approver[KEYS.USER_NAME]));
       _approverNames[0] = {name: approver[KEYS.USER_NAME]};
 
 
@@ -394,8 +428,8 @@ class WizardPage extends Component {
         // });
 
 
-        dispatch(change('wizard', KEYS.FORM_SAM_MANAGER, approverManager[KEYS.USER_SAM]));
-        dispatch(change('wizard', KEYS.FORM_MANAGER_NAME, approverManager[KEYS.USER_NAME]));
+      //  dispatch(change('wizard', KEYS.FORM_SAM_MANAGER, approverManager[KEYS.USER_SAM]));
+      //  dispatch(change('wizard', KEYS.FORM_MANAGER_NAME, approverManager[KEYS.USER_NAME]));
          _approverNames[1] = {name: approverManager[KEYS.USER_NAME]};
       }
       else {
@@ -570,6 +604,7 @@ class WizardPage extends Component {
       onSubmit: this.nextPage
     };
     const WizardApproverProps = {
+      approversHandleChange: this.approversHandleChange,
       approverNames: approverNames,
       fieldsDisabled: fieldsDisabled,
       previousPage: this.previousPage,

@@ -34,7 +34,8 @@ let WizardApprover = ({
     <FormHeader header="Supervisor Information" centered/>
     <WizardMainApprover
       fieldsDisabled={fieldsDisabled}
-      options={approverNames}/>
+      options={approverNames}
+      onChange={approversHandleChange}/>
     <WizardButtons
       onSubmitText={"Next"}
       onClick={previousPage}
@@ -47,7 +48,8 @@ WizardApprover.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   approverNames: PropTypes.array.isRequired,
   previousPage: PropTypes.func.isRequired,
-  fieldsDisabled: PropTypes.object.isRequired
+  fieldsDisabled: PropTypes.object.isRequired,
+  approversHandleChange: PropTypes.func.isRequired
 }
 
 // connect to redux form

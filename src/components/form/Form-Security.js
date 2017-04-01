@@ -23,36 +23,10 @@ const FormSecurity = ({allDisabled}) => {
       <Row>
         <Col sm={6} md={3}>
           <Field
-            label="Access Level"
-            name={KEYS.FORM_LEVELS}
-            disabled={allDisabled}
-            component={FieldInput}
-            type="text"
-            required={!allDisabled}/>
-        </Col>
-        <Col sm={6} md={3}>
-          <Field
-            label="Issue Date"
-            name={KEYS.FORM_ISSUE}
-            disabled={allDisabled}
-            component={DatePicker}
-            required={!allDisabled}/>
-        </Col>
-        <Col sm={6} md={3}>
-          <Field
             label="Expiration Date"
             name={KEYS.FORM_EXPIRE_DATE}
             disabled={allDisabled}
             component={DatePicker}
-            required={!allDisabled}/>
-        </Col>
-        <Col sm={6} md={3}>
-          <Field
-            label="Keycard No."
-            name={KEYS.FORM_KEYCARD}
-            disabled={allDisabled}
-            component={FieldInput}
-            type="text"
             required={!allDisabled}/>
         </Col>
       </Row>

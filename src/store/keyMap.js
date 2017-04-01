@@ -67,6 +67,12 @@ export const JUSTIFICATIONS_OTHER = 'areaOther';
 export const JUSTIFICATIONS_CHANGE_ACCESS = 'reasonChangeAcess';
 export const JUSTIFICATIONS_24_HOURS = 'allHoursPerDay';
 
+/**
+ * Change reasons
+ */
+export const CHANGE_REASONS = "changeReasons";
+export const CHANGE_REASONS_ROOM = 'areaRoom';
+
 ///////////////////////////////////////////////////////////////////
 // RADIO BUTTONS
 ///////////////////////////////////////////////////////////////////
@@ -74,23 +80,23 @@ export const JUSTIFICATIONS_24_HOURS = 'allHoursPerDay';
  * options for access requirements
  */
  export const OPTIONS_AREA = [
-   { name: "Office" },
+   { name: "Office"},
    { name: "Gold Camp" },
    { name: "Gold Camp - Dock", justification: JUSTIFICATIONS_GC_DOCK },
-   { name: "Gold Camp - Computer Room (Raised Floor)" },
+   { name: "Gold Camp - Computer Room (Raised Floor)"},
    { name: "Gold Camp - Tenant Managed Space (TMS-p)", justification: JUSTIFICATIONS_GC_TMS },
-   { name: "Prospect Green" },
-   { name: "Croydon Warehouse" },
-   { name: "Extended Current Access" },
+   { name: "Prospect Green"},
+   { name: "Croydon Warehouse"},
+   { name: "Extended Current Access"},
    { name: "Training Center (24/7)", justification: JUSTIFICATIONS_TRAINING_ROOM },
    { name: "Other Area", justification: JUSTIFICATIONS_OTHER }
  ];
 
  export const OPTIONS_REASON = [
-   { name: "New Employee", },
-   { name: "Student / Intern" },
-   { name: "Vendor / Contractor" },
-   { name: "Badge Replacement" },
+   { name: "New Employee"},
+   { name: "Student / Intern"},
+   { name: "Vendor / Contractor"},
+   { name: "Badge Replacement"},
    { name: "Change Access", justification: JUSTIFICATIONS_CHANGE_ACCESS }
  ];
 
