@@ -1,7 +1,7 @@
 // https://github.com/auth0-blog/redux-auth mock data for testing
 import * as mock from '../mock/user';
 
-const BASE_URL = 'http://localhost:7451/api/BadgeRequests';
+const BASE_URL = mock.useMock.BARS ? 'http://localhost:3001/BARS' : 'http://barsapi.technology.ca.gov/api/BadgeRequests';
 
 const debug = 0;
 
