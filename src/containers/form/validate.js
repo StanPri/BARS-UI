@@ -45,6 +45,9 @@ const validate = values => {
   if (!values[KEYS.FORM_SUP_NAME]) {
     errors[KEYS.FORM_SUP_NAME] = 'Required';
   }
+  if (values[KEYS.FORM_APPROVERS] === undefined) {
+    errors[KEYS.FORM_APPROVERS] = 'Required';
+  }
   // check if user has changed after selcting a name from list
   // (email should be populated...)
   if (!values[KEYS.FORM_SAM_SUPER]) {

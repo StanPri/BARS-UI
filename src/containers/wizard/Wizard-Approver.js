@@ -7,6 +7,7 @@ import WizardMainApprover from '../../components/wizard/Wizard-Approver';
 import WizardButtons from '../../components/wizard/Wizard-Buttons';
 // actions, constants, etc
 import validate from '../form/validate';
+import * as KEYS from '../../store/keyMap';
 
 /**
  * Third page of wizard - Approver Information
@@ -26,16 +27,16 @@ import validate from '../form/validate';
 let WizardApprover = ({
   handleSubmit,
   onSubmit,
+  approversHandleChange,
   approverNames,
   previousPage,
   fieldsDisabled
 }) => (
-  <form onSubmit={handleSubmit(onSubmit)}>
+  <form onSubmit={handleSubmit(onSubmit)} onChange={approversHandleChange}>
     <FormHeader header="Supervisor Information" centered/>
     <WizardMainApprover
       fieldsDisabled={fieldsDisabled}
-      options={approverNames}
-      onChange={approversHandleChange}/>
+      options={approverNames.map(x => x[KEYS.USER_NAME])}/>
     <WizardButtons
       onSubmitText={"Next"}
       onClick={previousPage}

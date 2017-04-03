@@ -6,7 +6,7 @@ import {Col} from 'react-bootstrap';
 import FieldInput from '../common/FieldInput';
 import NameList from '../common/NameList';
 import * as KEYS from '../../store/keyMap';
-import FieldRadioGroup from '../common/FieldRadioGroup';
+import ApproverRadioGroup from './ApproverRadioGroup';
 
 /**
  * Renders approver information section of form
@@ -17,7 +17,6 @@ import FieldRadioGroup from '../common/FieldRadioGroup';
  * @param {array}   options                - names of recipient's managers in format [{name:'name'}, ...]
  */
 const WizardMainApprover = ({
-  approverNames,
   fieldsDisabled,
   allDisabled,
   singleLine,
@@ -34,10 +33,10 @@ const WizardMainApprover = ({
         <Col sm={width} smOffset={offset}>
           <Field
             label="Select the approving manager"
-            name={KEYS.FORM_SUP_NAME}
+            name={KEYS.FORM_APPROVERS}
             disabled={allDisabled}
             options={options}
-            component={FieldRadioGroup}
+            component={ApproverRadioGroup}
             required={!allDisabled}/>
         </Col>
     </div>
@@ -45,7 +44,7 @@ const WizardMainApprover = ({
 };
 
 WizardMainApprover.propTypes = {
-  approverNames: PropTypes.object,
+  options: PropTypes.array,
   fieldsDisabled: PropTypes.object,
   allDisabled: PropTypes.bool,
   singleLine: PropTypes.bool

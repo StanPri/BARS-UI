@@ -120,7 +120,7 @@ class FormPage extends Component {
     const {actions} = this.props;
     // setup fields for approvers or security to patch
     let fieldsApprover = [KEYS.JUSTIFICATIONS, KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER];
-    let fieldsSecurity = [KEYS.FORM_SECURITY_NAME, KEYS.FORM_LEVELS, KEYS.FORM_ISSUE, KEYS.FORM_EXPIRE_DATE, KEYS.FORM_KEYCARD];
+    let fieldsSecurity = [KEYS.JUSTIFICATIONS, KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER, KEYS.FORM_SECURITY_NAME, KEYS.FORM_LEVELS, KEYS.FORM_ISSUE, KEYS.FORM_EXPIRE_DATE, KEYS.FORM_KEYCARD];
     // check if in pending approval state and patch approver if so
     if (vals[KEYS.FORM_STATUS] === KEYS.STATUS_PEND_MGR) {
       actions.patchExisitingRequest(vals, fieldsApprover);
@@ -200,12 +200,12 @@ class FormPage extends Component {
   ///////////////////////     REASON CHANGES FUNCTIONS     /////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  updateReasonChanges() {
+  updateChangeReasons() {
     const {formValues, initialValues} = this.props;
-    const {reasonChangeUpdate} = this.state;
+    const {changeReasonsUpdate} = this.state;
     let _changeReasons = false;
     // if form mounted and reasonChange update needed (need tp keep track for componentDidMount to work)
-    if (formValues && reasonChangesUpdate) {
+    if (formValues && changeReasonsUpdate) {
       // check area sections
       if (formValues[KEYS.FORM_AREAS]) {
         // set changeReason needed if areas not equal to inital areas
@@ -238,7 +238,7 @@ class FormPage extends Component {
 
   render() {
     const {handleSubmit, initialValues, auth} = this.props;
-    const {isRejecting, justifications, accessDisplayOtherArea} = this.state;
+    const {isRejecting, justifications, accessDisplayOtherArea, changeReasons} = this.state;
 
     // init roles for users in form, based off user's role and if found in form fields
     const isApprover = initialValues[KEYS.FORM_SAM_SUPER] === auth[KEYS.USER_SAM];
@@ -283,9 +283,9 @@ class FormPage extends Component {
         propsButtons        = {display: isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
       case KEYS.STATUS_PEND_SEC:
-        propsAccess         = {display: true, props: {allDisabled: !isApprover}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isApprover, justifications}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: !isApprover, changeReasons}};
+        propsAccess         = {display: true, props: {allDisabled: !isSecurity}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isSecurity, justifications}};
+        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: !isSecurity, changeReasons}};
         propsReject         = {display: isRejecting, props: {}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
