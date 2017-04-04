@@ -33,7 +33,7 @@ class FormPage extends Component {
     this.state = {
       justifications: initialValues[KEYS.JUSTIFICATIONS] || [], // justification component expects array of names
       justificationsUpdate: true,  // handles updating jsutificatinos after state has been set (componentDidUpdate)
-      changeReasons: false,  // changeReasons component expects array of names
+      changeReasonsNeeded: false,  // changeReasons component expects array of names
       changeReasonsUpdate: true,  // handles updating changeReasons after state has been set (componentDidUpdate)
       accessDisplayOtherArea: initialValues[KEYS.FORM_AREA_OTHER] ? true : false,        // handles is other area selected, display field to enter other area
       isRejecting: false  // determines if user has clicked the "Reject"
@@ -120,7 +120,7 @@ class FormPage extends Component {
     const {actions} = this.props;
     // setup fields for approvers or security to patch
     let fieldsApprover = [KEYS.JUSTIFICATIONS, KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER];
-    let fieldsSecurity = [KEYS.JUSTIFICATIONS, KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER, KEYS.FORM_SECURITY_NAME, KEYS.FORM_LEVELS, KEYS.FORM_ISSUE, KEYS.FORM_EXPIRE_DATE, KEYS.FORM_KEYCARD];
+    let fieldsSecurity = [KEYS.JUSTIFICATIONS, KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER, KEYS.CHANGE_REASONS, KEYS.FORM_SECURITY_NAME, KEYS.FORM_EXPIRE_DATE];
     // check if in pending approval state and patch approver if so
     if (vals[KEYS.FORM_STATUS] === KEYS.STATUS_PEND_MGR) {
       actions.patchExisitingRequest(vals, fieldsApprover);
@@ -203,27 +203,27 @@ class FormPage extends Component {
   updateChangeReasons() {
     const {formValues, initialValues} = this.props;
     const {changeReasonsUpdate} = this.state;
-    let _changeReasons = false;
+    let _changeReasonsNeeded = false;
     // if form mounted and reasonChange update needed (need tp keep track for componentDidMount to work)
     if (formValues && changeReasonsUpdate) {
       // check area sections
-      if (formValues[KEYS.FORM_AREAS]) {
+      if (+formValues[KEYS.FORM_AREAS] >= 0) {
         // set changeReason needed if areas not equal to inital areas
-        _changeReasons = formValues[KEYS.FORM_AREAS] !== initialValues[KEYS.FORM_AREAS];
+        _changeReasonsNeeded = +formValues[KEYS.FORM_AREAS] !== +initialValues[KEYS.FORM_AREAS];
       }
       // check reason section
-      if (formValues[KEYS.FORM_REASON] && !_changeReasons) {
+      if (+formValues[KEYS.FORM_REASON] >= 0 && !_changeReasonsNeeded) {
         // set changeReason needed if reasons not equal to inital reasons
-        _changeReasons = formValues[KEYS.FORM_REASON] !== initialValues[KEYS.FORM_REASON];
+        _changeReasonsNeeded = +formValues[KEYS.FORM_REASON] !== +initialValues[KEYS.FORM_REASON];
       }
       // check hours section
-      if (formValues[KEYS.FORM_HOURS] && !_changeReasons) {
+      if (+formValues[KEYS.FORM_HOURS] >= 0 && !_changeReasonsNeeded) {
         // set changeReason needed if hours not equal to inital hours
-        _changeReasons = formValues[KEYS.FORM_HOURS] !== initialValues[KEYS.FORM_HOURS];
+        _changeReasonsNeeded = +formValues[KEYS.FORM_HOURS] !== +initialValues[KEYS.FORM_HOURS];
       }
       // update state and make componentDidMount not go into endless loop
       this.setState({changeReasonsUpdate: false});
-      this.setState({changeReasons: _changeReasons});
+      this.setState({changeReasonsNeeded: _changeReasonsNeeded});
     }
   }
 
@@ -238,7 +238,7 @@ class FormPage extends Component {
 
   render() {
     const {handleSubmit, initialValues, auth} = this.props;
-    const {isRejecting, justifications, accessDisplayOtherArea, changeReasons} = this.state;
+    const {isRejecting, justifications, accessDisplayOtherArea, changeReasonsNeeded} = this.state;
 
     // init roles for users in form, based off user's role and if found in form fields
     const isApprover = initialValues[KEYS.FORM_SAM_SUPER] === auth[KEYS.USER_SAM];
@@ -249,7 +249,7 @@ class FormPage extends Component {
     // contains if should be displayed and props to pass
     let propsAccess         = {display: false, props: {}};
     let propsJustifications = {display: false, props: {}};
-    let propsChangeReasons = {display: false, props: {}};
+    let propsChangeReasons  = {display: false, props: {}};
     let propsTermsApprover  = {display: false, props: {}};
     let propsTermsRecipient = {display: false, props: {}};
     let propsSecurity       = {display: false, props: {}};
@@ -261,14 +261,12 @@ class FormPage extends Component {
     let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: handleSubmit(this.handleSubmitRejectPatch)};
 
     let justificationsNeeded = !!justifications.length;
-    let changeReasonsNeeded = !!changeReasons.length;
 
     // check status of form, and display / disable based off that and users role in form
     switch (initialValues[KEYS.FORM_STATUS]) {
       case KEYS.STATUS_PEND_MGR:
         propsAccess         = {display: true, props: {allDisabled: !isApprover}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isApprover, justifications}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: !isApprover, changeReasons}};
         propsReject         = {display: isRejecting, props:{}};
         propsTermsApprover  = {display: isApprover && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsButtons        = {display: isApprover, props: isRejecting ? buttonRejecting : buttonApproving};
@@ -276,7 +274,6 @@ class FormPage extends Component {
       case KEYS.STATUS_PEND_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: true}}
         propsReject         = {display: isRejecting, props: {}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: isRecipient && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
@@ -285,7 +282,7 @@ class FormPage extends Component {
       case KEYS.STATUS_PEND_SEC:
         propsAccess         = {display: true, props: {allDisabled: !isSecurity}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isSecurity, justifications}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: !isSecurity, changeReasons}};
+        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: !isSecurity}};
         propsReject         = {display: isRejecting, props: {}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
@@ -303,26 +300,22 @@ class FormPage extends Component {
       case KEYS.STATUS_CANCEL_SUB:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: true}};
         propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_MGR:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: true}};
         propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: true}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_SEC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: true}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsReject         = {display: true, props: {allDisabled: true}};
@@ -344,10 +337,6 @@ class FormPage extends Component {
           <FormHeader header="Justifications"/>
           <FormJustifications {...propsJustifications.props} justifications={justifications} singleLine/>
         </div>}
-        {propsChangeReasons.display && <div>
-          <FormHeader header="Change Reason"/>
-          <FormChangeReasons {...propsChangeReasons.props} changeReasons={changeReasons} singleLine/>
-        </div>}
         {propsTermsApprover.display && <div>
           <FormHeader header="Terms and Conditions"/>
           <FormTermsApprover {...propsTermsApprover.props}/>
@@ -357,6 +346,9 @@ class FormPage extends Component {
         {propsSecurity.display && <div>
           <FormHeader header="Security"/>
           <FormSecurity {...propsSecurity.props}/>
+        </div>}
+        {propsChangeReasons.display && <div>
+          <FormChangeReasons {...propsChangeReasons.props} singleLine/>
         </div>}
         {propsReject.display && <div>
           <FormHeader header="Rejection"/>

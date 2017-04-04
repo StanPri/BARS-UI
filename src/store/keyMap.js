@@ -1,8 +1,6 @@
 /**
  * REQUEST FORM DATA
  */
-export const FORM_CAN_EDIT = 'formCanEdit'; // used for checking is user can edit form.
-
 export const FORM_ID = 'id';
 export const FORM_STATUS = 'requestState';
 // Applicatnt Information
@@ -33,8 +31,6 @@ export const FORM_REASON = 'accessReason';
 export const FORM_VENDOR_START = 'VendorStartDateUtc';
 export const FORM_VENDOR_END = 'VendorEndDateUtc';
 // Approvals
-export const FORM_KEYCARD = 'keycard';
-export const FORM_ISSUE = 'issueDateUtc';
 export const FORM_EXPIRE_DATE = 'expirationDateUtc';
 export const FORM_APPROVAL_DATE_SUP = 'supervisorApprovalTimestampUtc';
 export const FORM_APPROVAL_DATE_REC = 'receiverAgreementTimestampUtc';
@@ -72,7 +68,6 @@ export const JUSTIFICATIONS_24_HOURS = 'allHoursPerDay';
  * Change reasons
  */
 export const CHANGE_REASONS = "changeReasons";
-export const CHANGE_REASONS_ROOM = 'areaRoom';
 
 ///////////////////////////////////////////////////////////////////
 // RADIO BUTTONS

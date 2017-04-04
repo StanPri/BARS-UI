@@ -91,10 +91,6 @@ const validate = values => {
   if (!values[KEYS.JUSTIFICATIONS_24_HOURS]) {
     errors[KEYS.JUSTIFICATIONS_24_HOURS] = 'Required';
   }
-  // ChangeReasons
-  if (!values[KEYS.CHANGE_REASONS_ROOM]) {
-    errors[KEYS.CHANGE_REASONS_ROOM] = 'Required';
-  }
   // Terms and Conditions
   if (!values[KEYS.FORM_TERMS_NAME_SUP]) {
     errors[KEYS.FORM_TERMS_NAME_SUP] = 'Required';
@@ -124,6 +120,9 @@ const validate = values => {
   }
   if (!values[KEYS.FORM_SECURITY_NAME]) {
     errors[KEYS.FORM_SECURITY_NAME] = 'Required';
+  }
+  if (!values[KEYS.CHANGE_REASONS]) {
+    errors[KEYS.CHANGE_REASONS] = 'Required';
   }
   // Rejection
   if (!values[KEYS.FORM_REJECT_REASON]) {
