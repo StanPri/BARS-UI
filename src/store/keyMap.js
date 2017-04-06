@@ -52,6 +52,7 @@ export const FORM_SAM_MANAGER = 'managerSamAccount';// supervisor's manager
 // submission info
 export const FORM_SUBMIT_EMAIL = 'submitterEmail';
 export const FORM_REJECT_REASON = 'cancellationReason';
+export const FORM_IS_ESCALATED = 'isEscalated';
 
 /**
  * Justifications
@@ -131,6 +132,7 @@ export const STATUS_NAMES = [
 export const ROLE_USERS = 'User';
 export const ROLE_MANAGER = 'Manager';
 export const ROLE_SECURITY = 'Security';
+export const ROLE_GUARD = 'Guard';
 export const ROLE_RECIPIENT = 'Recipient';
 
 /**

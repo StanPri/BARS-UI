@@ -42,11 +42,11 @@ class WizardPage extends Component {
         {[KEYS.USER_NAME]: KEYS.USER_NAME, //: 'No supervisor Listed',
         [KEYS.USER_SAM]: 'Unknown',
         [KEYS.USER_EMAIL]: "",
-        approversUpdate: 0},
+        [KEYS.USER_PHONE]: ""},
         {[KEYS.USER_NAME]: KEYS.USER_NAME, //: 'No Supervisor\'s Manager Listed',
         [KEYS.USER_SAM]: 'Unknown',
         [KEYS.USER_EMAIL]: "",
-        approversUpdate: 0}
+        [KEYS.USER_PHONE]: ""}
       ],   // list of manager names when on approver page
       approversUpdate: false,
       justifications: [],                   // list of justifications tht are needed
@@ -234,9 +234,11 @@ class WizardPage extends Component {
       // check which manager is selected
       let selected = wizardValues[KEYS.FORM_APPROVERS];
       if (selected > -1) {
-        dispatch(change('wizard', KEYS.FORM_SAM_MANAGER, approverNames[selected][KEYS.USER_SAM]));
+        dispatch(change('wizard', KEYS.FORM_SUP_PHONE, approverNames[selected][KEYS.USER_PHONE]));
+        dispatch(change('wizard', KEYS.FORM_SAM_SUPER, approverNames[selected][KEYS.USER_SAM]));
         dispatch(change('wizard', KEYS.FORM_SUP_NAME, approverNames[selected][KEYS.USER_NAME]));
         dispatch(change('wizard', KEYS.FORM_SUP_EMAIL, approverNames[selected][KEYS.USER_EMAIL]));
+        dispatch(change('wizard', KEYS.FORM_IS_ESCALATED, selected)); // 0 or 1
       }
       this.setState({approversUpdate: false});
     }
@@ -335,7 +337,7 @@ class WizardPage extends Component {
       [KEYS.FORM_EMAIL]: KEYS.USER_EMAIL,
       [KEYS.FORM_PHONE]: KEYS.USER_PHONE,
       [KEYS.FORM_CELL]: KEYS.USER_CELL,
-      [KEYS.FORM_LICENSE]: KEYS.FORM_CAN_EDIT
+      [KEYS.FORM_LICENSE]: KEYS.FORM_LICENSE
     };
     // hide the list of names
     this.setState({recipientNamesHidden: true});
@@ -369,6 +371,7 @@ class WizardPage extends Component {
       _approverNames[0][KEYS.USER_NAME] = approver[KEYS.USER_NAME];
       _approverNames[0][KEYS.USER_SAM] = approver[KEYS.USER_SAM];
       _approverNames[0][KEYS.USER_EMAIL] = approver[KEYS.USER_EMAIL];
+      _approverNames[0][KEYS.USER_PHONE] = approver[KEYS.USER_PHONE];
       _approverNames[0]['approversUpdate'] = 0;
 
       // if they have a manager's manager set in employee directory listing
@@ -378,6 +381,7 @@ class WizardPage extends Component {
          _approverNames[1][KEYS.USER_NAME] = approverManager[KEYS.USER_NAME];
          _approverNames[1][KEYS.USER_SAM] = approverManager[KEYS.USER_SAM];
          _approverNames[1][KEYS.USER_EMAIL] = approverManager[KEYS.USER_EMAIL];
+         _approverNames[1][KEYS.USER_PHONE] = approverManager[KEYS.USER_PHONE];
          _approverNames[1]['approversUpdate'] = 1;
       }
       else {

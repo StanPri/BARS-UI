@@ -66,8 +66,8 @@ class Header extends React.Component {
                 <Button className="btn-outline">About</Button>
               </Link>
             </li>
-            {/* display search if security */}
-            {auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY) && <li onClick={toggleMenuOnClick}>
+            {/* display search if security or guard */}
+            {(auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY) || auth[KEYS.USER_ROLE].includes(KEYS.ROLE_GUARD)) && <li onClick={toggleMenuOnClick}>
               <Link to="/search" activeClassName="active">
                 <Button className="btn-outline">Search</Button>
               </Link>
@@ -85,18 +85,6 @@ function toggleMenuOnClick(e) {
     document.getElementById('navbar-overlay').classList.toggle('hidden');
     document.getElementById('navbar').classList.toggle('hidden');
   }
-}
-
-function sortByKey(array, key) {
-  return array.sort(function(a, b) {
-    let x = a[key];
-    let y = b[key];
-    return ((x < y)
-      ? -1
-      : ((x > y)
-        ? 1
-        : 0));
-  });
 }
 
 Header.propTypes = {

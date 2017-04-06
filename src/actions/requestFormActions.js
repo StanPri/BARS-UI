@@ -52,7 +52,16 @@ export const submitExistingRequest = id => {
  * @param  {array} fields   - fields to patch
  * @return {array}          - fields mapped to objects having an op, value, and path
  */
-const mapFieldsForPatch = (data, fields) => (fields.map(field => (({"op": "replace", "path": `/${field}`, "value": data[field]}))));
+  const mapFieldsForPatch = (data, fields) => fields.map(field => {
+    let value = field.split('/');
+    if (value.length > 1) {
+      value = data[value[0]][value[1]];
+    }
+    else {
+      value = data[field];
+    }
+    return ({"op": "replace", "path": `/${field}`, "value": value});
+  });
 
 /**
  * Makes Patch request to BARS API to replace given fields
@@ -61,6 +70,7 @@ const mapFieldsForPatch = (data, fields) => (fields.map(field => (({"op": "repla
  * @return {object}         - object that passes to api middleware
  */
 export const patchExisitingRequest = (data, fields) => {
+  const debug =1;
   if (debug) {
     console.log("\tPatching existing request id: ", data[KEYS.FORM_ID]);
     console.log("\t\twith fields: ", mapFieldsForPatch(data, fields));

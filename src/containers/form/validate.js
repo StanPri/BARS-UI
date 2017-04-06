@@ -73,23 +73,24 @@ const validate = values => {
     errors[KEYS.FORM_AREA_OTHER] = 'Required';
   }
   // Justifications
-  if (!values[KEYS.JUSTIFICATIONS_OTHER]) {
-    errors[KEYS.JUSTIFICATIONS_OTHER] = 'Required';
+  errors[KEYS.JUSTIFICATIONS] = {};
+  if (!values[KEYS.JUSTIFICATIONS] || !values[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_OTHER]) {
+    errors[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_OTHER] = 'Required';
   }
-  if (!values[KEYS.JUSTIFICATIONS_GC_DOCK]) {
-    errors[KEYS.JUSTIFICATIONS_GC_DOCK] = 'Required';
+  if (!values[KEYS.JUSTIFICATIONS] || !values[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_GC_DOCK]) {
+    errors[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_GC_DOCK] = 'Required';
   }
-  if (!values[KEYS.JUSTIFICATIONS_GC_TMS]) {
-    errors[KEYS.JUSTIFICATIONS_GC_TMS] = 'Required';
+  if (!values[KEYS.JUSTIFICATIONS] || !values[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_GC_TMS]) {
+    errors[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_GC_TMS] = 'Required';
   }
-  if (!values[KEYS.JUSTIFICATIONS_TRAINING_ROOM]) {
-    errors[KEYS.JUSTIFICATIONS_TRAINING_ROOM] = 'Required';
+  if (!values[KEYS.JUSTIFICATIONS] || !values[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_TRAINING_ROOM]) {
+    errors[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_TRAINING_ROOM] = 'Required';
   }
-  if (!values[KEYS.JUSTIFICATIONS_CHANGE_ACCESS]) {
-    errors[KEYS.JUSTIFICATIONS_CHANGE_ACCESS] = 'Required';
+  if (!values[KEYS.JUSTIFICATIONS] || !values[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_CHANGE_ACCESS]) {
+    errors[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_CHANGE_ACCESS] = 'Required';
   }
-  if (!values[KEYS.JUSTIFICATIONS_24_HOURS]) {
-    errors[KEYS.JUSTIFICATIONS_24_HOURS] = 'Required';
+  if (!values[KEYS.JUSTIFICATIONS] || !values[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_24_HOURS]) {
+    errors[KEYS.JUSTIFICATIONS][KEYS.JUSTIFICATIONS_24_HOURS] = 'Required';
   }
   // Terms and Conditions
   if (!values[KEYS.FORM_TERMS_NAME_SUP]) {
@@ -106,18 +107,6 @@ const validate = values => {
     errors[KEYS.FORM_TERMS_NAME_REC] = 'Please enter your name exactly as it appears above.';
   }
   // Security
-  if (!values[KEYS.FORM_LEVELS]) {
-    errors[KEYS.FORM_LEVELS] = 'Required';
-  }
-  if (!values[KEYS.FORM_ISSUE]) {
-    errors[KEYS.FORM_ISSUE] = 'Required';
-  }
-  if (!values[KEYS.FORM_EXPIRE_DATE]) {
-    errors[KEYS.FORM_EXPIRE_DATE] = 'Required';
-  }
-  if (!values[KEYS.FORM_KEYCARD]) {
-    errors[KEYS.FORM_KEYCARD] = 'Required';
-  }
   if (!values[KEYS.FORM_SECURITY_NAME]) {
     errors[KEYS.FORM_SECURITY_NAME] = 'Required';
   }

@@ -118,9 +118,16 @@ class FormPage extends Component {
    */
   handleSubmitApprovalPatch(vals) {
     const {actions} = this.props;
+    const justifications = [KEYS.JUSTIFICATIONS_GC_DOCK,
+      KEYS.JUSTIFICATIONS_GC_TMS,
+      KEYS.JUSTIFICATIONS_TRAINING_ROOM,
+      KEYS.JUSTIFICATIONS_OTHER,
+      KEYS.JUSTIFICATIONS_CHANGE_ACCESS,
+      KEYS.JUSTIFICATIONS_24_HOURS];
     // setup fields for approvers or security to patch
-    let fieldsApprover = [KEYS.JUSTIFICATIONS, KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER];
-    let fieldsSecurity = [KEYS.JUSTIFICATIONS, KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER, KEYS.CHANGE_REASONS, KEYS.FORM_SECURITY_NAME, KEYS.FORM_EXPIRE_DATE];
+    // //TODO: FIXME!!!!!!!!
+    let fieldsApprover = [...justifications.map(x => `${KEYS.JUSTIFICATIONS}/${x}`), KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER];
+    let fieldsSecurity = [...justifications.map(x => `${KEYS.JUSTIFICATIONS}/${x}`), KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER, KEYS.CHANGE_REASONS, KEYS.FORM_SECURITY_NAME, KEYS.FORM_EXPIRE_DATE];
     // check if in pending approval state and patch approver if so
     if (vals[KEYS.FORM_STATUS] === KEYS.STATUS_PEND_MGR) {
       actions.patchExisitingRequest(vals, fieldsApprover);
@@ -200,6 +207,9 @@ class FormPage extends Component {
   ///////////////////////     REASON CHANGES FUNCTIONS     /////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Determines if change to access requiremnts field needed for security admins
+   */
   updateChangeReasons() {
     const {formValues, initialValues} = this.props;
     const {changeReasonsUpdate} = this.state;
@@ -207,9 +217,12 @@ class FormPage extends Component {
     // if form mounted and reasonChange update needed (need tp keep track for componentDidMount to work)
     if (formValues && changeReasonsUpdate) {
       // check area sections
-      if (+formValues[KEYS.FORM_AREAS] >= 0) {
-        // set changeReason needed if areas not equal to inital areas
-        _changeReasonsNeeded = +formValues[KEYS.FORM_AREAS] !== +initialValues[KEYS.FORM_AREAS];
+      if (formValues[KEYS.FORM_AREAS]) {
+        // compare form areas to inital areas
+        if (formValues[KEYS.FORM_AREAS].length !== initialValues[KEYS.FORM_AREAS].length ||
+        !formValues[KEYS.FORM_AREAS].every(x => initialValues[KEYS.FORM_AREAS].includes(x))) {
+          _changeReasonsNeeded = true;
+        }
       }
       // check reason section
       if (+formValues[KEYS.FORM_REASON] >= 0 && !_changeReasonsNeeded) {
