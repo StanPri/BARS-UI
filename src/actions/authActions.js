@@ -15,8 +15,8 @@ export const authFailure = error => ({type: types.AUTH_FAILURE, error});
 export const auth = () => dispatch => {
   // check if token alreday exists in local storage
   let local_token = localStorage.getItem('id_token');
-local_token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnYXJ5LmNveCIsIkJBUlMiOlsiVXNlciIsIkd1YXJkIl0sIkNUUyI6IlVzZXItY3drIiwiVkwiOiJBZG1pbiIsImlhdCI6MTQ4NjQyNDEyNCwiZXhwIjoxOTg2NDI3NzI0fQ.AsyKs2G1xLhoqsvSm1ojiAgw7j183BQaqHZhkhiV0fs';
-local_token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZG9ja3RlciIsIkJBUlMiOlsiVXNlciIsIkd1YXJkIl0sIkNUUyI6IlVzZXItY3drIiwiVkwiOiJBZG1pbiIsImlhdCI6MTQ4NjQyNDEyNCwiZXhwIjoxOTg2NDI3NzI0fQ.TFAUcuoRbkwpC-c1SHeE1GGHbJyRd1GpL_K7h4_VVAQ';
+//local_token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnYXJ5LmNveCIsIkJBUlMiOlsiVXNlciIsIkd1YXJkIl0sIkNUUyI6IlVzZXItY3drIiwiVkwiOiJBZG1pbiIsImlhdCI6MTQ4NjQyNDEyNCwiZXhwIjoxOTg2NDI3NzI0fQ.AsyKs2G1xLhoqsvSm1ojiAgw7j183BQaqHZhkhiV0fs';
+//local_token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZG9ja3RlciIsIkJBUlMiOlsiVXNlciIsIkd1YXJkIl0sIkNUUyI6IlVzZXItY3drIiwiVkwiOiJBZG1pbiIsImlhdCI6MTQ4NjQyNDEyNCwiZXhwIjoxOTg2NDI3NzI0fQ.TFAUcuoRbkwpC-c1SHeE1GGHbJyRd1GpL_K7h4_VVAQ';
 
   // /** TEST DATA **/
   // local_token = null; // force request from api instedad of localstorage
@@ -28,7 +28,7 @@ local_token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZG9ja3RlciIsIkJBU
   //local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyeWFuLnZvbGxtZXIiLCJCQVJTIjpbIlVzZXIiLCJTZWN1cml0eSJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.vJvbR2jhWmGDli-9jb6Wu7quNrfRKubSij_FbtLgamg';
   // // throw an error (invalid token)
   // local_token = '1eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURENcXHJ5YW4udm9sbG1lciIsIkJBUlMiOlsiVXNlciIsIlNlY3VyaXR5Il0sIkNUUyI6IlVzZXItY3drIiwiVkwiOiJBZG1pbiIsImlhdCI6MTQ4NjQyNDEyNCwiZXhwIjoxOTg2NDI3NzI0fQ.lvzunf24JDCVJgCha7eytDVkfUdvDpStGDFPUEOmC28';
-  localStorage.setItem('id_token', local_token);
+  //localStorage.setItem('id_token', local_token);
   // /** END TEST USERS **/
 
   dispatch(authRequest()); // update fetchCallsInProgress
