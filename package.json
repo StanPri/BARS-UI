@@ -17,7 +17,7 @@
     "build-prod:html": "babel-node tools/buildHtml.js --prod",
     "build-test:html": "babel-node tools/buildHtml.js",
     "prebuild-prod": "npm-run-all clean-dist-prod test lint build-prod:html",
-    "prebuild-test": "npm-run-all clean-dist-test test build-test:html",
+    "prebuild-test": "npm-run-all clean-dist-test test lint build-test:html",
     "build-prod": "babel-node tools/build.js --prod",
     "build-test": "babel-node tools/build.js",
     "postbuild-prod": "babel-node tools/distServer.js --prod",

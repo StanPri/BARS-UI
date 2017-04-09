@@ -386,6 +386,7 @@ class WizardPage extends Component {
       }
       else {
         // set all approver fields to disbaled other than name
+        let manager_approver_fields;
         Object.keys(manager_approver_fields).forEach(key => {
           // change value in redux form to empty
           dispatch(change('wizard', key, ''));
@@ -396,6 +397,7 @@ class WizardPage extends Component {
     }
     else {
       // set all approver fields to disbaled other than name
+      let sup_approver_fields;
       Object.keys(sup_approver_fields).forEach(key => {
         // change value in redux form to empty
         dispatch(change('wizard', key, ''));
