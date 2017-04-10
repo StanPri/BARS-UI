@@ -8,7 +8,7 @@ import {
 } from '../actions/actionTypes';
 import {combineReducers} from 'redux';
 import initialState from './initialState';
-import {getById, getAllIds} from './index';
+import {mapRequestsToById, getAllIds} from './index';
 import * as KEYS from '../store/keyMap';
 
 const debug = 0;
@@ -25,7 +25,7 @@ export const approvals = (state = initialState.requestsUser.approvals, action) =
       if (debug)
         console.log("REQUESTS_APPROVE_SUCCESS: ", action.response);
       return {
-        byId: getById(action.response, KEYS.FORM_ID),
+        byId: mapRequestsToById(action.response, KEYS.FORM_ID),
         allIds: getAllIds(action.response, KEYS.FORM_ID),
         error: null,
         isFetching: false
@@ -53,7 +53,7 @@ export const requests = (state = initialState.requestsUser.requests, action) => 
       if (debug)
         console.log("REQUESTS_USER_SUCCESS: ", action.response);
       return {
-        byId: getById(action.response, KEYS.FORM_ID),
+        byId: mapRequestsToById(action.response, KEYS.FORM_ID),
         allIds: getAllIds(action.response, KEYS.FORM_ID),
         error: null,
         isFetching: false

@@ -18,6 +18,12 @@ export const FORM_MANAGER_NAME = 'supervisorsSupervisorFullName'; // supervisors
 export const FORM_MANAGER_EMAIL = 'supervisorsSupervisorEmail';
 export const FORM_MANAGER_PHONE = 'supervisorsSupervisorPhoneNumber';
 export const FORM_APPROVERS = 'approversRadioButtonChoice';
+/********* Internal values for approver (adjusted values from api) ****/
+export const FORM_APPROVER_NAME = 'FORM_APPROVER_NAME';
+export const FORM_APPROVER_EMAIL = 'FORM_APPROVER_EMAIL';
+export const FORM_APPROVER_PHONE = 'FORM_APPROVER_PHONE';
+export const FORM_APPROVER_SAM = 'FORM_APPROVER_SAM';
+
 export const FORM_DIVISION = 'division';
 export const FORM_UNIT = 'unitOrProject';
 export const FORM_REQUEST_DATE = 'CreatedDateUtc';

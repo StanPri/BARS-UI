@@ -9,11 +9,11 @@ import FormApprover from './Form-Approver';
  * Visible and disabled for all users and all states
  * @param {bool} isEsacalted    - determines if manager approval escalted
  */
-const FormMain = ({isEscalted}) => (
+const FormMain = ({isEscalated}) => (
   <Row>
     <FormRecipient allDisabled singleLine/>
     <FormCompany allDisabled singleLine/>
-    <FormApprover isEscalted={isEscalted} allDisabled singleLine/>
+    <FormApprover isEscalated={isEscalated} allDisabled singleLine/>
   </Row>
 );
 

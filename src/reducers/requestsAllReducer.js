@@ -1,6 +1,6 @@
 import {REQUESTS_ALL_REQUEST, REQUESTS_ALL_SUCCESS, REQUESTS_ALL_FAILURE} from '../actions/actionTypes';
 import initialState from './initialState';
-import {getById, getAllIds} from './index';
+import {mapRequestsToById, getAllIds} from './index';
 import * as KEYS from '../store/keyMap';
 
 /**
@@ -18,7 +18,7 @@ export const requestsAllReducer = (state = initialState.requestsAll, action) => 
       };
     case REQUESTS_ALL_SUCCESS:
       return {
-        byId: getById(action.response, KEYS.FORM_ID),
+        byId: mapRequestsToById(action.response, KEYS.FORM_ID),
         allIds: getAllIds(action.response, KEYS.FORM_ID),
         error: null,
         isFetching: false

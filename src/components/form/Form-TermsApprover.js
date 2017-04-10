@@ -1,7 +1,7 @@
 // libraries
 import React, {PropTypes} from 'react';
 import {Field} from 'redux-form';
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col, Button} from 'react-bootstrap';
 // compnents
 import FieldInput from '../common/FieldInput';
 import DatePicker from '../common/FieldDate';

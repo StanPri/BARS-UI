@@ -17,7 +17,7 @@ const FormMainApprover = ({
   fieldsDisabled,
   allDisabled,
   singleLine,
-  isEscalted
+  isEscalated
 }) => {
   let width = singleLine
     ? 3
@@ -30,7 +30,7 @@ const FormMainApprover = ({
       <Col sm={width} smOffset={offset}>
         <Field
           label="Supervisor Name"
-          name={isEscalted ? KEYS.FORM_MANAGER_NAME : KEYS.FORM_SUP_NAME}
+          name={isEscalated ? KEYS.FORM_MANAGER_NAME : KEYS.FORM_SUP_NAME}
           disabled={allDisabled}
           component={FieldInput}
           type="text"
@@ -39,7 +39,7 @@ const FormMainApprover = ({
       <Col sm={width} smOffset={offset}>
         <Field
           label="Supervisor Email"
-          name={isEscalted ? KEYS.FORM_MANAGER_EMAIL : KEYS.FORM_SUP_EMAIL}
+          name={isEscalated ? KEYS.FORM_MANAGER_EMAIL : KEYS.FORM_SUP_EMAIL}
           disabled={allDisabled}
           component={FieldInput}
           type="email"
@@ -48,7 +48,7 @@ const FormMainApprover = ({
       <Col sm={width} smOffset={offset}>
         <Field
           label="Supervisor Phone"
-          name={isEscalted ? KEYS.FORM_MANAGER_PHONE : KEYS.FORM_SUP_PHONE}
+          name={isEscalated ? KEYS.FORM_MANAGER_PHONE : KEYS.FORM_SUP_PHONE}
           disabled={allDisabled}
           component={FieldInput}
           type="cel"
@@ -61,7 +61,8 @@ const FormMainApprover = ({
 FormMainApprover.propTypes = {
   fieldsDisabled: PropTypes.object,
   allDisabled: PropTypes.bool,
-  singleLine: PropTypes.bool
+  singleLine: PropTypes.bool,
+  isEscalated: PropTypes.func
 }
 
 export default FormMainApprover;

@@ -96,7 +96,7 @@ const validate = values => {
   if (!values[KEYS.FORM_TERMS_NAME_SUP]) {
     errors[KEYS.FORM_TERMS_NAME_SUP] = 'Required';
   }
-  if (values[KEYS.FORM_TERMS_NAME_SUP] !== values[KEYS.FORM_SUP_NAME]) {
+  if (values[KEYS.FORM_TERMS_NAME_SUP] !== values[KEYS.FORM_APPROVER_NAME]) {
     errors[KEYS.FORM_TERMS_NAME_SUP] = 'Please enter your name exactly as it appears above.';
   }
   /************************** End Wizard Validation section **********************/

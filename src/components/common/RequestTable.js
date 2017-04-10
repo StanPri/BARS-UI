@@ -23,13 +23,13 @@ function RequestTable({rows, title, onClick}) {
       key: KEYS.FORM_EMAIL,
       label: "Email"
     }, {
-      key: KEYS.FORM_SUP_NAME,
+      key: KEYS.FORM_APPROVER_NAME,
       label: "Supervisor"
     }, {
-      key: KEYS.FORM_SUP_PHONE,
+      key: KEYS.FORM_APPROVER_EMAIL,
       label: "Supervisor Phone"
     }, {
-      key: KEYS.FORM_SUP_EMAIL,
+      key: KEYS.FORM_APPROVER_PHONE,
       label: "Supervisor Email"
     }
   ];
@@ -55,9 +55,9 @@ function RequestTable({rows, title, onClick}) {
           KEYS.FORM_NAME,
           KEYS.FORM_PHONE,
           KEYS.FORM_EMAIL,
-          KEYS.FORM_SUP_NAME,
-          KEYS.FORM_SUP_PHONE,
-          KEYS.FORM_SUP_EMAIL
+          KEYS.FORM_APPROVER_NAME,
+          KEYS.FORM_APPROVER_EMAIL,
+          KEYS.FORM_APPROVER_PHONE
         ]}
           noDataText={`No ${title}`}
           columns={_columns}

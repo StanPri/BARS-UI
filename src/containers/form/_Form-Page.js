@@ -17,6 +17,7 @@ import FormTermsRecipient from '../../components/form/Form-TermsRecipient';
 import FormSecurity from '../../components/form/Form-Security';
 import FormReject from '../../components/form/Form-Reject';
 import FormButtons from '../../components/form/Form-Buttons';
+import FormEscalateButton from '../../components/form/Form-EscalateButton';
 import FetchInProgress from '../../components/common/FetchInProgress';
 import DisplayError from '../../components/common/DisplayError';
 // actions, constants, etc
@@ -46,6 +47,7 @@ class FormPage extends Component {
     this.handleSubmitReject = this.handleSubmitReject.bind(this);
     this.handleSubmitApprovalPatch = this.handleSubmitApprovalPatch.bind(this);
     this.handleSubmitApproval = this.handleSubmitApproval.bind(this);
+    this.onEscalateClick = this.onEscalateClick.bind(this);
     // bind justifications functions
     this.updateJustifications = this.updateJustifications.bind(this);
     // bind changeReasons functions
@@ -78,6 +80,9 @@ class FormPage extends Component {
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////     API FUNCTIONS     ////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
+  onEscalateClick() {
+    console.log("TODO!");
+  }
   /**
    * Handles edirecting to homepage once API call completed
    */
@@ -254,7 +259,7 @@ class FormPage extends Component {
     const {isRejecting, justifications, accessDisplayOtherArea, changeReasonsNeeded} = this.state;
 
     // init roles for users in form, based off user's role and if found in form fields
-    const isApprover = initialValues[KEYS.FORM_SAM_SUPER] === auth[KEYS.USER_SAM];
+    const isApprover = initialValues[KEYS.FORM_APPROVER_SAM] === auth[KEYS.USER_SAM];
     const isRecipient = initialValues[KEYS.FORM_SAM_RECEIVE] === auth[KEYS.USER_SAM];
     const isSecurity = auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY);
 
@@ -268,12 +273,12 @@ class FormPage extends Component {
     let propsSecurity       = {display: false, props: {}};
     let propsReject         = {display: false, props: {}};
     let propsButtons        = {display: false, props: {}};
+    let propsEscalateButton = {display: false, props: {}};
 
     // buttons for approving or rejecting properties
     let buttonApproving = {rightColor: "danger", rightText: "Reject", rightClick: this.toggleReject, leftText: "Accept", leftClick: handleSubmit(this.handleSubmitApprovalPatch)};
     let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: handleSubmit(this.handleSubmitRejectPatch)};
 
-    let approverField = initialValues[KEYS.FORM_IS_ESCALATED] ? KEYS.FORM_MANAGER_NAME : KEYS.FORM_SUP_NAME;
     let justificationsNeeded = !!justifications.length;
 
     // check status of form, and display / disable based off that and users role in form
@@ -282,14 +287,15 @@ class FormPage extends Component {
         propsAccess         = {display: true, props: {allDisabled: !isApprover}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isApprover, justifications}};
         propsReject         = {display: isRejecting, props:{}};
-        propsTermsApprover  = {display: isApprover && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsApprover  = {display: isApprover && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_APPROVER_NAME]}};
         propsButtons        = {display: isApprover, props: isRejecting ? buttonRejecting : buttonApproving};
+        propsEscalateButton = {display: !initialValues[KEYS.FORM_IS_ESCALATED], props:{onEscalateClick: this.onEscalateClick}}
         break;
       case KEYS.STATUS_PEND_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsReject         = {display: isRejecting, props: {}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: approverField, label: initialValues[approverField]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: approverField, label: initialValues[KEYS.FORM_APPROVER_NAME]}};
         propsTermsRecipient = {display: isRecipient && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
         propsButtons        = {display: isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
@@ -298,7 +304,7 @@ class FormPage extends Component {
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isSecurity, justifications}};
         propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: !isSecurity}};
         propsReject         = {display: isRejecting, props: {}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: approverField, label: initialValues[approverField]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: approverField, label: initialValues[KEYS.FORM_APPROVER_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsSecurity       = {display: isSecurity && !isRejecting, props: {}};
         propsButtons        = {display: isSecurity, props: isRejecting ? buttonRejecting : buttonApproving};
@@ -342,7 +348,7 @@ class FormPage extends Component {
     return (
       <form onChange={this.formHandleChange}>
         <FormHeader header="Recipient Information"/>
-        <FormMain isEscalted={initialValues[KEYS.FORM_IS_ESCALATED]} />
+        <FormMain isEscalated={initialValues[KEYS.FORM_IS_ESCALATED]} />
         {propsAccess.display && <div>
           <FormHeader header="Access Requirements"/>
           <FormAccess {...propsAccess.props} displayOtherArea={accessDisplayOtherArea} singleLine/>
@@ -370,6 +376,8 @@ class FormPage extends Component {
         </div>}
         {propsButtons.display &&
           <FormButtons {...propsButtons.props} />}
+        {propsEscalateButton.display &&
+          <FormEscalateButton {...propsEscalateButton.props} />}
       </form>
     );
   }

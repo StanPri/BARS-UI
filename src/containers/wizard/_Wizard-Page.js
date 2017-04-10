@@ -224,19 +224,22 @@ class WizardPage extends Component {
    * Sets if values should be updated
    */
   updateApprovers() {
-    const {wizardValues, dispatch} = this.props;
+    const {wizardValues, dispatch, auth} = this.props;
     const {approverNames, approversUpdate} = this.state;
 
     // check if need to update (see updateJustifications)
    if(wizardValues && approversUpdate) {
       // check which manager is selected
-      let selected = wizardValues[KEYS.FORM_APPROVERS];
+      let selected = +wizardValues[KEYS.FORM_APPROVERS];
       if (selected > -1) {
-        dispatch(change('wizard', KEYS.FORM_SUP_PHONE, approverNames[selected][KEYS.USER_PHONE]));
-        dispatch(change('wizard', KEYS.FORM_SAM_SUPER, approverNames[selected][KEYS.USER_SAM]));
-        dispatch(change('wizard', KEYS.FORM_SUP_NAME, approverNames[selected][KEYS.USER_NAME]));
-        dispatch(change('wizard', KEYS.FORM_SUP_EMAIL, approverNames[selected][KEYS.USER_EMAIL]));
         dispatch(change('wizard', KEYS.FORM_IS_ESCALATED, selected)); // 0 or 1
+        if (auth[KEYS.USER_SAM] === approverNames[selected][KEYS.USER_SAM]) {
+          this.setState({approving: true});
+          this.setState({approverName: approverNames[selected][KEYS.USER_NAME]})
+        }
+        else {
+          this.setState({approving: false});
+        }
       }
       this.setState({approversUpdate: false});
     }
