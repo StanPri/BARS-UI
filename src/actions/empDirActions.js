@@ -13,7 +13,7 @@ export const empDirFailure = error => ({type: types.EMP_DIR_FAILURE, error});
 export const empDir = () => dispatch => {
   dispatch(empDirRequest());
   if (debug)
-    console.log(`empDirActions.js: using ${EMP_DIR_URL}`);
+    console.log(`empDirActions.js: using ${process.env.API_ED}`);
   return fetch(process.env.API_ED).then(response => response.json().then(data => ({data, response}))).then(({data, response}) => {
     if (!response.ok) {
       // If there was a problem, we want to dispatch the error

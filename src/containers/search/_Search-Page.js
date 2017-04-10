@@ -10,6 +10,7 @@ import FetchInProgress from '../../components/common/FetchInProgress';
 import DisplayError from '../../components/common/DisplayError';
 import * as requestsActions from '../../actions/requestsActions';
 import * as requestFormActions from '../../actions/requestFormActions';
+import * as KEYS from '../../store/keyMap';
 
 class SearchPage extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class SearchPage extends React.Component {
   }
 
   render() {
-    const {requestsAll, fetchCallsInProgress, actions} = this.props;
+    const {requestsAll, fetchCallsInProgress, actions, auth} = this.props;
     // display loading graphic if fetching
     if (fetchCallsInProgress) {
       return <FetchInProgress/>;
@@ -56,12 +57,17 @@ class SearchPage extends React.Component {
         error={requestsAll.error}
         onClick={actions.requestsGetAll}/>;
     }
+    let requests = auth[KEYS.USER_ROLE].includes(KEYS.ROLE_SECURITY) ?
+      requestsAll :
+      {allIds: requestsAll.allIds.filter(x => requestsAll.byId[+x][KEYS.FORM_STATUS] === KEYS.STATUS_APPROVED),
+       byId: requestsAll.byId}
+
     return (
       <div>
         <RequestTable
           table="requestsAll"
           title="All Requests"
-          rows={requestsAll}
+          rows={requests}
           onClick={this.viewRequest}/>
       </div>
     );
@@ -69,7 +75,7 @@ class SearchPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  return {requestsAll: state.requestsAll, fetchCallsInProgress: state.fetchCallsInProgress};
+  return {requestsAll: state.requestsAll, fetchCallsInProgress: state.fetchCallsInProgress, auth: state.auth};
 }
 
 function mapDispatchToProps(dispatch) {

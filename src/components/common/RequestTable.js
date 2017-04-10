@@ -35,7 +35,6 @@ function RequestTable({rows, title, onClick}) {
   ];
 
   // add button to copy of rows
-  // TODO: should this (and above stuff?) move to container...
   const _data = rows.allIds.map(id => ({
     ...rows.byId[id],
     [KEYS.FORM_STATUS]: KEYS.STATUS_NAMES[rows.byId[id][KEYS.FORM_STATUS]],
