@@ -363,9 +363,9 @@ class WizardPage extends Component {
     dispatch(change('wizard', KEYS.FORM_SAM_RECEIVE, recipient[KEYS.USER_SAM]));
 
     // if they have a manager set in employee directory listing
-    if (recipient[KEYS.FORM_SAM_MANAGER]) {
+    if (recipient[KEYS.ED_MANAGER_SAM]) {
       // look up manager of employee
-      let approver = empDir.byId[recipient[KEYS.FORM_SAM_MANAGER]];
+      let approver = empDir.byId[recipient[KEYS.ED_MANAGER_SAM]];
       _approverNames[0][KEYS.USER_NAME] = approver[KEYS.USER_NAME];
       _approverNames[0][KEYS.USER_SAM] = approver[KEYS.USER_SAM];
       _approverNames[0][KEYS.USER_EMAIL] = approver[KEYS.USER_EMAIL];
@@ -373,9 +373,9 @@ class WizardPage extends Component {
       _approverNames[0]['approversUpdate'] = 0;
 
       // if they have a manager's manager set in employee directory listing
-      if (approver[KEYS.FORM_SAM_MANAGER]) {
+      if (approver[KEYS.ED_MANAGER_SAM]) {
         // look up manager's manager of employee
-        let approverManager = empDir.byId[approver[KEYS.FORM_SAM_MANAGER]];
+        let approverManager = empDir.byId[approver[KEYS.ED_MANAGER_SAM]];
          _approverNames[1][KEYS.USER_NAME] = approverManager[KEYS.USER_NAME];
          _approverNames[1][KEYS.USER_SAM] = approverManager[KEYS.USER_SAM];
          _approverNames[1][KEYS.USER_EMAIL] = approverManager[KEYS.USER_EMAIL];

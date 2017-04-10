@@ -138,6 +138,7 @@ export const ROLE_RECIPIENT = 'Recipient';
 /**
  * User Info (employee directory / jwt)
  */
+export const ED_MANAGER_SAM = 'managerSamAccount';
 export const USER_ROLE = 'role';
 export const USER_NAME = 'fullName';
 export const USER_SAM = 'samAccount';
