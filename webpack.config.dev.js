@@ -4,7 +4,9 @@ import path from 'path';
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('development'),
   'process.env.VERSION' : JSON.stringify(`D.${new Date().toISOString("en-US").substring(0,10).replace(/-/g, '.')}`),
-  'process.env.API_ED' : JSON.stringify('http://testEDAPI/employees')
+  'process.env.API_ED' : JSON.stringify('http://testEDAPI/employees'),
+  'process.env.API_BARS' : JSON.stringify('http://barsapi.technology.ca.gov/api/BadgeRequests'),
+  'process.env.API_SEC' : JSON.stringify('https://sec.api.technology.ca.gov:3001/createToken')
 };
 
 export default {

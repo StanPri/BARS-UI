@@ -40,9 +40,3 @@ export const getById = (data, key) => {
  * @return {array}      - array of all ids with signature [id1, id2, ...etc]
  */
 export const getAllIds = (data, key) => Object.keys(data).map(k => data[k][key]);
-
-
-// TODO:
-// calling bars before jwt returns - wait for jwt to finish before bars
-// not refreshiing after approve manager - wait for api to finish before redirect
-// TDC infront of sam accounts -> emp dir

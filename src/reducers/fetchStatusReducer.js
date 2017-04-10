@@ -16,7 +16,7 @@ function actionTypeEndsInFailure(type) {
 export default function fetchStatusReducer(state = initialState.fetchCallsInProgress, action) {
   if (actionTypeEndsInRequest(action.type)) {
     return state + 1;
-} else if (actionTypeEndsInSuccess(action.type) || actionTypeEndsInFailure(action.type)) {
+  } else if (actionTypeEndsInSuccess(action.type) || actionTypeEndsInFailure(action.type)) {
     return state - 1;
   }
   return state;

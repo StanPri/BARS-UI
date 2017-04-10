@@ -77,8 +77,6 @@ class WizardPage extends Component {
     this.recipientHandleInput = this.recipientHandleInput.bind(this);
     this.recipientHandleClick = this.recipientHandleClick.bind(this);
     // bind approver functions
-    this.approverHandleInput = this.approverHandleInput.bind(this);
-    this.approverHandleClick = this.approverHandleClick.bind(this);
     this.approversHandleChange = this.approversHandleChange.bind(this);
     this.updateApprovers = this.updateApprovers.bind(this);
     // bind justifications functions
@@ -384,131 +382,12 @@ class WizardPage extends Component {
          _approverNames[1][KEYS.USER_PHONE] = approverManager[KEYS.USER_PHONE];
          _approverNames[1]['approversUpdate'] = 1;
       }
-      else {
-        // set all approver fields to disbaled other than name
-        let manager_approver_fields;
-        Object.keys(manager_approver_fields).forEach(key => {
-          // change value in redux form to empty
-          dispatch(change('wizard', key, ''));
-          // set fields as disabled
-          _fieldsDisabled[key] = true;
-        });
-      }
-    }
-    else {
-      // set all approver fields to disbaled other than name
-      let sup_approver_fields;
-      Object.keys(sup_approver_fields).forEach(key => {
-        // change value in redux form to empty
-        dispatch(change('wizard', key, ''));
-        // set fields as disabled
-        _fieldsDisabled[key] = true;
-      });
     }
 
     // set approver name field as editable
     _fieldsDisabled[KEYS.FORM_SUP_NAME] = false;
     this.setState({fieldsDisabled: _fieldsDisabled});
     this.setState({approverNames: _approverNames});
-  }
-
-  //////////////////////////////////////////////////////////////////////////////
-  /////////////////////////     APPROVER FUNCTIONS     /////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  /**
-   * Handles typing name into supervisor name field
-   * Will display list of names filtered based off input
-   * List comes from employee directory
-   * @param {event} e       - input event (onInput)
-   */
-  approverHandleInput(e) {
-    e.preventDefault();
-    if (e.target.value.length) {
-      let {empDir} = this.props;
-      let _search = '(?=.*' + e.target.value.split(/, +|,| +/).join(')(?=.*') + ')';
-      let re = new RegExp(_search, 'i');
-      // filter list of employees in name list where they have isManager
-      let _managers = empDir.allIds.filter(id => {
-        if (`${empDir.byId[id][KEYS.USER_NAME]}`.match(re) &&
-          empDir.byId[id][KEYS.USER_IS_MANAGER] === 1) {
-          return true;
-        }
-        return false;
-      });
-      // set list of approver names to select from and display it
-      this.setState({
-        approverNames: {
-          allIds: _managers,
-          byId: empDir.byId
-        },
-        approverNamesHidden: false,
-      });
-    } else {
-      // if empty input hide list
-      this.setState({
-        approverNames: initialState.empDir,
-        approverNamesHidden: true
-      });
-    }
-  }
-
-  /**
-   * Handles selecting a name from recipient name field
-   * List selecting from populated by recipientHandleInput
-   * @param {event} e       - input event (onClick)
-   */
-  approverHandleClick(e) {
-    e.preventDefault();
-    const {dispatch, empDir, auth} = this.props;
-    const {approverNames, fieldsDisabled} = this.state;
-    let _fieldsDisabled = fieldsDisabled;
-    // get employees sam account (set by mapping of names on data-id)
-    let id = e.target.dataset.id;
-    /////////// RECIPIENT (TODO:move to common function) ////////////////
-    // look up employee who has this sam
-    let approver = approverNames.byId[id];
-    // field map to use for setting editable / updting fields
-    let sup_approver_fields = {
-      [KEYS.FORM_SAM_SUPER]: KEYS.USER_SAM,
-      [KEYS.FORM_SUP_NAME]: KEYS.USER_NAME,
-      [KEYS.FORM_SUP_EMAIL]: KEYS.USER_EMAIL,
-      [KEYS.FORM_SUP_PHONE]: KEYS.USER_PHONE
-    };
-
-    // hide the list of names
-    this.setState({approverNamesHidden: true});
-    // set fields based off selected employee if they exist
-    // otherwise make field editable
-    Object.keys(sup_approver_fields).forEach(key => {
-      let user_key = sup_approver_fields[key];
-      let val = approver[user_key];
-      // if field has value
-      if (val) {
-        // change value in redux form
-        dispatch(change('wizard', key, val));
-        // make field disabled
-        _fieldsDisabled[key] = true;
-      }
-      else {
-        // change value in redux form to empty
-        dispatch(change('wizard', key, ''));
-        // make field editable if no value found
-        _fieldsDisabled[key] = false;
-      }
-    });
-
-    // set approver name field as editable
-    _fieldsDisabled[KEYS.FORM_SUP_NAME] = false;
-    this.setState({fieldsDisabled: _fieldsDisabled});
-    // if submitter is manager
-    if (approver[KEYS.USER_SAM] === auth[KEYS.USER_SAM]) {
-      // set approving, so approval terms display later
-      this.setState({approving: true});
-      this.setState({approverName: approver[KEYS.USER_NAME]});
-    }
-    else {
-      this.setState({approving: false});
-    }
   }
 
   render() {

@@ -1,8 +1,3 @@
-// https://github.com/auth0-blog/redux-auth mock data for testing
-import * as mock from '../mock/user';
-
-const BASE_URL = mock.useMock.BARS ? 'http://localhost:3001/BARS' : 'http://barsapi.technology.ca.gov/api/BadgeRequests';
-
 const debug = 0;
 
 function callApi(endpoint, method, body) {
@@ -19,7 +14,7 @@ function callApi(endpoint, method, body) {
   };
   if (debug)
     console.log(`api.js:\t\t with config : `, config);
-  return fetch(BASE_URL + endpoint, config).then(response => response.json().then(text => ({text, response}))).then(({text, response}) => {
+  return fetch(process.env.API_BARS + endpoint, config).then(response => response.json().then(text => ({text, response}))).then(({text, response}) => {
     if (!response.ok) {
       if (debug)
         console.error("error: api.js : failed BARS api call (!response.ok)");

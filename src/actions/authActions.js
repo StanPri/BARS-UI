@@ -6,7 +6,6 @@ import decode from 'jwt-decode';
 import * as types from './actionTypes';
 
 const debug = false;
-const AUTH_URL = 'https://sec.api.technology.ca.gov:3001/createToken';
 
 export const authRequest = () => ({type: types.AUTH_REQUEST});
 export const authSuccess = ({sam, role}) => ({type: types.AUTH_SUCCESS, sam, role});
@@ -53,7 +52,7 @@ export const auth = () => dispatch => {
     credentials: 'include'
   };
 
-  return fetch(AUTH_URL, config).then(response => response.json().then(user => ({user, response}))).then(({user, response}) => {
+  return fetch(process.env.API_SEC, config).then(response => response.json().then(user => ({user, response}))).then(({user, response}) => {
     if (!response.ok) {
       // If there was a problem, we want to dispatch the error condition
       dispatch(authFailure(user.message));

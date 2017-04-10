@@ -13,8 +13,8 @@ export const authReducer = (state = initialState.auth, action) => {
   switch (action.type) {
     case AUTH_REQUEST:
       return {
-          ...state,
-          isFetching: true
+        ...state,
+        isFetching: true
       };
     case AUTH_SUCCESS:
       return Object.assign({}, state, {
@@ -25,9 +25,9 @@ export const authReducer = (state = initialState.auth, action) => {
       });
     case AUTH_FAILURE:
       return {
-          ...initialState.auth,
-          error: action.error,
-          isFetching: false
+        ...initialState.auth,
+        error: action.error,
+        isFetching: false
       };
     default:
       return state;

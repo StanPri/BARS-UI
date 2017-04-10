@@ -13,8 +13,6 @@ import DisplayError from '../../components/common/DisplayError';
 import * as requestsActions from '../../actions/requestsActions';
 import * as requestFormActions from '../../actions/requestFormActions';
 import * as KEYS from '../../store/keyMap';
-// mock data for testing
-import * as mock from '../../mock/user';
 
 let debug = false;
 
@@ -81,7 +79,6 @@ class ListsPage extends React.Component {
     }
     return (
       <div>
-        {mock.useMock.ED && <h1>Current user: {mock.user.sam}</h1>}
         {/* show all users requests that require users approval */}
         <RequestTable
           title="Approvals"

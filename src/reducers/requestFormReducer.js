@@ -7,7 +7,9 @@ export const requestFormReducer = (state = initialState.requestForm, action) => 
     case REQUEST_FORM_RESET:
       return initialState.requestForm;
     case REQUEST_FORM_VIEW:
-      return {...action.data};
+      return {
+        ...action.data
+      };
     default:
       return state;
   }

@@ -8,7 +8,9 @@ const dist_path = build_type === 'P' ? 'prod' : 'test';
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
   'process.env.VERSION' : JSON.stringify(`${build_type}.${new Date().toISOString("en-US").substring(0,10).replace(/-/g, '.')}`),
-  'process.env.API_ED' : JSON.stringify(build_type === 'P' ? 'http://edapi/employees' : 'http://testEDAPI/employees')
+  'process.env.API_ED' : JSON.stringify(build_type === 'P' ? 'http://edapi/employees' : 'http://testEDAPI/employees'),
+  'process.env.API_BARS' : JSON.stringify('http://barsapi.technology.ca.gov/api/BadgeRequests'),
+  'process.env.API_SEC' : JSON.stringify('https://sec.api.technology.ca.gov:3001/createToken')
 };
 
 export default {
