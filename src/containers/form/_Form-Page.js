@@ -273,6 +273,7 @@ class FormPage extends Component {
     let buttonApproving = {rightColor: "danger", rightText: "Reject", rightClick: this.toggleReject, leftText: "Accept", leftClick: handleSubmit(this.handleSubmitApprovalPatch)};
     let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: handleSubmit(this.handleSubmitRejectPatch)};
 
+    let approverField = initialValues[KEYS.FORM_IS_ESCALATED] ? KEYS.FORM_MANAGER_NAME : KEYS.FORM_SUP_NAME;
     let justificationsNeeded = !!justifications.length;
 
     // check status of form, and display / disable based off that and users role in form
@@ -288,7 +289,7 @@ class FormPage extends Component {
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsReject         = {display: isRejecting, props: {}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: approverField, label: initialValues[approverField]}};
         propsTermsRecipient = {display: isRecipient && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_REC, label: initialValues[KEYS.FORM_NAME]}};
         propsButtons        = {display: isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
@@ -297,7 +298,7 @@ class FormPage extends Component {
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isSecurity, justifications}};
         propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: !isSecurity}};
         propsReject         = {display: isRejecting, props: {}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: approverField, label: initialValues[approverField]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsSecurity       = {display: isSecurity && !isRejecting, props: {}};
         propsButtons        = {display: isSecurity, props: isRejecting ? buttonRejecting : buttonApproving};
@@ -306,7 +307,7 @@ class FormPage extends Component {
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
         propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: true}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: approverField, label: initialValues[approverField]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsSecurity       = {display: true, props: {allDisabled: true}};
         break;
@@ -323,13 +324,13 @@ class FormPage extends Component {
       case KEYS.STATUS_CANCEL_REC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: approverField, label: initialValues[approverField]}};
         propsReject         = {display: true, props: {allDisabled: true}};
         break;
       case KEYS.STATUS_CANCEL_SEC:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
-        propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_SUP_NAME, label: initialValues[KEYS.FORM_SUP_NAME]}};
+        propsTermsApprover  = {display: true, props: {allDisabled: true, name: approverField, label: initialValues[approverField]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsReject         = {display: true, props: {allDisabled: true}};
         break;
@@ -341,7 +342,7 @@ class FormPage extends Component {
     return (
       <form onChange={this.formHandleChange}>
         <FormHeader header="Recipient Information"/>
-        <FormMain />
+        <FormMain isEscalted={initialValues[KEYS.FORM_IS_ESCALATED]} />
         {propsAccess.display && <div>
           <FormHeader header="Access Requirements"/>
           <FormAccess {...propsAccess.props} displayOtherArea={accessDisplayOtherArea} singleLine/>

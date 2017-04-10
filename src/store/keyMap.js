@@ -14,9 +14,9 @@ export const FORM_COMPANY_ADDRESS = 'companyAddress';
 export const FORM_SUP_NAME = 'supervisorFullName'; // direct supervisor
 export const FORM_SUP_EMAIL = 'supervisorEmail';
 export const FORM_SUP_PHONE = 'supervisorPhoneNumber';
-export const FORM_MANAGER_NAME = 'managerFullName'; // supervisors manager
-export const FORM_MANAGER_EMAIL = 'managerEmail';
-export const FORM_MANAGER_PHONE = 'managerPhoneNumber';
+export const FORM_MANAGER_NAME = 'supervisorsSupervisorFullName'; // supervisors manager
+export const FORM_MANAGER_EMAIL = 'supervisorsSupervisorEmail';
+export const FORM_MANAGER_PHONE = 'supervisorsSupervisorPhoneNumber';
 export const FORM_APPROVERS = 'approversRadioButtonChoice';
 export const FORM_DIVISION = 'division';
 export const FORM_UNIT = 'unitOrProject';
@@ -48,11 +48,11 @@ export const FORM_MODIFIED_DATE = 'mostRecentModifiedDateUtc';
 export const FORM_SAM_SUBMIT = 'submitterSamAccount';
 export const FORM_SAM_RECEIVE = 'receiverSamAccount';
 export const FORM_SAM_SUPER = 'supervisorSamAccount';// direct supervisor
-export const FORM_SAM_MANAGER = 'managerSamAccount';// supervisor's manager
+export const FORM_SAM_MANAGER = 'supervisorsSupervisorSamAccount';// supervisor's manager
 // submission info
 export const FORM_SUBMIT_EMAIL = 'submitterEmail';
 export const FORM_REJECT_REASON = 'cancellationReason';
-export const FORM_IS_ESCALATED = 'isEscalated';
+export const FORM_IS_ESCALATED = 'isElevatedToSupervisorsSupervisor';
 
 /**
  * Justifications
