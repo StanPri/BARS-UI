@@ -43,13 +43,13 @@ export const mapRequestsToById = (data, key) => {
       _data[data[k][key]][KEYS.FORM_APPROVER_NAME] = data[k][KEYS.FORM_MANAGER_NAME];
       _data[data[k][key]][KEYS.FORM_APPROVER_EMAIL] = data[k][KEYS.FORM_MANAGER_EMAIL];
       _data[data[k][key]][KEYS.FORM_APPROVER_PHONE] = data[k][KEYS.FORM_MANAGER_PHONE];
-      _data[data[k][key]][KEYS.FORM_APPROVER_SAM] = data[k][KEYS.FORM_SAM_SUPER];
+      _data[data[k][key]][KEYS.FORM_APPROVER_SAM] = data[k][KEYS.FORM_SAM_MANAGER];
     }
     else {
       _data[data[k][key]][KEYS.FORM_APPROVER_NAME] = data[k][KEYS.FORM_SUP_NAME];
       _data[data[k][key]][KEYS.FORM_APPROVER_EMAIL] = data[k][KEYS.FORM_SUP_EMAIL];
       _data[data[k][key]][KEYS.FORM_APPROVER_PHONE] = data[k][KEYS.FORM_SUP_PHONE];
-      _data[data[k][key]][KEYS.FORM_APPROVER_SAM] = data[k][KEYS.FORM_SAM_MANAGER];
+      _data[data[k][key]][KEYS.FORM_APPROVER_SAM] = data[k][KEYS.FORM_SAM_SUPER];
     }
   });
   return _data;

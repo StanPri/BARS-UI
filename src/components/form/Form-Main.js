@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Row} from 'react-bootstrap';
 import FormRecipient from './Form-Recipient';
 import FormCompany from './Form-Company';
@@ -16,5 +16,9 @@ const FormMain = ({isEscalated}) => (
     <FormApprover isEscalated={isEscalated} allDisabled singleLine/>
   </Row>
 );
+
+FormMain.propTypes = {
+  isEscalated: PropTypes.bool
+}
 
 export default FormMain;

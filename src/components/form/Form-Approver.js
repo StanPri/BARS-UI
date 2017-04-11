@@ -62,7 +62,7 @@ FormMainApprover.propTypes = {
   fieldsDisabled: PropTypes.object,
   allDisabled: PropTypes.bool,
   singleLine: PropTypes.bool,
-  isEscalated: PropTypes.func
+  isEscalated: PropTypes.bool
 }
 
 export default FormMainApprover;

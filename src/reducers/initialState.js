@@ -33,8 +33,14 @@ export default {
       allIds: [],
       error: null,
       isFetching: false
+    },
+    group: {
+      byId: {},
+      allIds: [],
+      error: null,
+      isFetching: false
     }
-  }, // requests for user -> approvals, requests
+  }, // requests for user -> approvals, requests, group
   auth : {
     [KEYS.USER_ROLE]: '',
     [KEYS.USER_SAM]: '',

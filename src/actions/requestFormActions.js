@@ -52,16 +52,16 @@ export const submitExistingRequest = id => {
  * @param  {array} fields   - fields to patch
  * @return {array}          - fields mapped to objects having an op, value, and path
  */
-  const mapFieldsForPatch = (data, fields) => fields.map(field => {
-    let value = field.split('/');
-    if (value.length > 1) {
-      value = data[value[0]][value[1]];
-    }
-    else {
-      value = data[field];
-    }
-    return ({"op": "replace", "path": `/${field}`, "value": value});
-  });
+const mapFieldsForPatch = (data, fields) => fields.map(field => {
+  let value = field.split('/');
+  if (value.length > 1) {
+    value = data[value[0]][value[1]];
+  }
+  else {
+    value = data[field];
+  }
+  return ({"op": "replace", "path": `/${field}`, "value": value});
+});
 
 /**
  * Makes Patch request to BARS API to replace given fields
@@ -103,6 +103,27 @@ export const cancelExistingRequest = (id, reason) => {
         "reason": reason
       },
       types: [types.CANCEL_EXISTING_REQUEST, types.CANCEL_EXISTING_SUCCESS, types.CANCEL_EXISTING_FAILURE]
+    }
+  });
+}
+
+/**
+ * Makes post request to BARS API to escalate given reqeust
+ * @param  {number} id        - id of request
+ * @return {object}           - object that passes to api middleware
+ */
+export const escalateExistingRequest = id => {
+  let debug =1;
+  if (debug)
+    console.log("Escalating existing request: ", id);
+  return ({
+    [CALL_API]: {
+      endpoint: `/EscalateApprover?id=${id}`,
+      method: 'post',
+      body: {
+        "id" : id
+      },
+      types: [types.ESCALATE_EXISTING_REQUEST, types.ESCALATE_EXISTING_SUCCESS, types.ESCALATE_EXISTING_FAILURE]
     }
   });
 }
