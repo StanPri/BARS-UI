@@ -14,14 +14,10 @@ export const EMP_DIR_FAILURE = 'EMP_DIR_FAILURE';
 export const REQUESTS_ALL_REQUEST = 'REQUESTS_ALL_REQUEST';
 export const REQUESTS_ALL_SUCCESS = 'REQUESTS_ALL_SUCCESS';
 export const REQUESTS_ALL_FAILURE = 'REQUESTS_ALL_FAILURE';
-// badge request api => list of all requests user is invloved in
+// badge request api => requests and users related to user
 export const REQUESTS_USER_REQUEST = 'REQUESTS_USER_REQUEST';
 export const REQUESTS_USER_SUCCESS = 'REQUESTS_USER_SUCCESS';
 export const REQUESTS_USER_FAILURE = 'REQUESTS_USER_FAILURE';
-// badge request api => list of all requests needing approval
-export const REQUESTS_APPROVE_REQUEST = 'REQUESTS_APPROVE_REQUEST';
-export const REQUESTS_APPROVE_SUCCESS = 'REQUESTS_APPROVE_SUCCESS';
-export const REQUESTS_APPROVE_FAILURE = 'REQUESTS_APPROVE_FAILURE';
 
 // View exisiting request
 export const REQUEST_FORM_VIEW = 'REQUEST_FORM_VIEW';

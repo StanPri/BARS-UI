@@ -286,12 +286,12 @@ class WizardPage extends Component {
    */
   recipientHandleInput(e) {
     e.preventDefault();
-    let {empDir, dispatch} = this.props;
+    let {empDir, dispatch, requestsUser} = this.props;
     if (e.target.value.length) {
       let _search = '(?=.*' + e.target.value.split(/, +|,| +/).join(')(?=.*') + ')';
       let re = new RegExp(_search, 'i');
       // filter list of employees in name list
-      let _employees = empDir.allIds.filter(id => {
+      let _employees = requestsUser.group.allIds.filter(id => {
         if (`${empDir.byId[id][KEYS.USER_NAME]}`.match(re)) {
           return true;
         }
@@ -475,6 +475,7 @@ WizardPage.propTypes = {};
 
 // map all state (from redux store) to props
 const mapStateToProps = (state, ownProps) => ({
+  requestsUser: state.requestsUser,
   empDir: state.empDir,
   auth: state.auth,
   fetchCallsInProgress: state.fetchCallsInProgress,

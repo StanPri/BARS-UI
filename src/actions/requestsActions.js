@@ -11,18 +11,11 @@ export const requestsGetAll = () => ({
   }
 });
 
-// get requests for user not pending their approval
+// get requests for user
+// - contains past requests, requests needing their approval, users in group
 export const requestsGetUser = () => ({
   [CALL_API]: {
-    endpoint: `/RequestsForSelf/`,
+    endpoint: `/GetBarsAppStartupData/`,
     types: [types.REQUESTS_USER_REQUEST, types.REQUESTS_USER_SUCCESS, types.REQUESTS_USER_FAILURE]
-  }
-});
-
-// get requests for user that are pending their approval
-export const requestsGetApprovals = () => ({
-  [CALL_API]: {
-    endpoint: `/RequestsNeedingApproval/`,
-    types: [types.REQUESTS_APPROVE_REQUEST, types.REQUESTS_APPROVE_SUCCESS, types.REQUESTS_APPROVE_FAILURE]
   }
 });

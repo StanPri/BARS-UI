@@ -32,8 +32,6 @@ class ListsPage extends React.Component {
     const {actions, fetchCallsInProgress} = this.props;
     // if no fetches in progess and less than max tries
     if (!fetchCallsInProgress) {
-      // load all users requests that require users approval
-      actions.requestsGetApprovals();
       // load all users requests that do not require users
       actions.requestsGetUser();
     } else {
