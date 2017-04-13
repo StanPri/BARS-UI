@@ -131,6 +131,13 @@ export const STATUS_NAMES = [
   'Cancelled by Recipient',
   'Cancelled by Submitter'
 ];
+/**
+ * Group previous request status
+ */
+export const PREVIOUS_REQUEST_NONE = 0;
+export const PREVIOUS_REQUEST_ACTIVE = 1;
+export const PREVIOUS_REQUEST_COMPLETED = 2;
+
 
 /**
  * USER ROLES

@@ -321,17 +321,15 @@ class WizardPage extends Component {
    */
   recipientHandleClick(e) {
     e.preventDefault();
-    const {dispatch, empDir, auth} = this.props;
+    const {dispatch, empDir, auth, requestsUser:{group}} = this.props;
     const {recipientNames, fieldsDisabled, approverNames} = this.state;
     let _fieldsDisabled = fieldsDisabled;
     let _approverNames = approverNames;
+    let existingRequest = 0;
     // get employees sam account (set by mapping of names on data-id)
     let id = e.target.dataset.id;
-    /////////// SUBMITTER (TODO:move to common function) ////////////////
-    // TODO! JWT CHARS , make conistent from api...
     let submitter = empDir.byId[auth[KEYS.USER_SAM]];
     dispatch(change('wizard', KEYS.FORM_SUBMIT_EMAIL, submitter[KEYS.USER_EMAIL]));
-    /////////// RECIPIENT (TODO:move to common function) ////////////////
     // look up employee who has this sam
     let recipient = recipientNames.byId[id];
     // field map to use for setting editable / updting fields
@@ -386,6 +384,22 @@ class WizardPage extends Component {
          _approverNames[1][KEYS.USER_PHONE] = approverManager[KEYS.USER_PHONE];
          _approverNames[1]['approversUpdate'] = 1;
       }
+    }
+    // check if existsing request
+    existingRequest = group.byId[recipient[KEYS.USER_SAM]].previousRequest;
+    // if approved request
+    if (existingRequest == KEYS.PREVIOUS_REQUEST_COMPLETED) {
+      // auto populate
+      
+    }
+    // if currently pending request
+    else if (existingRequest == KEYS.PREVIOUS_REQUEST_ACTIVE) {
+      // cannot make new request
+      dispatch(change('wizard', KEYS.FORM_SAM_RECEIVE, KEYS.PREVIOUS_REQUEST_ACTIVE));
+    }
+    // else no previous request
+    else {
+      //  continue as normal
     }
 
     // set approver name field as editable

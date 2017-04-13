@@ -34,13 +34,8 @@ let WizardApprover = ({
 }) => (
   <form onSubmit={handleSubmit(onSubmit)} onChange={approversHandleChange}>
     <FormHeader header="Supervisor Information" centered/>
-    <WizardMainApprover
-      fieldsDisabled={fieldsDisabled}
-      options={approverNames.map(x => x[KEYS.USER_NAME])}/>
-    <WizardButtons
-      onSubmitText={"Next"}
-      onClick={previousPage}
-      onClickText={"Previous"}/>
+    <WizardMainApprover fieldsDisabled={fieldsDisabled} options={approverNames.map(x => x[KEYS.USER_NAME])}/>
+    <WizardButtons onSubmitText={"Next"} onClick={previousPage} onClickText={"Previous"}/>
   </form>
 );
 
@@ -54,6 +49,12 @@ WizardApprover.propTypes = {
 }
 
 // connect to redux form
-WizardApprover = reduxForm({form: 'wizard', destroyOnUnmount: false, forceUnregisterOnUnmount: true, touchOnBlur: false, validate})(WizardApprover);
+WizardApprover = reduxForm({
+  form: 'wizard',
+  destroyOnUnmount: false,
+  forceUnregisterOnUnmount: true,
+  touchOnBlur: false,
+  validate
+})(WizardApprover);
 
 export default WizardApprover;
