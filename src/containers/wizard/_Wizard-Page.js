@@ -236,6 +236,7 @@ class WizardPage extends Component {
         if (auth[KEYS.USER_SAM] === approverNames[selected][KEYS.USER_SAM]) {
           this.setState({approving: true});
           this.setState({approverName: approverNames[selected][KEYS.USER_NAME]})
+          dispatch(change('wizard', KEYS.FORM_APPROVER_NAME, approverNames[selected][KEYS.USER_NAME]));
         }
         else {
           this.setState({approving: false});

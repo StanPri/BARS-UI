@@ -1,5 +1,6 @@
 // libraries
 import React, {Component, PropTypes} from 'react';
+import {Col} from 'react-bootstrap';
 import {reduxForm} from 'redux-form';
 // components
 import FormHeader from '../../components/form/Form-Header';
@@ -20,12 +21,11 @@ import * as KEYS from '../../store/keyMap';
  */
 let WizardTerms = ({handleSubmit, onSubmit, previousPage, approverName}) => (
   <form onSubmit={handleSubmit(onSubmit)}>
-    <FormHeader header="Terms and Conditions" centered/>
-    <FormTermsApprover label={approverName} name={KEYS.FORM_TERMS_NAME_SUP}/>
-    <WizardButtons
-      onSubmitText={"Submit"}
-      onClick={previousPage}
-      onClickText={"Previous"}/>
+    <Col sm={6} smOffset={3}>
+      <FormHeader header="Terms and Conditions" centered/>
+      <FormTermsApprover label={approverName} name={KEYS.FORM_TERMS_NAME_SUP}/>
+      <WizardButtons onSubmitText={"Submit"} onClick={previousPage} onClickText={"Previous"}/>
+    </Col>
   </form>
 );
 
