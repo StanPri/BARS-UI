@@ -23,6 +23,14 @@ const FieldInput = ({
   const invalidState = touched && error
     ? "error"
     : null;
+
+/**TODO:
+ * <Tooltip
+   text={label}
+   required={required}
+   tooltipName={tooltipName}/>
+ */
+
   return (
     <FormGroup controlId={name} validationState={invalidState}>
       <ControlLabel>{label} {required && <span className="required-text">(required)</span>}</ControlLabel>
