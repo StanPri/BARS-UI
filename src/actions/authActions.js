@@ -21,6 +21,8 @@ export const auth = () => dispatch => {
   // local_token = null; // force request from api instedad of localstorage
   // // chris -> user, guard
   // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjaHJpcy5rdW1tZXIiLCJCQVJTIjpbIlVzZXIiLCJHdWFyZCJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.CM-LgIbvGi0UXjMa2TtEnF2Q_meZxZqZmauLoYMas1w';
+  // conrad -> user
+  // local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbG9uZyIsIkJBUlMiOlsiVXNlciJdLCJDVFMiOiJVc2VyLWN3ayIsIlZMIjoiQWRtaW4iLCJpYXQiOjE0ODY0MjQxMjQsImV4cCI6MTk4NjQyNzcyNH0.zTwUEqmmvQcZE2ScAxz1Jdf5s8Fz_V-KwLLJjKQuudw';
   // // van -> user
   local_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkY2N0NTAiLCJCQVJTIjpbIlVzZXIiXSwiQ1RTIjoiVXNlci1jd2siLCJWTCI6IkFkbWluIiwiaWF0IjoxNDg2NDI0MTI0LCJleHAiOjE5ODY0Mjc3MjR9.OZoCzjbS4IfTWojImiz1va1ysOyJXTyySiniF8jTgiI';
   // ryan -> user, security

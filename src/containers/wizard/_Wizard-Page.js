@@ -321,7 +321,7 @@ class WizardPage extends Component {
    */
   recipientHandleClick(e) {
     e.preventDefault();
-    const {dispatch, empDir, auth, requestsUser:{group}} = this.props;
+    const {dispatch, empDir, auth, requestsUser} = this.props;
     const {recipientNames, fieldsDisabled, approverNames} = this.state;
     let _fieldsDisabled = fieldsDisabled;
     let _approverNames = approverNames;
@@ -386,22 +386,37 @@ class WizardPage extends Component {
       }
     }
     // check if existsing request
-    existingRequest = group.byId[recipient[KEYS.USER_SAM]].previousRequest;
+    existingRequest = requestsUser.group.byId[recipient[KEYS.USER_SAM]].previousRequest;
     // if approved request
     if (existingRequest == KEYS.PREVIOUS_REQUEST_COMPLETED) {
-      // auto populate
-      
+      // fields to update
+      let fields = [KEYS.FORM_REASON, KEYS.FORM_AREAS, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER];
+      // TODO: change to requestsUser when API updates it...
+      let req = requestsUser.requests.byId[requestsUser.group.byId[recipient[KEYS.USER_SAM]].id];
+      // auto populate access requirements
+      fields.forEach(x => {
+        if (req[x]) {
+          dispatch(change('wizard', x, req[x]));
+        }
+      });
+      // update justifications
+      if (req[KEYS.JUSTIFICATIONS]) {
+        // for each justification, if it exists, send to redux-form
+        Object.keys(req[KEYS.JUSTIFICATIONS]).forEach(x => {
+          if (req[KEYS.JUSTIFICATIONS][x]) {
+            dispatch(change('wizard', `[${KEYS.JUSTIFICATIONS}][${x}]`, req[KEYS.JUSTIFICATIONS][x]));
+          }
+        })
+      }
+      // check if anything depending on change is needed
+      this.setState({justificationsUpdate: true});
     }
     // if currently pending request
     else if (existingRequest == KEYS.PREVIOUS_REQUEST_ACTIVE) {
       // cannot make new request
       dispatch(change('wizard', KEYS.FORM_SAM_RECEIVE, KEYS.PREVIOUS_REQUEST_ACTIVE));
     }
-    // else no previous request
-    else {
-      //  continue as normal
-    }
-
+    // implicit else - no previous request, continue as normal
     // set approver name field as editable
     _fieldsDisabled[KEYS.FORM_SUP_NAME] = false;
     this.setState({fieldsDisabled: _fieldsDisabled});

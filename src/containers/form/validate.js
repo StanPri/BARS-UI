@@ -16,10 +16,7 @@ const validate = values => {
   if (values[KEYS.FORM_EMAIL] && !values[KEYS.FORM_SAM_RECEIVE]) {
     errors[KEYS.FORM_NAME] = 'Enter the recipients name, then select it from the list';
   }
-  console.log(+values[KEYS.FORM_SAM_RECEIVE]);
-  console.log(+KEYS.PREVIOUS_REQUEST_ACTIVE);
   if (+values[KEYS.FORM_SAM_RECEIVE] == +KEYS.PREVIOUS_REQUEST_ACTIVE) {
-    console.log("IN ERROR");
     errors[KEYS.FORM_NAME] = 'This user already has a pending request.';
   }
   if (!values[KEYS.FORM_PHONE]) {

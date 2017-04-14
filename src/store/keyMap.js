@@ -126,10 +126,10 @@ export const STATUS_NAMES = [
   'Waiting Recipient Approval',
   'Waiting Security Approval',
   'Approved',
+  'Cancelled by Submitter',
   'Cancelled by Supervisor',
   'Cancelled by Security',
-  'Cancelled by Recipient',
-  'Cancelled by Submitter'
+  'Cancelled by Recipient'
 ];
 /**
  * Group previous request status
