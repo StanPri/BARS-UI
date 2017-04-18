@@ -59,6 +59,7 @@ export const FORM_SAM_MANAGER = 'supervisorsSupervisorSamAccount';// supervisor'
 export const FORM_SUBMIT_EMAIL = 'submitterEmail';
 export const FORM_REJECT_REASON = 'cancellationReason';
 export const FORM_IS_ESCALATED = 'isElevatedToSupervisorsSupervisor';
+export const CHANGE_REASONS = "changeReasons";
 
 /**
  * Justifications
@@ -70,11 +71,6 @@ export const JUSTIFICATIONS_TRAINING_ROOM = 'areaTrainingCenter';
 export const JUSTIFICATIONS_OTHER = 'areaOther';
 export const JUSTIFICATIONS_CHANGE_ACCESS = 'reasonChangeAcess';
 export const JUSTIFICATIONS_24_HOURS = 'allHoursPerDay';
-
-/**
- * Change reasons
- */
-export const CHANGE_REASONS = "changeReasons";
 
 ///////////////////////////////////////////////////////////////////
 // RADIO BUTTONS
@@ -116,10 +112,10 @@ export const STATUS_PEND_MGR = 1;
 export const STATUS_PEND_REC = 2;
 export const STATUS_PEND_SEC = 3;
 export const STATUS_APPROVED = 4;
-export const STATUS_CANCEL_MGR = 5;
-export const STATUS_CANCEL_SEC = 6;
+export const STATUS_CANCEL_SUB = 5;
+export const STATUS_CANCEL_MGR = 6;
 export const STATUS_CANCEL_REC = 7;
-export const STATUS_CANCEL_SUB = 8;
+export const STATUS_CANCEL_SEC = 8;
 export const STATUS_NAMES = [
   'Unknown State',
   'Waiting Supervisor Approval',
@@ -128,8 +124,8 @@ export const STATUS_NAMES = [
   'Approved',
   'Cancelled by Submitter',
   'Cancelled by Supervisor',
-  'Cancelled by Security',
-  'Cancelled by Recipient'
+  'Cancelled by Recipient',
+  'Cancelled by Security'
 ];
 /**
  * Group previous request status

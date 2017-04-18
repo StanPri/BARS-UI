@@ -322,7 +322,7 @@ class FormPage extends Component {
       case KEYS.STATUS_PEND_SEC:
         propsAccess         = {display: true, props: {allDisabled: !isSecurity}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isSecurity, justifications}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: !isSecurity}};
+        propsChangeReasons  = {display: changeReasonsNeeded && !isRejecting, props: {allDisabled: !isSecurity}};
         propsReject         = {display: isRejecting, props: {}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_APPROVER_NAME, label: initialValues[KEYS.FORM_APPROVER_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};

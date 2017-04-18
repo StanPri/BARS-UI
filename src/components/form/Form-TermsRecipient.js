@@ -28,12 +28,12 @@ const FormTermsRecipient = ({label, name, allDisabled}) => {
           {!allDisabled && <div>
             <p>By entering your name exactly as it appears below you
               agree to the following terms and conditions:</p>
-            <ul>
-              <li>1) Badge must be visible at all times and worn on outer most garment.</li>
-              <li>2) Card readers must be badged before entering a secured area.</li>
-              <li>3) No badge sharing among staff or visitors.</li>
-              <li>4) Inform physical security (228-6424) should badges be lost or found.</li>
-            </ul>
+            <ol>
+              <li>Badge must be visible at all times and worn on outer most garment.</li>
+              <li>Card readers must be badged before entering a secured area.</li>
+              <li>No badge sharing among staff or visitors.</li>
+              <li>Inform physical security (228-6424) should badges be lost or found.</li>
+            </ol>
             <p>For more information please refer to <a href="http://icentral.technology.ca.gov/campus-facilities/building-security/identification-badges/">ID Badge Regulations</a>.</p>
           </div>}
         </Col>

@@ -70,7 +70,6 @@ const mapFieldsForPatch = (data, fields) => fields.map(field => {
  * @return {object}         - object that passes to api middleware
  */
 export const patchExisitingRequest = (data, fields) => {
-  const debug =1;
   if (debug) {
     console.log("\tPatching existing request id: ", data[KEYS.FORM_ID]);
     console.log("\t\twith fields: ", mapFieldsForPatch(data, fields));
@@ -113,16 +112,12 @@ export const cancelExistingRequest = (id, reason) => {
  * @return {object}           - object that passes to api middleware
  */
 export const escalateExistingRequest = id => {
-  let debug =1;
   if (debug)
     console.log("Escalating existing request: ", id);
   return ({
     [CALL_API]: {
-      endpoint: `/EscalateApprover?id=${id}`,
-      method: 'post',
-      body: {
-        "id" : id
-      },
+      endpoint: `/EscalateApprover/${id}`,
+      method: 'put',
       types: [types.ESCALATE_EXISTING_REQUEST, types.ESCALATE_EXISTING_SUCCESS, types.ESCALATE_EXISTING_FAILURE]
     }
   });

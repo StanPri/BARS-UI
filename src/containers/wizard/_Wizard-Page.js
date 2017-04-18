@@ -364,6 +364,7 @@ class WizardPage extends Component {
     dispatch(change('wizard', KEYS.FORM_NAME, recipient[KEYS.USER_NAME]));
     dispatch(change('wizard', KEYS.FORM_SAM_RECEIVE, recipient[KEYS.USER_SAM]));
 
+    //TODO! CLEAN THIS UP!!!!!!!!!!!!
     // if they have a manager set in employee directory listing
     if (recipient[KEYS.ED_MANAGER_SAM]) {
       // look up manager of employee
@@ -395,7 +396,7 @@ class WizardPage extends Component {
       let req = requestsUser.requests.byId[requestsUser.group.byId[recipient[KEYS.USER_SAM]].id];
       // auto populate access requirements
       fields.forEach(x => {
-        if (req[x]) {
+        if (req[x] !== undefined) {
           dispatch(change('wizard', x, req[x]));
         }
       });
@@ -403,7 +404,7 @@ class WizardPage extends Component {
       if (req[KEYS.JUSTIFICATIONS]) {
         // for each justification, if it exists, send to redux-form
         Object.keys(req[KEYS.JUSTIFICATIONS]).forEach(x => {
-          if (req[KEYS.JUSTIFICATIONS][x]) {
+          if (req[KEYS.JUSTIFICATIONS][x] !== undefined) {
             dispatch(change('wizard', `[${KEYS.JUSTIFICATIONS}][${x}]`, req[KEYS.JUSTIFICATIONS][x]));
           }
         })

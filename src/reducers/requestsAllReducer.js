@@ -14,6 +14,7 @@ export const requestsAllReducer = (state = initialState.requestsAll, action) => 
     case REQUESTS_ALL_REQUEST:
       return {
         ...state,
+        error: null,
         isFetching: true
       };
     case REQUESTS_ALL_SUCCESS:
