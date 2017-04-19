@@ -42,7 +42,7 @@ export const FORM_APPROVAL_DATE_SUP = 'supervisorApprovalTimestampUtc';
 export const FORM_APPROVAL_DATE_REC = 'receiverAgreementTimestampUtc';
 export const FORM_APPROVAL_DATE_SEC = 'securityApprovalTimestampUtc';
 // Accept Terms and conditions
-export const FORM_SECURITY_NAME = 'securityApproverName';
+export const FORM_SECURITY_NAME = 'securityApproverFullName';
 export const FORM_SECURITY_TIME = 'securityApprovalTimestampUtc';
 export const FORM_TERMS = 'receiverAgreementTimestampUtc';
 export const FORM_TERMS_SUP = 'supervisorApprovalTimestampUtc';
@@ -59,7 +59,8 @@ export const FORM_SAM_MANAGER = 'supervisorsSupervisorSamAccount';// supervisor'
 export const FORM_SUBMIT_EMAIL = 'submitterEmail';
 export const FORM_REJECT_REASON = 'cancellationReason';
 export const FORM_IS_ESCALATED = 'isElevatedToSupervisorsSupervisor';
-export const CHANGE_REASONS = "changeReasons";
+export const FORM_CHANGE_REASON = "securityChangeRequestReason";
+export const FORM_PDF = "approvalPdf";
 
 /**
  * Justifications

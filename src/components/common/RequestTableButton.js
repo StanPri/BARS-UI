@@ -1,19 +1,20 @@
 import React, {PropTypes} from 'react';
 import {Button} from 'react-bootstrap';
 
-const RequestTableButton = ({onClick}) => {
+const RequestTableButton = ({onClick, text, style}) => {
   return (
     <Button
       block
-      bsStyle="primary"
+      bsStyle={style ? style : "primary"}
       bsSize="sm"
       className="outline"
-      onClick={onClick}>View Request</Button>
+      onClick={onClick}>{text}</Button>
   );
 };
 
 RequestTableButton.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  style: PropTypes.string
 };
 
 export default RequestTableButton;

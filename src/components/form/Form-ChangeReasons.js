@@ -19,7 +19,7 @@ const FormChangeReasons = ({ allDisabled }) => {
       <Col sm={12}>
           <Field
             label="Access Requirements Change Reason"
-            name={`${KEYS.CHANGE_REASONS}`}
+            name={`${KEYS.FORM_CHANGE_REASON}`}
             disabled={allDisabled}
             component={FieldInput}
             componentClass="textarea"

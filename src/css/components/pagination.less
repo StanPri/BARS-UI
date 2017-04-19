@@ -1,3 +1,18 @@
+.reactable-pagination {
+  text-align:center;
+}
+.reactable-page-button, .reactable-next-page, .reactable-previous-page {
+  &:extend(.btn);
+  margin: 1px;
+  .button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+  }
+  &.reactable-current-page {
+    background-color: darken(@btn-primary-bg, 10%);
+  }
+}
+
 .pagination {
   margin: 0;
 }

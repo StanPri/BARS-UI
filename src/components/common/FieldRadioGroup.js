@@ -6,6 +6,7 @@
  */
 import React from 'react';
 import {FormGroup, ControlLabel, HelpBlock, Label} from 'react-bootstrap';
+import Tooltip from '../common/Tooltip';
 
 const FieldRadioGroup = ({
   label,
@@ -14,6 +15,7 @@ const FieldRadioGroup = ({
   options,
   input,
   disabled,
+  tooltipVisible,
   meta: {
     touched,
     error
@@ -24,7 +26,13 @@ const FieldRadioGroup = ({
     : null;
   return (
     <FormGroup controlId={name} validationState={invalidState}>
-      <ControlLabel>{label} {required && <span className="required-text">(required)</span>}</ControlLabel>
+      <ControlLabel>
+        <Tooltip
+          text={label}
+          required={required}
+          tooltipName={input.name}
+          tooltipVisible={tooltipVisible}/>
+      </ControlLabel>
       {options.map((option, index) => (
         <div className="radio" key={index}>
           <label>
@@ -39,8 +47,7 @@ const FieldRadioGroup = ({
               : ""}`}
           </label>
         </div>
-      ))
-}
+      ))}
       {invalidState && <HelpBlock>{error}</HelpBlock>}
     </FormGroup>
   );

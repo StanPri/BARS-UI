@@ -45,6 +45,41 @@ class SearchPage extends React.Component {
     browserHistory.push('/form');
   }
 
+  /**
+   * Downloads the pdf of approved request
+   * TODO: MOVE TO COMMON ULTIL
+   */
+  getPdf(data) {
+    function base64ToArrayBuffer(base64) {
+        var binaryString =  window.atob(base64);
+        var binaryLen = binaryString.length;
+        var bytes = new Uint8Array(binaryLen);
+        for (var i = 0; i < binaryLen; i++)        {
+            var ascii = binaryString.charCodeAt(i);
+            bytes[i] = ascii;
+        }
+        return bytes;
+    }
+    var saveByteArray = (function () {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function (data, name) {
+            var blob = new Blob(data, {type: "octet/stream"}),
+                url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = name;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+    }());
+
+    if (data[KEYS.FORM_PDF]) {
+      let content = base64ToArrayBuffer(data[KEYS.FORM_PDF]);
+      saveByteArray([content], `BARS-${data[KEYS.FORM_NAME].replace(' ', '-')}.pdf`);
+    }
+  }
+
   render() {
     const {requestsAll, fetchCallsInProgress, actions, auth} = this.props;
     // display loading graphic if fetching
@@ -68,7 +103,8 @@ class SearchPage extends React.Component {
           table="requestsAll"
           title="All Requests"
           rows={requests}
-          onClick={this.viewRequest}/>
+          onClickView={this.viewRequest}
+          onClickPdf={this.getPdf}/>
       </div>
     );
   }

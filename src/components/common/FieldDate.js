@@ -7,6 +7,7 @@ import React from 'react';
 import moment from 'moment';
 import {FormGroup, ControlLabel, FormControl, HelpBlock, Label} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
+import Tooltip from '../common/Tooltip';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const FieldInput = ({
@@ -17,6 +18,7 @@ const FieldInput = ({
   input,
   label,
   type,
+  tooltipVisible,
   meta: {
     touched,
     error
@@ -28,7 +30,13 @@ const FieldInput = ({
 
   return (
     <FormGroup controlId={name} validationState={invalidState}>
-      <ControlLabel>{label} {required && <span className="required-text">(required)</span>}</ControlLabel>
+      <ControlLabel>
+        <Tooltip
+          text={label}
+          required={required}
+          tooltipName={input.name}
+          tooltipVisible={tooltipVisible}/>
+      </ControlLabel>
       <DatePicker
         {...input}
         className="form-control"

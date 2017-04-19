@@ -81,11 +81,11 @@ class ListsPage extends React.Component {
         <RequestTable
           title="Approvals"
           rows={approvals}
-          onClick={this.viewRequest}/> {/* show all users requests that do not require users approval */}
+          onClickView={this.viewRequest}/> {/* show all users requests that do not require users approval */}
         <RequestTable
           title="Requests"
           rows={requests}
-          onClick={this.viewRequest}/>
+          onClickView={this.viewRequest}/>
       </div>
     );
   }

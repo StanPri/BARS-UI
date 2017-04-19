@@ -144,10 +144,10 @@ class FormPage extends Component {
       KEYS.JUSTIFICATIONS_TRAINING_ROOM,
       KEYS.JUSTIFICATIONS_OTHER,
       KEYS.JUSTIFICATIONS_CHANGE_ACCESS,
-      KEYS.JUSTIFICATIONS_24_HOURS];
+      KEYS.JUSTIFICATIONS_24_HOURS].map(x => `${KEYS.JUSTIFICATIONS}/${x}`);
     // setup fields for approvers or security to patch
-    let fieldsApprover = [...justifications.map(x => `${KEYS.JUSTIFICATIONS}/${x}`), KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER];
-    let fieldsSecurity = [...justifications.map(x => `${KEYS.JUSTIFICATIONS}/${x}`), KEYS.CHANGE_REASONS, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER, KEYS.CHANGE_REASONS, KEYS.FORM_SECURITY_NAME, KEYS.FORM_EXPIRE_DATE];
+    let fieldsApprover = [...justifications, KEYS.FORM_AREAS, KEYS.FORM_REASON, KEYS.FORM_HOURS, KEYS.FORM_AREA_OTHER];
+    let fieldsSecurity = [...fieldsApprover, KEYS.FORM_CHANGE_REASON];
     // check if in pending approval state and patch approver if so
     if (vals[KEYS.FORM_STATUS] === KEYS.STATUS_PEND_MGR) {
       actions.patchExisitingRequest(vals, fieldsApprover);
@@ -293,7 +293,7 @@ class FormPage extends Component {
 
     // buttons for approving or rejecting properties
     let buttonApproving = {rightColor: "danger", rightText: "Reject", rightClick: this.toggleReject, leftText: "Accept", leftClick: handleSubmit(this.handleSubmitApprovalPatch)};
-    let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: handleSubmit(this.handleSubmitRejectPatch)};
+    let buttonRejecting = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleReject, leftText: "Confirm", leftClick: handleSubmit(this.handleSubmitReject)};
     // buttons for escalting approver
     let buttonEscalating = {leftColor: "danger", leftText: "Escalate to Next Manager", leftClick: this.toggleEscalate};
     let buttonConfirmEscalating = {rightColor: "danger", rightText: "Cancel", rightClick: this.toggleEscalate, leftText: "Confirm", leftClick: handleSubmit(this.handleSubmitEscalate)};
@@ -303,8 +303,8 @@ class FormPage extends Component {
     // check status of form, and display / disable based off that and users role in form
     switch (initialValues[KEYS.FORM_STATUS]) {
       case KEYS.STATUS_PEND_MGR:
-        propsAccess         = {display: true, props: {allDisabled: !isApprover}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isApprover, justifications}};
+        propsAccess         = {display: true, props: {allDisabled: !isApprover || isRejecting || isEscalating}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isApprover || isRejecting || isEscalating, justifications}};
         propsReject         = {display: isRejecting && !isEscalating, props:{}};
         propsTermsApprover  = {display: isApprover && !isEscalating && !isRejecting, props: {name: KEYS.FORM_TERMS_NAME_SUP, label: initialValues[KEYS.FORM_APPROVER_NAME]}};
         propsButtons        = {display: isApprover && !isEscalating, props: isRejecting ? buttonRejecting : buttonApproving};
@@ -320,8 +320,8 @@ class FormPage extends Component {
         propsButtons        = {display: isRecipient, props: isRejecting ? buttonRejecting : buttonApproving};
         break;
       case KEYS.STATUS_PEND_SEC:
-        propsAccess         = {display: true, props: {allDisabled: !isSecurity}};
-        propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isSecurity, justifications}};
+        propsAccess         = {display: true, props: {allDisabled: !isSecurity || isRejecting || isEscalating}};
+        propsJustifications = {display: justificationsNeeded, props: {allDisabled: !isSecurity || isRejecting || isEscalating, justifications}};
         propsChangeReasons  = {display: changeReasonsNeeded && !isRejecting, props: {allDisabled: !isSecurity}};
         propsReject         = {display: isRejecting, props: {}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_APPROVER_NAME, label: initialValues[KEYS.FORM_APPROVER_NAME]}};
@@ -332,7 +332,7 @@ class FormPage extends Component {
       case KEYS.STATUS_APPROVED:
         propsAccess         = {display: true, props: {allDisabled: true}};
         propsJustifications = {display: justificationsNeeded, props: {allDisabled: true}};
-        propsChangeReasons  = {display: changeReasonsNeeded, props: {allDisabled: true}};
+        propsChangeReasons  = {display: !!initialValues[KEYS.FORM_CHANGE_REASON], props: {allDisabled: true}};
         propsTermsApprover  = {display: true, props: {allDisabled: true, name: KEYS.FORM_APPROVER_NAME, label: initialValues[KEYS.FORM_APPROVER_NAME]}};
         propsTermsRecipient = {display: true, props: {allDisabled: true, name: KEYS.FORM_NAME, label: initialValues[KEYS.FORM_NAME]}};
         propsSecurity       = {display: true, props: {allDisabled: true}};

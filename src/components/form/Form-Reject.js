@@ -30,7 +30,8 @@ const FormReject = ({allDisabled}) => {
           disabled={allDisabled}
           component={FieldInput}
           componentClass="textarea"
-          required={!allDisabled}/>
+          required={!allDisabled}
+          tooltipVisible={!allDisabled}/>
       </Col>
     </Row>
   );

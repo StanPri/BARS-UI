@@ -6,6 +6,7 @@
  */
 import React from 'react';
 import {FormGroup, ControlLabel, HelpBlock, Label} from 'react-bootstrap';
+import Tooltip from '../common/Tooltip';
 
 const FieldCheckGroup = ({
   label,
@@ -14,6 +15,7 @@ const FieldCheckGroup = ({
   options,
   input,
   disabled,
+  tooltipVisible,
   meta: {
     touched,
     error
@@ -27,7 +29,13 @@ const FieldCheckGroup = ({
       controlId={name}
       validationState={invalidState}
       required>
-      <ControlLabel>{label} {required && <span className="required-text">(required)</span>}</ControlLabel>
+      <ControlLabel>
+        <Tooltip
+          text={label}
+          required={required}
+          tooltipName={input.name}
+          tooltipVisible={tooltipVisible}/>
+      </ControlLabel>
       {options.map((option, index) => (
         <div className="checkbox" key={index}>
           <label>
@@ -49,8 +57,7 @@ const FieldCheckGroup = ({
               : ""}`}
           </label>
         </div>
-      ))
-}
+      ))}
       {invalidState && <HelpBlock>{error}</HelpBlock>}
     </FormGroup>
   );

@@ -26,7 +26,8 @@ const FormAccess = ({allDisabled, displayOtherArea}) => {
           disabled={allDisabled}
           options={KEYS.OPTIONS_REASON}
           component={FieldRadioGroup}
-          required={!allDisabled}/>
+          required={!allDisabled}
+          tooltipVisible={!allDisabled}/>
       </Col>
       <Col sm={width} smOffset={offset}>
         <Field
@@ -35,13 +36,15 @@ const FormAccess = ({allDisabled, displayOtherArea}) => {
           disabled={allDisabled}
           options={KEYS.OPTIONS_AREA}
           component={FieldCheckGroup}
-          required={!allDisabled}/>
+          required={!allDisabled}
+          tooltipVisible={!allDisabled}/>
         {displayOtherArea && <Field
           label="Other Area"
           name={KEYS.FORM_AREA_OTHER}
           disabled={allDisabled}
           component={FieldInput}
-          required={!allDisabled}/>}
+          required={!allDisabled}
+          tooltipVisible={!allDisabled}/>}
       </Col>
       <Col sm={width} smOffset={offset}>
         <Field
@@ -50,7 +53,8 @@ const FormAccess = ({allDisabled, displayOtherArea}) => {
           disabled={allDisabled}
           options={KEYS.OPTIONS_HOURS}
           component={FieldRadioGroup}
-          required={!allDisabled}/>
+          required={!allDisabled}
+          tooltipVisible={!allDisabled}/>
       </Col>
     </Row>
   );

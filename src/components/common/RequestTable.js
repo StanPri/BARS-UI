@@ -4,7 +4,7 @@ import {Table} from 'reactable';
 import RequestTableButton from './RequestTableButton';
 import * as KEYS from '../../store/keyMap';
 
-function RequestTable({rows, title, onClick}) {
+function RequestTable({rows, title, onClickView, onClickPdf}) {
   // map column keys (from api) to labels (displayed text)
   const _columns = [
     {
@@ -33,12 +33,24 @@ function RequestTable({rows, title, onClick}) {
       label: "Supervisor Email"
     }
   ];
+  if (onClickPdf) {
+    _columns.push({
+      key: KEYS.FORM_PDF,
+      label: "PDF"
+    });
+  }
 
   // add button to copy of rows
   const _data = rows.allIds.map(id => ({
     ...rows.byId[id],
     [KEYS.FORM_STATUS]: KEYS.STATUS_NAMES[rows.byId[id][KEYS.FORM_STATUS]],
-    button: <RequestTableButton onClick={() => onClick(rows.byId[id])}/>
+    button: <RequestTableButton
+      onClick={() => onClickView(rows.byId[id])}
+      text="View"/>,
+    [KEYS.FORM_PDF]: rows.byId[id][KEYS.FORM_PDF] ? <RequestTableButton
+      onClick={() => onClickPdf(rows.byId[id])}
+      text={<span className='glyphicon glyphicon-save'/>}
+      style="default"/> : null
   }));
 
   const _itemsPerPage = rows.allIds.length > 15
@@ -73,7 +85,8 @@ function RequestTable({rows, title, onClick}) {
 RequestTable.propTypes = {
   title: PropTypes.string.isRequired,
   rows: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClickView: PropTypes.func.isRequired,
+  onClickPdf: PropTypes.func
 };
 
 export default RequestTable;

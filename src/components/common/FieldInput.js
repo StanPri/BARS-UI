@@ -6,6 +6,7 @@
  */
 import React from 'react';
 import {FormGroup, ControlLabel, FormControl, HelpBlock, Label} from 'react-bootstrap';
+import Tooltip from '../common/Tooltip';
 
 const FieldInput = ({
   componentClass,
@@ -15,6 +16,7 @@ const FieldInput = ({
   input,
   label,
   type,
+  tooltipVisible,
   meta: {
     touched,
     error
@@ -23,17 +25,15 @@ const FieldInput = ({
   const invalidState = touched && error
     ? "error"
     : null;
-
-/**TODO:
- * <Tooltip
-   text={label}
-   required={required}
-   tooltipName={tooltipName}/>
- */
-
   return (
     <FormGroup controlId={name} validationState={invalidState}>
-      <ControlLabel>{label} {required && <span className="required-text">(required)</span>}</ControlLabel>
+      <ControlLabel>
+        <Tooltip
+          text={label}
+          required={required}
+          tooltipName={input.name}
+          tooltipVisible={tooltipVisible}/>
+      </ControlLabel>
       <FormControl
         {...input}
         onInput={onInput}
