@@ -112,8 +112,8 @@ const validate = values => {
   if (!values[KEYS.FORM_SECURITY_NAME]) {
     errors[KEYS.FORM_SECURITY_NAME] = 'Required';
   }
-  if (!values[KEYS.CHANGE_REASONS]) {
-    errors[KEYS.CHANGE_REASONS] = 'Required';
+  if (!values[KEYS.FORM_CHANGE_REASON]) {
+    errors[KEYS.FORM_CHANGE_REASON] = 'Required';
   }
   // Rejection
   if (!values[KEYS.FORM_REJECT_REASON]) {

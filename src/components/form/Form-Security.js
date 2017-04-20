@@ -3,7 +3,6 @@ import {Field, reduxForm} from 'redux-form';
 import {Row, Col, Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
 // compnents
 import FieldInput from '../common/FieldInput';
-import DatePicker from '../common/FieldDate';
 // constants, actions, etc
 import * as KEYS from '../../store/keyMap';
 
@@ -27,10 +26,10 @@ const FormSecurity = ({allDisabled}) => {
       </Row>
       {allDisabled && <Row>
         <Col sm={6}>
-          <Field label="Expiration Date" name={KEYS.FORM_EXPIRE_DATE} disabled={allDisabled} component={DatePicker} required={!allDisabled}/>
+          <Field label="Expiration Date" name={KEYS.FORM_EXPIRE_DATE} disabled={allDisabled} component={FieldInput} required={!allDisabled}/>
         </Col>
         <Col sm={6}>
-          <Field label="Approval Date" name={KEYS.FORM_APPROVAL_DATE_SEC} disabled={allDisabled} component={DatePicker}/>
+          <Field label="Approval Date" name={KEYS.FORM_APPROVAL_DATE_SEC} disabled={allDisabled} component={FieldInput}/>
         </Col>
       </Row>}
     </div>

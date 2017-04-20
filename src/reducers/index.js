@@ -39,6 +39,18 @@ export const mapRequestsToById = (data, key) => {
   let _data = {};
   Object.keys(data).forEach(k => {
     _data[data[k][key]] = data[k];
+    if (data[k][KEYS.FORM_EXPIRE_DATE]) {
+      _data[data[k][key]][KEYS.FORM_EXPIRE_DATE] = data[k][KEYS.FORM_EXPIRE_DATE].slice(0,10);
+    }
+    if (data[k][KEYS.FORM_SECURITY_TIME]) {
+      _data[data[k][key]][KEYS.FORM_SECURITY_TIME] = data[k][KEYS.FORM_SECURITY_TIME].slice(0,10);
+    }
+    if (data[k][KEYS.FORM_TERMS]) {
+      _data[data[k][key]][KEYS.FORM_TERMS] = data[k][KEYS.FORM_TERMS].slice(0,10);
+    }
+    if (data[k][KEYS.FORM_TERMS_SUP]) {
+      _data[data[k][key]][KEYS.FORM_TERMS_SUP] = data[k][KEYS.FORM_TERMS_SUP].slice(0,10);
+    }
     if (_data[data[k][key]][KEYS.FORM_IS_ESCALATED]) {
       _data[data[k][key]][KEYS.FORM_APPROVER_NAME] = data[k][KEYS.FORM_MANAGER_NAME];
       _data[data[k][key]][KEYS.FORM_APPROVER_EMAIL] = data[k][KEYS.FORM_MANAGER_EMAIL];

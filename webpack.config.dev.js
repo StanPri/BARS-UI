@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import path from 'path';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 const testUsers = [
   {name:'actual jwt', jwt:'', role:''},
@@ -39,6 +40,7 @@ export default {
   plugins: [
     new webpack.DefinePlugin(GLOBALS),
     new webpack.HotModuleReplacementPlugin(),
+    //new BundleAnalyzerPlugin(),
     new webpack.NoErrorsPlugin()
   ],
   module: {

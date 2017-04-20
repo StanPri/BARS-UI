@@ -4,7 +4,6 @@ import {Field} from 'redux-form';
 import {Row, Col, Button} from 'react-bootstrap';
 // compnents
 import FieldInput from '../common/FieldInput';
-import DatePicker from '../common/FieldDate';
 // constants, actions, etc
 import * as KEYS from '../../store/keyMap';
 
@@ -47,7 +46,7 @@ const FormTermsApprover = ({label, name, allDisabled}) => {
             label="Approval Date"
             name={KEYS.FORM_APPROVAL_DATE_SUP}
             disabled={allDisabled}
-            component={DatePicker}/>
+            component={FieldInput}/>
         </Col>}
       </Row>
     </div>
