@@ -36,7 +36,6 @@ export const submitNewRequest = data => {
 export const submitExistingRequest = id => {
   if (debug)
     console.log("\tSubmitting existing request: ", id);
-  // return {type: "testing submitExistingRequest"};
   return ({
     [CALL_API]: {
       endpoint: `/Approve/${id}`,
@@ -52,14 +51,12 @@ export const submitExistingRequest = id => {
  * @param  {array} fields   - fields to patch
  * @return {array}          - fields mapped to objects having an op, value, and path
  */
-const mapFieldsForPatch = (data, fields) => fields.map(field => {
-  let value = field.split('/');
-  if (value.length > 1) {
-    value = data[value[0]][value[1]];
-  }
-  else {
-    value = data[field];
-  }
+export const mapFieldsForPatch = (data, fields) => fields.map(field => {
+  let values = field.split('/');
+  let value = data;
+  do {
+    value = value[values.shift()];
+  } while (values.length);
   return ({"op": "replace", "path": `/${field}`, "value": value});
 });
 
@@ -74,7 +71,6 @@ export const patchExisitingRequest = (data, fields) => {
     console.log("\tPatching existing request id: ", data[KEYS.FORM_ID]);
     console.log("\t\twith fields: ", mapFieldsForPatch(data, fields));
   }
-  // return {type: "testing patchExisitingRequest"};
   return ({
     [CALL_API]: {
       endpoint: `/${data[KEYS.FORM_ID]}`,
